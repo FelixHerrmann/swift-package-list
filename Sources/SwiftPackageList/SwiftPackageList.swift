@@ -14,6 +14,10 @@ import ArgumentParser
 @main
 struct SwiftPackageList: ParsableCommand {
     
+    static var configuration: CommandConfiguration {
+        return CommandConfiguration(version: "1.0")
+    }
+    
     @Argument(help: "The directory to your .xcodeproj-file.")
     var projectPath: String
     
