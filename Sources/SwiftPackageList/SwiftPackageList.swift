@@ -23,6 +23,9 @@ struct SwiftPackageList: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path where the package-list.json-file will be stored.")
     var outputPath: String = "\(NSHomeDirectory())/Desktop"
     
+    @Flag(help: "Will skip the packages without a license-file")
+    var requiresLicense: Bool = false
+    
     mutating func run() throws {
         guard let checkoutsPath = try findCheckoutsPath(projectPath: projectPath) else { return }
 
@@ -36,9 +39,13 @@ struct SwiftPackageList: ParsableCommand {
 
         let packages = try packageResolved.object.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
-            guard let licensePath = try findLicensePath(for: checkoutURL, in: checkoutsPath) else { return nil }
-            let license = try String(contentsOf: licensePath, encoding: .utf8)
-            return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, repositoryURL: checkoutURL, license: license)
+            if let licensePath = try findLicensePath(for: checkoutURL, in: checkoutsPath) {
+                let license = try String(contentsOf: licensePath, encoding: .utf8)
+                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, repositoryURL: checkoutURL, license: license)
+            } else if !requiresLicense {
+                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, repositoryURL: checkoutURL, license: nil)
+            }
+            return nil
         }
         
         let jsonEncoder = JSONEncoder()

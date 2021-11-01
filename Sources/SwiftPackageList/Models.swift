@@ -54,5 +54,5 @@ struct Package: Encodable {
     let version: String?
     let branch: String?
     let repositoryURL: URL
-    let license: String
+    let license: String?
 }
