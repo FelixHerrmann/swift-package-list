@@ -27,7 +27,10 @@ struct SwiftPackageList: ParsableCommand {
     var requiresLicense: Bool = false
     
     mutating func run() throws {
-        guard let checkoutsPath = try findCheckoutsPath(projectPath: projectPath) else { return }
+        guard let checkoutsPath = try findCheckoutsPath(projectPath: projectPath) else {
+            print("No checkouts-path found in your DerivedData-folder")
+            return
+        }
 
         let packageDotResolvedPath = "\(projectPath)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
         guard FileManager.default.fileExists(atPath: packageDotResolvedPath) else {
@@ -52,6 +55,7 @@ struct SwiftPackageList: ParsableCommand {
         jsonEncoder.outputFormatting = .prettyPrinted
         let json = try jsonEncoder.encode(packages)
         try json.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.json"))
+        print("Generated package-list.json at \(outputPath)")
     }
 }
 
