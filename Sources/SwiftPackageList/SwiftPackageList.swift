@@ -15,7 +15,7 @@ import ArgumentParser
 struct SwiftPackageList: ParsableCommand {
     
     static var configuration: CommandConfiguration {
-        return CommandConfiguration(version: "1.0")
+        return CommandConfiguration(version: "1.0.0")
     }
     
     @Argument(help: "The directory to your .xcodeproj-file.")
@@ -35,7 +35,7 @@ struct SwiftPackageList: ParsableCommand {
             print("No checkouts-path found in your DerivedData-folder")
             return
         }
-
+        
         let packageDotResolvedPath = "\(projectPath)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
         guard FileManager.default.fileExists(atPath: packageDotResolvedPath) else {
             print("This project has no Swift-Package dependencies")
@@ -43,7 +43,7 @@ struct SwiftPackageList: ParsableCommand {
         }
         let packageDotResolved = try String(contentsOfFile: packageDotResolvedPath)
         let packageResolved = try JSONDecoder().decode(PackageResolved.self, from: Data(packageDotResolved.utf8))
-
+        
         let packages = try packageResolved.object.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
             if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
