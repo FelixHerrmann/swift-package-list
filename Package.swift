@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "SwiftPackageList",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v10_10),
         .iOS(.v9),
         .tvOS(.v9),
         .watchOS(.v2)
