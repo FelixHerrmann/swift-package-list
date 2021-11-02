@@ -11,7 +11,7 @@ import Foundation
 // MARK: - Package
 
 /// A package object in the `package-list.json`.
-public struct Package: Codable {
+public struct Package: Hashable, Codable {
     
     /// The name of the package.
     public let name: String
