@@ -31,7 +31,7 @@ struct SwiftPackageList: ParsableCommand {
     var requiresLicense: Bool = false
     
     mutating func run() throws {
-        guard let checkoutsPath = try findCheckoutsPath(projectPath: projectPath) else {
+        guard let checkoutsPath = try locateCheckoutsPath(projectPath: projectPath) else {
             print("No checkouts-path found in your DerivedData-folder")
             return
         }
@@ -46,7 +46,7 @@ struct SwiftPackageList: ParsableCommand {
 
         let packages = try packageResolved.object.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
-            if let licensePath = try findLicensePath(for: checkoutURL, in: checkoutsPath) {
+            if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, repositoryURL: checkoutURL, license: license)
             } else if !requiresLicense {
@@ -64,11 +64,11 @@ struct SwiftPackageList: ParsableCommand {
 }
 
 
-// MARK: - Find Files
+// MARK: - Locate Files
 
 extension SwiftPackageList {
     
-    func findCheckoutsPath(projectPath: String) throws -> URL? {
+    func locateCheckoutsPath(projectPath: String) throws -> URL? {
         let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
         
         for derivedDataDirectory in derivedDataDirectories {
@@ -85,7 +85,7 @@ extension SwiftPackageList {
         return nil
     }
 
-    func findLicensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
+    func locateLicensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
         let checkoutName = checkoutURL.lastPathComponent
         let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
         let packageFiles = try FileManager.default.contentsOfDirectory(at: checkoutPath, includingPropertiesForKeys: [.isRegularFileKey, .localizedNameKey], options: .skipsHiddenFiles)
