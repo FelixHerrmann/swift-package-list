@@ -1,18 +1,19 @@
 //
-//  SwiftPackageList.swift
-//  SwiftPackageList
+//  SwiftPackageListCommand.swift
+//  SwiftPackageListCommand
 //
 //  Created by Felix Herrmann on 01.11.21.
 //
 
 import Foundation
 import ArgumentParser
+import SwiftPackageList
 
 
 // MARK: - Main
 
 @main
-struct SwiftPackageList: ParsableCommand {
+struct SwiftPackageListCommand: ParsableCommand {
     
     static var configuration: CommandConfiguration {
         return CommandConfiguration(version: "1.0.0")
@@ -48,9 +49,9 @@ struct SwiftPackageList: ParsableCommand {
             guard let checkoutURL = pin.checkoutURL else { return nil }
             if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
-                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, repositoryURL: checkoutURL, license: license)
+                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
             } else if !requiresLicense {
-                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, repositoryURL: checkoutURL, license: nil)
+                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
             }
             return nil
         }
@@ -66,7 +67,7 @@ struct SwiftPackageList: ParsableCommand {
 
 // MARK: - Locate Files
 
-extension SwiftPackageList {
+extension SwiftPackageListCommand {
     
     func locateCheckoutsPath(projectPath: String) throws -> URL? {
         let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])

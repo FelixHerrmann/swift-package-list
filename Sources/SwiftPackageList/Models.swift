@@ -2,57 +2,59 @@
 //  Models.swift
 //  SwiftPackageList
 //
-//  Created by Felix Herrmann on 01.11.21.
+//  Created by Felix Herrmann on 02.11.21.
 //
 
 import Foundation
 
 
-// MARK: - PackageResolved
-
-struct PackageResolved: Decodable {
-    let object: Object
-}
-
-extension PackageResolved {
-    
-    struct Object: Decodable {
-        let pins: [Pin]
-    }
-}
-
-extension PackageResolved.Object {
-    
-    struct Pin: Decodable {
-        let package: String
-        let repositoryURL: String
-        let state: State
-    }
-}
-
-extension PackageResolved.Object.Pin {
-    
-    struct State: Decodable {
-        let branch: String?
-        let revision: String
-        let version: String?
-    }
-}
-
-
-// MARK: - InfoPlist
-
-struct InfoPlist: Decodable {
-    let WorkspacePath: String
-}
-
-
 // MARK: - Package
 
-struct Package: Encodable {
-    let name: String
-    let version: String?
-    let branch: String?
-    let repositoryURL: URL
-    let license: String?
+/// A package object in the `package-list.json`.
+public struct Package: Codable {
+    
+    /// The name of the package.
+    public let name: String
+    
+    /// The version of the package.
+    ///
+    /// Could be `nil` if the package's dependency-rule is branch or commit.
+    public let version: String?
+    
+    /// The name of the branch.
+    ///
+    /// Could be `nil` if the package's dependency-rule is version or commit.
+    public let branch: String?
+    
+    /// The exact revision/commit.
+    ///
+    /// This is always present, regardless if the package's dependency-rule is version or branch.
+    public let revision: String
+    
+    /// The URL to the git-repository.
+    public let repositoryURL: URL
+    
+    /// The license text.
+    ///
+    /// This is always present if the `--requires-license` flag is parsed on command execution.
+    public let license: String?
+    
+    public init(name: String, version: String?, branch: String?, revision: String, repositoryURL: URL, license: String?) {
+        self.name = name
+        self.version = version
+        self.branch = branch
+        self.revision = revision
+        self.repositoryURL = repositoryURL
+        self.license = license
+    }
+}
+
+
+// MARK: - PackageList
+
+/// The possible thrown errors of the `packageList(bundle:)` function.
+public enum PackageListError: Error {
+    
+    /// Couldn't find the `package-list.json` file in the specified bundle.
+    case noPackageList
 }

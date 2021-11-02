@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageList"
-               BuildableName = "SwiftPackageList"
-               BlueprintName = "SwiftPackageList"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageListTests"
-               BuildableName = "SwiftPackageListTests"
-               BlueprintName = "SwiftPackageListTests"
+               BlueprintIdentifier = "SwiftPackageListCommand"
+               BuildableName = "SwiftPackageListCommand"
+               BlueprintName = "SwiftPackageListCommand"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -68,9 +54,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "SwiftPackageList"
-            BuildableName = "SwiftPackageList"
-            BlueprintName = "SwiftPackageList"
+            BlueprintIdentifier = "SwiftPackageListCommand"
+            BuildableName = "SwiftPackageListCommand"
+            BlueprintName = "SwiftPackageListCommand"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -85,9 +71,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "SwiftPackageList"
-            BuildableName = "SwiftPackageList"
-            BlueprintName = "SwiftPackageList"
+            BlueprintIdentifier = "SwiftPackageListCommand"
+            BuildableName = "SwiftPackageListCommand"
+            BlueprintName = "SwiftPackageListCommand"
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
