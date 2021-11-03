@@ -91,4 +91,4 @@ do {
 
 ## License
 
-FHPropertyWrappers is available under the MIT license. See the [LICENSE](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE) file for more info.
+SwiftPackageList is available under the MIT license. See the [LICENSE](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE) file for more info.
