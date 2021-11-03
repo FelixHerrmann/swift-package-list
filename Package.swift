@@ -25,8 +25,5 @@ let package = Package(
                 .target(name: "SwiftPackageList"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]),
-        .testTarget(
-            name: "SwiftPackageListTests",
-            dependencies: ["SwiftPackageList"]),
     ]
 )
