@@ -38,7 +38,7 @@ In addition to that you can specify the following options:
 You can easily set up a Run Script Phase in your target of your Xcode-project to keep the `package-list.json` up to date automatically:
 
 1. open the corresponding target and click on the plus under the *Build Phases* section
-2. add the following script into the code window:
+2. select *New Run Script Phase* and add the following script into the code box:
 ```shell
 # creates/updates package-list.json on every build
 
