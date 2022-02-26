@@ -16,7 +16,7 @@ import SwiftPackageList
 struct SwiftPackageListCommand: ParsableCommand {
     
     static var configuration: CommandConfiguration {
-        return CommandConfiguration(version: "1.0.2")
+        return CommandConfiguration(version: "1.1.0")
     }
     
     @Argument(help: "The directory to your .xcodeproj-file.")
@@ -25,8 +25,11 @@ struct SwiftPackageListCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The directory to your DerivedData-folder.")
     var derivedDataPath = "\(NSHomeDirectory())/Library/Developer/Xcode/DerivedData"
     
-    @Option(name: .shortAndLong, help: "The path where the package-list.json-file will be stored.")
+    @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
     var outputPath: String = "\(NSHomeDirectory())/Desktop"
+    
+    @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json and plist.")
+    var fileType: FileType = .json
     
     @Flag(help: "Will skip the packages without a license-file.")
     var requiresLicense: Bool = false
@@ -56,11 +59,24 @@ struct SwiftPackageListCommand: ParsableCommand {
             return nil
         }
         
-        let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .prettyPrinted
-        let json = try jsonEncoder.encode(packages)
-        try json.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.json"))
-        print("Generated package-list.json at \(outputPath)")
+        try writeOutputFile(for: packages)
+    }
+    
+    func writeOutputFile(for packages: [Package]) throws {
+        switch fileType {
+        case .json:
+            let jsonEncoder = JSONEncoder()
+            jsonEncoder.outputFormatting = .prettyPrinted
+            let json = try jsonEncoder.encode(packages)
+            try json.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.json"))
+            print("Generated package-list.json at \(outputPath)")
+        case .plist:
+            let plistEncoder = PropertyListEncoder()
+            plistEncoder.outputFormat = .xml
+            let plist = try plistEncoder.encode(packages)
+            try plist.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.plist"))
+            print("Generated package-list.plist at \(outputPath)")
+        }
     }
 }
 
