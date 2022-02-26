@@ -17,7 +17,7 @@ Additionally there is a Swift Package to read the generated `package-list.json` 
 Clone or download this repository and execute the install script with `sudo sh install.sh`.
 After that you can run the `swift-package-list` command in your terminal.
 
-> There is also an uninstall script for convenience.
+> There is also an update and uninstall script for convenience.
 
 ### Usage
 
