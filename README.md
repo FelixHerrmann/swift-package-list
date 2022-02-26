@@ -4,10 +4,10 @@
 [![License](https://img.shields.io/github/license/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)
 
-A command-line tool to generate a JSON-list of all used SPM-dependencies of an Xcode-project.
+A command-line tool to generate a JSON-list or PLIST-list of all used SPM-dependencies of an Xcode-project.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
-Additionally there is a Swift Package to read the generated `package-list.json` from the application's bundle.
+Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle.
 
 
 ## Command-Line Tool
@@ -25,13 +25,14 @@ Open the terminal and run `swift-package-list <project-path>` with the directory
 
 In addition to that you can specify the following options:
 
-| Option                                        | Description                                                                                |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| -d, --derived-data-path \<derived-data-path\> | The directory to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData) |
-| -o, --output-path \<output-path\>             | The path where the package-list.json-file will be stored. (default: ~/Desktop)             |
-| --requires-license                            | Will skip the packages without a license-file.                                             |
-| --version                                     | Show the version.                                                                          |
-| -h, --help                                    | Show help information.                                                                     |
+| Option                                        | Description                                                                                             |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| -d, --derived-data-path \<derived-data-path\> | The directory to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)              |
+| -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                               |
+| -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json and plist. (default: json) |
+| --requires-license                            | Will skip the packages without a license-file.                                                          |
+| --version                                     | Show the version.                                                                                       |
+| -h, --help                                    | Show help information.                                                                                  |
 
 ### Run Script Phase
 
