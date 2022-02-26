@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ArgumentParser
 
 
 // MARK: - PackageResolved
@@ -44,4 +45,12 @@ extension PackageResolved.Object.Pin {
 
 struct InfoPlist: Decodable {
     let WorkspacePath: String
+}
+
+
+// MARK: - FileType
+
+enum FileType: String, CaseIterable, ExpressibleByArgument {
+    case json
+    case plist
 }
