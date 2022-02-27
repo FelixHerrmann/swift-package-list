@@ -24,12 +24,12 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
     /// A boolean value indicating if a bar button item to open the repository is shown.
     ///
     /// Default value of this property is `false`.
-    open var canOpenRepositoryLink: Bool = false
+    @objc open var canOpenRepositoryLink: Bool = false
     
     /// The bundle where the `package-list.json` or `package-list.plist` file is stored.
     ///
     /// Default value of this property is `Bundle.main`.
-    open var packageListBundle: Bundle = .main
+    @objc open var packageListBundle: Bundle = .main
     
     private var _packages: [Package] = [] {
         didSet {
