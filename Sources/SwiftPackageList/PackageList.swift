@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// This function reads and decodes the `package-list.json` or `package-list.plist` file in your bundle.
+/// This function reads and decodes the `package-list.json` or `package-list.plist` file in the specified bundle.
 ///
 /// Make sure that the file is part of your project/target.
 /// - Parameter bundle: The bundle where the file is stored. Default's to `Bundle.main`.
