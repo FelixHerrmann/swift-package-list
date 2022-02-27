@@ -9,6 +9,7 @@
 
 import UIKit
 import OSLog
+import SwiftPackageList
 
 /// A concrete subclass of a table-view controller that shows all licenses from the `package-list.json` or `package-list.plist` file in the specified bundle.
 ///

@@ -13,12 +13,16 @@ let package = Package(
     ],
     products: [
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
+        .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.1")
     ],
     targets: [
         .target(name: "SwiftPackageList"),
+        .target(
+            name: "SwiftPackageListUI",
+            dependencies: ["SwiftPackageList"]),
         .executableTarget(
             name: "SwiftPackageListCommand",
             dependencies: [

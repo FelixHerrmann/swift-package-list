@@ -9,6 +9,7 @@
 
 import UIKit
 import SafariServices
+import SwiftPackageList
 
 internal final class _SPLLicenseTextViewController: UIViewController {
     
