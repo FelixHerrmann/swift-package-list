@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "SwiftPackageList",
+    defaultLocalization: "en",
     platforms: [
         .macOS(.v10_10),
         .iOS(.v9),
@@ -22,7 +23,8 @@ let package = Package(
         .target(name: "SwiftPackageList"),
         .target(
             name: "SwiftPackageListUI",
-            dependencies: ["SwiftPackageList"]),
+            dependencies: ["SwiftPackageList"],
+            resources: [.process("Resources")]),
         .executableTarget(
             name: "SwiftPackageListCommand",
             dependencies: [
