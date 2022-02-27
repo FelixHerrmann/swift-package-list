@@ -7,7 +7,8 @@
 A command-line tool to generate a JSON-list or PLIST-list of all used SPM-dependencies of an Xcode-project.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
-Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle.
+Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle
+with a top-level function or pre-build UI.
 
 
 ## Command-Line Tool
@@ -61,7 +62,7 @@ You can do that manually or use the package for that (as follows).
 
 ## Swift Package
 
-Load `package-list.json` from the bundle with a single function call.
+Load `package-list.json` or `package-list.plist` from the bundle with a single function call or use the pre-build UI components.
 
 ### Requirements
 
@@ -74,7 +75,9 @@ Load `package-list.json` from the bundle with a single function call.
 
 Add the package to your project as shown [here](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app).
 
-Now you can retrieve the packages from the file like this:
+It contains 2 libraries; `SwiftPackageList` for loading the Data and `SwiftPackageListUI` to get an iOS Settings-like user interface.
+
+#### SwiftPackageList
 
 ```swift
 import SwiftPackageList
@@ -88,6 +91,18 @@ do {
     print(error)
 }
 ```
+
+#### SwiftPackageListUI
+
+```swift
+import SwiftPackageListUI
+
+let acknowledgmentsViewController = SPLAcknowledgmentsTableViewController()
+acknowledgmentsViewController.canOpenRepositoryLink = true
+navigationController.pushViewController(acknowledgmentsViewController, animated: true)
+```
+
+> It is currently localized in English and German.
 
 
 ## License
