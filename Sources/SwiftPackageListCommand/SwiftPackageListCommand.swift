@@ -16,7 +16,7 @@ import SwiftPackageList
 struct SwiftPackageListCommand: ParsableCommand {
     
     static var configuration: CommandConfiguration {
-        return CommandConfiguration(version: "1.1.0")
+        return CommandConfiguration(version: "1.2.0")
     }
     
     @Argument(help: "The directory to your .xcodeproj-file.")
