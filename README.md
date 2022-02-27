@@ -55,7 +55,7 @@ fi
 5. right-click on the targets-folder in the sidebar and select *Add Files to "\<project-name\>"*
 6. select `package-list.json` in the Finder-window
 
-The `package-list.json`-file will be updated now on every build and can be opened from the bundle in you app.
+The `package-list.json`-file will be updated now on every build and can be opened from the bundle in your app.
 You can do that manually or use the package for that (as follows).
 
 
