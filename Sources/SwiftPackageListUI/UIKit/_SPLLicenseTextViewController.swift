@@ -1,6 +1,6 @@
 //
 //  _SPLLicenseTextViewController.swift
-//  SwiftPackageList
+//  SwiftPackageListUI
 //
 //  Created by Felix Herrmann on 26.02.22.
 //
