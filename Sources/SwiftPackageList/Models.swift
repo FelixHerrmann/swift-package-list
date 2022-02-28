@@ -55,6 +55,6 @@ public struct Package: Hashable, Codable {
 /// The possible thrown errors of the `packageList(bundle:)` function.
 public enum PackageListError: Error {
     
-    /// Couldn't find  a `package-list.json` or `package-list.plist` file in the specified bundle.
+    /// Couldn't find a `package-list.json` or `package-list.plist` file in the specified bundle.
     case noPackageList
 }
