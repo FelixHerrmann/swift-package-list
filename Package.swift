@@ -14,6 +14,7 @@ let package = Package(
     ],
     products: [
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
+        .library(name: "SwiftPackageListObjc", type: .dynamic, targets: ["SwiftPackageListObjc"]),
         .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
     ],
     dependencies: [
@@ -21,6 +22,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "SwiftPackageList"),
+        .target(name: "SwiftPackageListObjc"),
         .target(
             name: "SwiftPackageListUI",
             dependencies: ["SwiftPackageList"],
