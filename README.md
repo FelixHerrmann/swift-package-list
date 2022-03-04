@@ -101,7 +101,7 @@ do {
 NSError *error;
 NSArray<SPLPackage *> *packages = SPLPackageList(&error);
 if (packages) {
-    NSLog(@"%@", packages);
+    // use packages
 } else {
     if (error.code == SPLErrorNoPackageList) {
         NSLog(@"There is no package-list file");
