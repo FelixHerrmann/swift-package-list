@@ -5,7 +5,7 @@
 //  Created by Felix Herrmann on 26.02.22.
 //
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS)
 
 import UIKit
 
@@ -22,4 +22,4 @@ internal final class _SPLLicenseTableViewCell: UITableViewCell {
     }
 }
 
-#endif // canImport(UIKit)
+#endif // canImport(UIKit) && !os(watchOS)

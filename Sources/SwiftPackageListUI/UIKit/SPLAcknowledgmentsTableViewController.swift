@@ -5,7 +5,7 @@
 //  Created by Felix Herrmann on 26.02.22.
 //
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS) && !os(tvOS)
 
 import UIKit
 import OSLog
@@ -123,4 +123,4 @@ extension SPLAcknowledgmentsTableViewController {
     }
 }
 
-#endif // canImport(UIKit)
+#endif // canImport(UIKit) && !os(watchOS) && !os(tvOS)

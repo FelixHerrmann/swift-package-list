@@ -5,7 +5,7 @@
 //  Created by Felix Herrmann on 26.02.22.
 //
 
-#if canImport(UIKit)
+#if canImport(UIKit) && !os(watchOS) && !os(tvOS)
 
 import UIKit
 import SafariServices
@@ -107,4 +107,4 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     }
 }
 
-#endif // canImport(UIKit)
+#endif // canImport(UIKit) && !os(watchOS) && !os(tvOS)
