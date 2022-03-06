@@ -19,10 +19,10 @@ struct SwiftPackageListCommand: ParsableCommand {
         return CommandConfiguration(version: "1.2.0")
     }
     
-    @Argument(help: "The directory to your .xcodeproj-file.")
+    @Argument(help: "The path to your .xcodeproj or .xcworkspace file.")
     var projectPath: String
     
-    @Option(name: .shortAndLong, help: "The directory to your DerivedData-folder.")
+    @Option(name: .shortAndLong, help: "The path to your DerivedData-folder.")
     var derivedDataPath = "\(NSHomeDirectory())/Library/Developer/Xcode/DerivedData"
     
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
