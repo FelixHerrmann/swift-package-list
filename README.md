@@ -45,8 +45,8 @@ You can easily set up a Run Script Phase in your target of your Xcode project to
 # creates/updates package-list.json on every build
 
 if type swift-package-list &> /dev/null; then
-    OUTPUT_PATH=${PRODUCT_SETTINGS_PATH%/Info.plist}
-    swift-package-list $PROJECT_FILE_PATH --output-path $OUTPUT_PATH --requires-license
+    OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
+    swift-package-list $PROJECT_FILE_PATH --output-path "$OUTPUT_PATH" --requires-license
 else
     echo "warning: swift-package-list not installed"
 fi
@@ -67,9 +67,9 @@ you just need a slightly modified script for the Run Script Phase:
 # creates/updates package-list.json on every build
 
 if type swift-package-list &> /dev/null; then
-    OUTPUT_PATH=${PRODUCT_SETTINGS_PATH%/Info.plist}
+    OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
     WORKSPACE_FILE_PATH=${PROJECT_FILE_PATH%.xcodeproj}.xcworkspace
-    swift-package-list $WORKSPACE_FILE_PATH --output-path $OUTPUT_PATH --requires-license
+    swift-package-list $WORKSPACE_FILE_PATH --output-path "$OUTPUT_PATH" --requires-license
 else
     echo "warning: swift-package-list not installed"
 fi
