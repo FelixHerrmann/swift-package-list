@@ -137,6 +137,16 @@ acknowledgmentsViewController.canOpenRepositoryLink = true
 navigationController.pushViewController(acknowledgmentsViewController, animated: true)
 ```
 
+```swift
+import SwiftPackageListUI
+
+var body: some View {
+    NavigationView {
+        AcknowledgmentsList()
+    }
+}
+```
+
 > It is currently localized in English and German.
 
 
