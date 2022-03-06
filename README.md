@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)
 
-A command-line tool to generate a JSON-list or PLIST-list of all used SPM-dependencies of an Xcode-project.
+A command-line tool to generate a JSON-list or PLIST-list of all used SPM-dependencies of an Xcode project or workspace.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
 Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle
@@ -22,13 +22,13 @@ After that you can run the `swift-package-list` command in your terminal.
 
 ### Usage
 
-Open the terminal and run `swift-package-list <project-path>` with the directory to the `.xcodeproj`-file you want to generate the list from.
+Open the terminal and run `swift-package-list <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to generate the list from.
 
 In addition to that you can specify the following options:
 
 | Option                                        | Description                                                                                             |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\> | The directory to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)              |
+| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)              |
 | -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                               |
 | -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json and plist. (default: json) |
 | --requires-license                            | Will skip the packages without a license-file.                                                          |
@@ -37,7 +37,7 @@ In addition to that you can specify the following options:
 
 ### Run Script Phase
 
-You can easily set up a Run Script Phase in your target of your Xcode-project to keep the `package-list.json` up to date automatically:
+You can easily set up a Run Script Phase in your target of your Xcode project to keep the `package-list.json` up to date automatically:
 
 1. open the corresponding target and click on the plus under the *Build Phases* section
 2. select *New Run Script Phase* and add the following script into the code box:
@@ -45,8 +45,8 @@ You can easily set up a Run Script Phase in your target of your Xcode-project to
 # creates/updates package-list.json on every build
 
 if type swift-package-list &> /dev/null; then
-    output_path=${PRODUCT_SETTINGS_PATH%/Info.plist}
-    swift-package-list $PROJECT_FILE_PATH --output-path $output_path --requires-license
+    OUTPUT_PATH=${PRODUCT_SETTINGS_PATH%/Info.plist}
+    swift-package-list $PROJECT_FILE_PATH --output-path $OUTPUT_PATH --requires-license
 else
     echo "warning: swift-package-list not installed"
 fi
@@ -58,6 +58,22 @@ fi
 
 The `package-list.json`-file will be updated now on every build and can be opened from the bundle in your app.
 You can do that manually or use the package for that (as follows).
+
+#### Xcode Workspace (CocoaPods)
+
+If you have an Xcode workspace instead of a standard Xcode project everything works exactly the same,
+you just need a slightly modified script for the Run Script Phase:
+```shell
+# creates/updates package-list.json on every build
+
+if type swift-package-list &> /dev/null; then
+    OUTPUT_PATH=${PRODUCT_SETTINGS_PATH%/Info.plist}
+    WORKSPACE_FILE_PATH=${PROJECT_FILE_PATH%.xcodeproj}.xcworkspace
+    swift-package-list $WORKSPACE_FILE_PATH --output-path $OUTPUT_PATH --requires-license
+else
+    echo "warning: swift-package-list not installed"
+fi
+```
 
 
 ## Swift Package

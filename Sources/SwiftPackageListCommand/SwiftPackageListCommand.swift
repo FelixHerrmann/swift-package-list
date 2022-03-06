@@ -19,10 +19,10 @@ struct SwiftPackageListCommand: ParsableCommand {
         return CommandConfiguration(version: "1.2.0")
     }
     
-    @Argument(help: "The directory to your .xcodeproj-file.")
+    @Argument(help: "The path to your .xcodeproj or .xcworkspace file.")
     var projectPath: String
     
-    @Option(name: .shortAndLong, help: "The directory to your DerivedData-folder.")
+    @Option(name: .shortAndLong, help: "The path to your DerivedData-folder.")
     var derivedDataPath = "\(NSHomeDirectory())/Library/Developer/Xcode/DerivedData"
     
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
@@ -35,17 +35,21 @@ struct SwiftPackageListCommand: ParsableCommand {
     var requiresLicense: Bool = false
     
     mutating func run() throws {
-        guard let checkoutsPath = try locateCheckoutsPath(projectPath: projectPath) else {
+        guard let project = Project(path: projectPath) else {
+            print("The project file is not an Xcode Project or Workspace")
+            return
+        }
+        
+        guard let checkoutsPath = try locateCheckoutsPath(project: project) else {
             print("No checkouts-path found in your DerivedData-folder")
             return
         }
         
-        let packageDotResolvedPath = "\(projectPath)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
-        guard FileManager.default.fileExists(atPath: packageDotResolvedPath) else {
+        guard FileManager.default.fileExists(atPath: project.packageDotResolvedFileURL.path) else {
             print("This project has no Swift-Package dependencies")
             return
         }
-        let packageDotResolved = try String(contentsOfFile: packageDotResolvedPath)
+        let packageDotResolved = try String(contentsOfFile: project.packageDotResolvedFileURL.path)
         let packageResolved = try JSONDecoder().decode(PackageResolved.self, from: Data(packageDotResolved.utf8))
         
         let packages = try packageResolved.object.pins.compactMap { pin -> Package? in
@@ -85,7 +89,7 @@ struct SwiftPackageListCommand: ParsableCommand {
 
 extension SwiftPackageListCommand {
     
-    func locateCheckoutsPath(projectPath: String) throws -> URL? {
+    func locateCheckoutsPath(project: Project) throws -> URL? {
         let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
         
         for derivedDataDirectory in derivedDataDirectories {
@@ -93,7 +97,7 @@ extension SwiftPackageListCommand {
             guard let infoDotPlist = projectFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
             let infoPlistData = try Data(contentsOf: infoDotPlist)
             let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
-            if infoPlist.WorkspacePath == projectPath {
+            if infoPlist.WorkspacePath == project.fileURL.path {
                 let checkoutsPath = derivedDataDirectory.appendingPathComponent("/SourcePackages/checkouts")
                 return checkoutsPath
             }
