@@ -15,7 +15,7 @@ with a top-level function or pre-build UI.
 
 ### Installation
 
-#### Using [Mint](https://github.com/yonaskolb/mint)
+#### Using [Mint](https://github.com/yonaskolb/mint):
 
 ```shell
 mint install FelixHerrmann/swift-package-list
