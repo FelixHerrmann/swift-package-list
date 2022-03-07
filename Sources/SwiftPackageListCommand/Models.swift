@@ -40,6 +40,13 @@ extension PackageResolved.Object.Pin {
     }
 }
 
+extension PackageResolved.Object.Pin {
+    
+    var checkoutURL: URL? {
+        URL(string: repositoryURL.replacingOccurrences(of: ".git", with: ""))
+    }
+}
+
 
 // MARK: - InfoPlist
 
