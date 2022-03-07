@@ -42,9 +42,7 @@ You can easily set up a Run Script Phase in your target of your Xcode project to
 1. open the corresponding target and click on the plus under the *Build Phases* section
 2. select *New Run Script Phase* and add the following script into the code box:
 ```shell
-# creates/updates package-list.json on every build
-
-if type swift-package-list &> /dev/null; then
+if command -v swift-package-list &> /dev/null; then
     OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
     swift-package-list $PROJECT_FILE_PATH --output-path "$OUTPUT_PATH" --requires-license
 else
@@ -64,9 +62,7 @@ You can do that manually or use the package for that (as follows).
 If you have an Xcode workspace instead of a standard Xcode project everything works exactly the same,
 you just need a slightly modified script for the Run Script Phase:
 ```shell
-# creates/updates package-list.json on every build
-
-if type swift-package-list &> /dev/null; then
+if command -v swift-package-list &> /dev/null; then
     OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
     WORKSPACE_FILE_PATH=${PROJECT_FILE_PATH%.xcodeproj}.xcworkspace
     swift-package-list $WORKSPACE_FILE_PATH --output-path "$OUTPUT_PATH" --requires-license
