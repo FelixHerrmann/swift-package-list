@@ -23,10 +23,7 @@ mint install FelixHerrmann/swift-package-list
 
 #### Installing from source:
 
-Clone or download this repository and execute the install script with `sudo sh install.sh`.
-After that you can run the `swift-package-list` command in your terminal.
-
-> There is also an update and uninstall script for convenience.
+Clone or download this repository and run `make install`, `make update` or `make uninstall` (with sudo if required).
 
 ### Usage
 
