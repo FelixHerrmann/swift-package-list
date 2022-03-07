@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)
 
-A command-line tool to generate a JSON-list or PLIST-list of all used SPM-dependencies of an Xcode project or workspace.
+A command-line tool to generate a JSON or PLIST file with all used SPM-dependencies of an Xcode project or workspace.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
 Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle
@@ -33,7 +33,7 @@ In addition to that you can specify the following options:
 
 | Option                                        | Description                                                                                             |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)              |
+| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                   |
 | -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                               |
 | -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json and plist. (default: json) |
 | --requires-license                            | Will skip the packages without a license-file.                                                          |
