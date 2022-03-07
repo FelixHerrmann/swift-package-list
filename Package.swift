@@ -13,6 +13,7 @@ let package = Package(
         .watchOS(.v2)
     ],
     products: [
+        .executable(name: "SwiftPackageListCommand", targets: ["SwiftPackageListCommand"]),
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
         .library(name: "SwiftPackageListObjc", type: .dynamic, targets: ["SwiftPackageListObjc"]),
         .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
@@ -21,17 +22,17 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.1")
     ],
     targets: [
-        .target(name: "SwiftPackageList"),
-        .target(name: "SwiftPackageListObjc"),
-        .target(
-            name: "SwiftPackageListUI",
-            dependencies: ["SwiftPackageList"],
-            resources: [.process("Resources")]),
         .executableTarget(
             name: "SwiftPackageListCommand",
             dependencies: [
                 .target(name: "SwiftPackageList"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]),
+        .target(name: "SwiftPackageList"),
+        .target(name: "SwiftPackageListObjc"),
+        .target(
+            name: "SwiftPackageListUI",
+            dependencies: ["SwiftPackageList"],
+            resources: [.process("Resources")]),
     ]
 )
