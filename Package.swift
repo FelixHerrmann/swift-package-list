@@ -13,7 +13,7 @@ let package = Package(
         .watchOS(.v2)
     ],
     products: [
-        .executable(name: "SwiftPackageListCommand", targets: ["SwiftPackageListCommand"]),
+        .executable(name: "swift-package-list", targets: ["SwiftPackageListCommand"]),
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
         .library(name: "SwiftPackageListObjc", type: .dynamic, targets: ["SwiftPackageListObjc"]),
         .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
