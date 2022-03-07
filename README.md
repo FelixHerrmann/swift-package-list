@@ -15,6 +15,14 @@ with a top-level function or pre-build UI.
 
 ### Installation
 
+#### Using [Mint](https://github.com/yonaskolb/mint):
+
+```shell
+mint install FelixHerrmann/swift-package-list
+```
+
+#### Installing from source:
+
 Clone or download this repository and execute the install script with `sudo sh install.sh`.
 After that you can run the `swift-package-list` command in your terminal.
 
