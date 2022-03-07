@@ -1,16 +1,17 @@
-BUILD_PATH=.build/release/SwiftPackageListCommand
-INSTALL_PATH=/usr/local/bin/swift-package-list
+BUILD_PATH=.build/release/swift-package-list
+BIN_PATH=/usr/local/bin
+INSTALL_PATH=$(BIN_PATH)/swift-package-list
 
-all:
-	install
+all: install
 
-install:
+build:
 	swift build --configuration release
-	cp -f "$(BUILD_PATH)" "$(INSTALL_PATH)"
+
+install: build
+	mkdir -p $(BIN_PATH)
+	cp -f $(BUILD_PATH) $(INSTALL_PATH)
 
 uninstall:
-	rm -f "$(INSTALL_PATH)"
+	rm -f $(INSTALL_PATH)
 
-update:
-	sh uninstall.sh
-	sh install.sh
+update: uninstall install
