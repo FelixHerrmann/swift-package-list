@@ -9,6 +9,17 @@ import Foundation
 import ArgumentParser
 
 
+// MARK: - Errors
+
+struct RuntimeError: Error, CustomStringConvertible {
+    let description: String
+    
+    init(_ description: String) {
+        self.description = description
+    }
+}
+
+
 // MARK: - PackageResolved
 
 struct PackageResolved: Decodable {

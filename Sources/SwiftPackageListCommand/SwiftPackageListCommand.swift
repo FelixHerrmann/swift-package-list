@@ -36,18 +36,15 @@ struct SwiftPackageListCommand: ParsableCommand {
     
     mutating func run() throws {
         guard let project = Project(path: projectPath) else {
-            print("The project file is not an Xcode Project or Workspace")
-            return
+            throw RuntimeError("The project file is not an Xcode Project or Workspace")
         }
         
         guard let checkoutsPath = try locateCheckoutsPath(project: project) else {
-            print("No checkouts-path found in your DerivedData-folder")
-            return
+            throw RuntimeError("No checkouts-path found in your DerivedData-folder")
         }
         
         guard FileManager.default.fileExists(atPath: project.packageDotResolvedFileURL.path) else {
-            print("This project has no Swift-Package dependencies")
-            return
+            throw CleanExit.message("This project has no Swift-Package dependencies")
         }
         let packageDotResolved = try String(contentsOfFile: project.packageDotResolvedFileURL.path)
         let packageResolved = try JSONDecoder().decode(PackageResolved.self, from: Data(packageDotResolved.utf8))
@@ -73,13 +70,13 @@ struct SwiftPackageListCommand: ParsableCommand {
             jsonEncoder.outputFormatting = .prettyPrinted
             let json = try jsonEncoder.encode(packages)
             try json.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.json"))
-            print("Generated package-list.json at \(outputPath)")
+            throw CleanExit.message("Generated package-list.json at \(outputPath)")
         case .plist:
             let plistEncoder = PropertyListEncoder()
             plistEncoder.outputFormat = .xml
             let plist = try plistEncoder.encode(packages)
             try plist.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.plist"))
-            print("Generated package-list.plist at \(outputPath)")
+            throw CleanExit.message("Generated package-list.plist at \(outputPath)")
         }
     }
 }
