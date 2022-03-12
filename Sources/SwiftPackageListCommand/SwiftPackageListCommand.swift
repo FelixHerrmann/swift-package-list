@@ -36,13 +36,11 @@ struct SwiftPackageListCommand: ParsableCommand {
     
     mutating func run() throws {
         guard let project = Project(path: projectPath) else {
-            print("The project file is not an Xcode Project or Workspace")
-            return
+            throw RuntimeError("The project file is not an Xcode Project or Workspace")
         }
         
         guard let checkoutsPath = try locateCheckoutsPath(project: project) else {
-            print("No checkouts-path found in your DerivedData-folder")
-            return
+            throw RuntimeError("No checkouts-path found in your DerivedData-folder")
         }
         
         guard FileManager.default.fileExists(atPath: project.packageDotResolvedFileURL.path) else {
