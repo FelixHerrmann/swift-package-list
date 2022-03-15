@@ -7,10 +7,11 @@ let package = Package(
     name: "SwiftPackageList",
     defaultLocalization: "en",
     platforms: [
-        .macOS(.v10_10),
-        .iOS(.v9),
-        .tvOS(.v9),
-        .watchOS(.v2)
+        .macOS(.v10_15),
+        .macCatalyst(.v13),
+        .iOS(.v13),
+        .tvOS(.v13),
+        .watchOS(.v6),
     ],
     products: [
         .executable(name: "swift-package-list", targets: ["SwiftPackageListCommand"]),
