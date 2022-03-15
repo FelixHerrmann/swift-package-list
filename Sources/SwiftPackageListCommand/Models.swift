@@ -24,6 +24,7 @@ struct RuntimeError: Error, CustomStringConvertible {
 
 enum PackageResolvedVersion: Int {
     case v1 = 1
+    case v2
 }
 
 struct PackageResolved_V1: Decodable {
@@ -54,6 +55,33 @@ extension PackageResolved_V1.Object.Pin {
     
     var checkoutURL: URL? {
         URL(string: repositoryURL.replacingOccurrences(of: ".git", with: ""))
+    }
+}
+
+struct PackageResolved_V2: Decodable {
+    
+    struct Pin: Decodable {
+        
+        struct State: Decodable {
+            let revision: String
+            let version: String?
+            let branch: String?
+        }
+        
+        let identity: String
+        let kind: String
+        let location: String
+        let state: State
+    }
+    
+    let pins: [Pin]
+    let version: Int
+}
+
+extension PackageResolved_V2.Pin {
+    
+    var checkoutURL: URL? {
+        URL(string: location.replacingOccurrences(of: ".git", with: ""))
     }
 }
 

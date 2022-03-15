@@ -72,6 +72,20 @@ struct SwiftPackageListCommand: ParsableCommand {
                 return nil
             }
             return packages
+        case .v2:
+            let packageResolved = try JSONDecoder().decode(PackageResolved_V2.self, from: packageDotResolved)
+            let packages = try packageResolved.pins.compactMap { pin -> Package? in
+                guard let checkoutURL = pin.checkoutURL else { return nil }
+                let name = checkoutURL.lastPathComponent
+                if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
+                    let license = try String(contentsOf: licensePath, encoding: .utf8)
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
+                } else if !requiresLicense {
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
+                }
+                return nil
+            }
+            return packages
         case .none:
             throw RuntimeError("The version of the Package.resolved is not supported")
         }
