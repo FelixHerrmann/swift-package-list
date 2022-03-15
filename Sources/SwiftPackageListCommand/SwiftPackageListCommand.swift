@@ -46,21 +46,35 @@ struct SwiftPackageListCommand: ParsableCommand {
         guard FileManager.default.fileExists(atPath: project.packageDotResolvedFileURL.path) else {
             throw CleanExit.message("This project has no Swift-Package dependencies")
         }
-        let packageDotResolved = try String(contentsOfFile: project.packageDotResolvedFileURL.path)
-        let packageResolved = try JSONDecoder().decode(PackageResolved.self, from: Data(packageDotResolved.utf8))
+        let packageDotResolved = try Data(contentsOf: project.packageDotResolvedFileURL)
         
-        let packages = try packageResolved.object.pins.compactMap { pin -> Package? in
-            guard let checkoutURL = pin.checkoutURL else { return nil }
-            if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
-                let license = try String(contentsOf: licensePath, encoding: .utf8)
-                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
-            } else if !requiresLicense {
-                return Package(name: pin.package, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
-            }
-            return nil
-        }
-        
+        let packages = try createPackages(from: packageDotResolved, checkoutsPath: checkoutsPath)
         try writeOutputFile(for: packages)
+    }
+    
+    func createPackages(from packageDotResolved: Data, checkoutsPath: URL) throws -> [Package] {
+        let packageDotResolvedJSON = try JSONSerialization.jsonObject(with: packageDotResolved) as? [String: Any]
+        let version = packageDotResolvedJSON?["version"] as? Int
+        let packageResolvedVersion = PackageResolvedVersion(rawValue: version ?? 0)
+        
+        switch packageResolvedVersion {
+        case .v1:
+            let packageResolved = try JSONDecoder().decode(PackageResolved_V1.self, from: packageDotResolved)
+            let packages = try packageResolved.object.pins.compactMap { pin -> Package? in
+                guard let checkoutURL = pin.checkoutURL else { return nil }
+                let name = checkoutURL.lastPathComponent
+                if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
+                    let license = try String(contentsOf: licensePath, encoding: .utf8)
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
+                } else if !requiresLicense {
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
+                }
+                return nil
+            }
+            return packages
+        case .none:
+            throw RuntimeError("The version of the Package.resolved is not supported")
+        }
     }
     
     func writeOutputFile(for packages: [Package]) throws {

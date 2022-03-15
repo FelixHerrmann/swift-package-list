@@ -22,36 +22,35 @@ struct RuntimeError: Error, CustomStringConvertible {
 
 // MARK: - PackageResolved
 
-struct PackageResolved: Decodable {
-    let object: Object
+enum PackageResolvedVersion: Int {
+    case v1 = 1
 }
 
-extension PackageResolved {
+struct PackageResolved_V1: Decodable {
     
     struct Object: Decodable {
+        
+        struct Pin: Decodable {
+            
+            struct State: Decodable {
+                let branch: String?
+                let revision: String
+                let version: String?
+            }
+            
+            let package: String
+            let repositoryURL: String
+            let state: State
+        }
+        
         let pins: [Pin]
     }
-}
-
-extension PackageResolved.Object {
     
-    struct Pin: Decodable {
-        let package: String
-        let repositoryURL: String
-        let state: State
-    }
+    let object: Object
+    let version: Int
 }
 
-extension PackageResolved.Object.Pin {
-    
-    struct State: Decodable {
-        let branch: String?
-        let revision: String
-        let version: String?
-    }
-}
-
-extension PackageResolved.Object.Pin {
+extension PackageResolved_V1.Object.Pin {
     
     var checkoutURL: URL? {
         URL(string: repositoryURL.replacingOccurrences(of: ".git", with: ""))
