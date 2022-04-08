@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)
 
-A command-line tool to generate a JSON or PLIST file with all used SPM-dependencies of an Xcode project or workspace.
+A command-line tool to generate a JSON, PLIST or Settings.bundle file with all used SPM-dependencies of an Xcode project or workspace.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
 Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle
@@ -31,14 +31,14 @@ Open the terminal and run `swift-package-list <project-path>` with the path to t
 
 In addition to that you can specify the following options:
 
-| Option                                        | Description                                                                                             |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                   |
-| -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                               |
-| -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json and plist. (default: json) |
-| --requires-license                            | Will skip the packages without a license-file.                                                          |
-| --version                                     | Show the version.                                                                                       |
-| -h, --help                                    | Show help information.                                                                                  |
+| Option                                        | Description                                                                                                              |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                    |
+| -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                                                |
+| -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json, plist and settings-bundle. (default: json) |
+| --requires-license                            | Will skip the packages without a license-file.                                                                           |
+| --version                                     | Show the version.                                                                                                        |
+| -h, --help                                    | Show help information.                                                                                                   |
 
 ### Run Script Phase
 
@@ -75,6 +75,28 @@ else
     echo "warning: swift-package-list not installed"
 fi
 ```
+
+### Settings Bundle
+
+You can also generate a `Settings.bundle` file to show the acknowledgements in the Settings app. This works slightly different
+than the other file types, because a Settings Bundle is a collection of several files and might already exist in your app. 
+Just specify `--file-type settings-bundle` on the command execution.
+
+**Important:** The `Root.plist` and `Root.strings` files will (unlike the other files) only be created if they not already exists,
+otherwise it would remove exisiting configurations. Make sure you set up the `Acknowledgements.plist` correctly as a Child Pane as shown below:
+
+```xml
+<dict>
+    <key>Type</key>
+    <string>PSChildPaneSpecifier</string>
+    <key>Title</key>
+    <string>Acknowledgements</string>
+    <key>File</key>
+    <string>Acknowledgements</string>
+</dict>
+```
+
+For more information on how to set up and use a Settings Bundle, take a look at Apple's [documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/UserDefaults/Preferences/Preferences.html).
 
 
 ## Swift Package
@@ -148,7 +170,19 @@ var body: some View {
 }
 ```
 
-> It is currently localized in English and German.
+
+## Localization
+
+The Settings Bundle and the UI-components are currently localized in the following languages:
+
+<details>
+<summary>Languages</summary>
+
+- English
+- German
+</details>
+
+> If a language is missing, feel free to create an issue or open a pull request.
 
 
 ## License

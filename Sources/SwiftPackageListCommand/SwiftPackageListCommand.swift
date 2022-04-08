@@ -28,7 +28,7 @@ struct SwiftPackageListCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
     var outputPath: String = "\(NSHomeDirectory())/Desktop"
     
-    @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json and plist.")
+    @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist and settings-bundle.")
     var fileType: FileType = .json
     
     @Flag(help: "Will skip the packages without a license-file.")
@@ -105,6 +105,11 @@ struct SwiftPackageListCommand: ParsableCommand {
             let plist = try plistEncoder.encode(packages)
             try plist.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.plist"))
             throw CleanExit.message("Generated package-list.plist at \(outputPath)")
+        case .settingsBundle:
+            let outputURL = URL(fileURLWithPath: outputPath)
+            let settingsBundle = SettingsBundle(outputURL: outputURL, packages: packages)
+            try settingsBundle.create()
+            throw CleanExit.message("Generated Settings.bundle at \(outputPath)")
         }
     }
 }
