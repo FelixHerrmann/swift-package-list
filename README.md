@@ -170,7 +170,19 @@ var body: some View {
 }
 ```
 
-> It is currently localized in English and German.
+
+## Localization
+
+The Settings Bundle and the UI-components are currently localized in the following languages:
+
+<details>
+<summary>Languages</summary>
+
+- English
+- German
+</details>
+
+> If a language is missing, feel free to create an issue or open a pull request.
 
 
 ## License
