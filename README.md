@@ -175,23 +175,21 @@ var body: some View {
 
 The Settings Bundle and the UI-components are currently localized in the following languages:
 
-<details>
-<summary>Languages</summary>
+| Name                 | Code    |
+| -------------------- | ------- |
+| Arabic               | ar      |
+| Chinese, Simplified  | zh-Hans |
+| Chinese, Traditional | zh-Hant |
+| English              | en      |
+| French               | fr      |
+| German               | de      |
+| Hindi                | hi      |
+| Italian              | it      |
+| Portuguese           | pt      |
+| Russian              | ru      |
+| Spanish              | es      |
 
-- Arabic (ar)
-- Chinese, Simplified (zh-Hans)
-- Chinese, Traditional (zh-Hant)
-- English (en)
-- French (fr)
-- German (de)
-- Hindi (hi)
-- Italian (it)
-- Portuguese (pt)
-- Russian (ru)
-- Spanish (es)
-</details>
-
-> If a language is missing, feel free to create an issue or open a pull request.
+> If a language has mistakes or is missing, feel free to create an issue or open a pull request.
 
 
 ## License
