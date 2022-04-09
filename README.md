@@ -83,7 +83,7 @@ than the other file types, because a Settings Bundle is a collection of several 
 Just specify `--file-type settings-bundle` on the command execution.
 
 **Important:** The `Root.plist` and `Root.strings` files will (unlike the other files) only be created if they not already exists,
-otherwise it would remove exisiting configurations. Make sure you set up the `Acknowledgements.plist` correctly as a Child Pane as shown below:
+otherwise it would remove existing configurations. Make sure you set up the `Acknowledgements.plist` correctly as a Child Pane as shown below:
 
 ```xml
 <dict>
@@ -175,14 +175,21 @@ var body: some View {
 
 The Settings Bundle and the UI-components are currently localized in the following languages:
 
-<details>
-<summary>Languages</summary>
+| Name                 | Code    |
+| -------------------- | ------- |
+| Arabic               | ar      |
+| Chinese, Simplified  | zh-Hans |
+| Chinese, Traditional | zh-Hant |
+| English              | en      |
+| French               | fr      |
+| German               | de      |
+| Hindi                | hi      |
+| Italian              | it      |
+| Portuguese           | pt      |
+| Russian              | ru      |
+| Spanish              | es      |
 
-- English
-- German
-</details>
-
-> If a language is missing, feel free to create an issue or open a pull request.
+> If a language has mistakes or is missing, feel free to create an issue or open a pull request.
 
 
 ## License
