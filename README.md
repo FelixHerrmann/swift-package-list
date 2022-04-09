@@ -83,7 +83,7 @@ than the other file types, because a Settings Bundle is a collection of several 
 Just specify `--file-type settings-bundle` on the command execution.
 
 **Important:** The `Root.plist` and `Root.strings` files will (unlike the other files) only be created if they not already exists,
-otherwise it would remove exisiting configurations. Make sure you set up the `Acknowledgements.plist` correctly as a Child Pane as shown below:
+otherwise it would remove existing configurations. Make sure you set up the `Acknowledgements.plist` correctly as a Child Pane as shown below:
 
 ```xml
 <dict>
