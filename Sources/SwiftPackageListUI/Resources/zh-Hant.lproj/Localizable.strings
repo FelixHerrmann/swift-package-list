@@ -1,0 +1,9 @@
+
+// Navigation bar title of the license list
+"acknowledgments.title" = "致謝";
+
+// Section title for the license list
+"acknowledgments.section-title" = "許可證";
+
+// Opens the repository in a browser window, only shown on iOS 12 and lower
+"license-text.repository-button-text" = "存儲庫";
