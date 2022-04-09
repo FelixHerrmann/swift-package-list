@@ -178,8 +178,17 @@ The Settings Bundle and the UI-components are currently localized in the followi
 <details>
 <summary>Languages</summary>
 
-- English
-- German
+- Arabic (ar)
+- Chinese, Simplified (zh-Hans)
+- Chinese, Traditional (zh-Hant)
+- English (en)
+- French (fr)
+- German (de)
+- Hindi (hi)
+- Italian (it)
+- Portuguese (pt)
+- Russian (ru)
+- Spanish (es)
 </details>
 
 > If a language is missing, feel free to create an issue or open a pull request.
