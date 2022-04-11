@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)
 
-A command-line tool to generate a JSON, PLIST or Settings.bundle file with all used SPM-dependencies of an Xcode project or workspace.
+A command-line tool to generate a JSON, PLIST, Settings.bundle or PDF file with all used SPM-dependencies of an Xcode project or workspace.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
 Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle
@@ -31,14 +31,14 @@ Open the terminal and run `swift-package-list <project-path>` with the path to t
 
 In addition to that you can specify the following options:
 
-| Option                                        | Description                                                                                                              |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                    |
-| -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                                                |
-| -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json, plist and settings-bundle. (default: json) |
-| --requires-license                            | Will skip the packages without a license-file.                                                                           |
-| --version                                     | Show the version.                                                                                                        |
-| -h, --help                                    | Show help information.                                                                                                   |
+| Option                                        | Description                                                                                                                   |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
+| -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                                                     |
+| -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
+| --requires-license                            | Will skip the packages without a license-file.                                                                                |
+| --version                                     | Show the version.                                                                                                             |
+| -h, --help                                    | Show help information.                                                                                                        |
 
 ### Run Script Phase
 
@@ -54,10 +54,11 @@ else
     echo "warning: swift-package-list not installed"
 fi
 ```
-3. optionally you can rename the Phase by double-clicking on the title
-4. build your project (cmd + b)
-5. right-click on the targets-folder in the sidebar and select *Add Files to "\<project-name\>"*
-6. select `package-list.json` in the Finder-window
+3. move the Phase above the `Copy Bundle Resources`-phase
+4. optionally you can rename the Phase by double-clicking on the title
+5. build your project (cmd + b)
+6. right-click on the targets-folder in the sidebar and select *Add Files to "\<project-name\>"*
+7. select `package-list.json` in the Finder-window
 
 The `package-list.json`-file will be updated now on every build and can be opened from the bundle in your app.
 You can do that manually or use the package for that (as follows).
@@ -97,6 +98,20 @@ otherwise it would remove existing configurations. Make sure you set up the `Ack
 ```
 
 For more information on how to set up and use a Settings Bundle, take a look at Apple's [documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/UserDefaults/Preferences/Preferences.html).
+
+### PDF
+
+On macOS it is more common to show a `Acknowledgments.pdf` file. Therefore you have the option to generate a PDF with all licenses.
+Just specify `--file-type pdf` on the command execution.
+
+It uses the project's file name (without extension) as the product name and, if present, the organization-name from the project file.
+You can set that in your project's file inspector as shown [here](https://stackoverflow.com/a/38395030/11342085).
+
+Once created and added to the project, it can be easily accessed from the application's bundle like the following:
+```swift
+let url = Bundle.main.url(forResource: "Acknowledgements", withExtension: "pdf")
+```
+You can then use [QuickLook](https://developer.apple.com/documentation/quicklook), [NSWorkspace.open(\_:)](https://developer.apple.com/documentation/appkit/nsworkspace/1533463-open) or any other method to display the PDF.
 
 
 ## Swift Package

@@ -1,5 +1,5 @@
 //
-//  SettingsBundle+Language.swift
+//  SettingsBundleBuilder+Language.swift
 //  SwiftPackageListCommand
 //
 //  Created by Felix Herrmann on 08.04.22.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension SettingsBundle {
+extension SettingsBundleBuilder {
     
     enum Language: String, CaseIterable {
         case ar
@@ -24,7 +24,7 @@ extension SettingsBundle {
     }
 }
 
-extension SettingsBundle.Language {
+extension SettingsBundleBuilder.Language {
     
     private enum RootStringsKey: String {
         case acknowledgements = "Acknowledgements"
@@ -80,7 +80,7 @@ extension SettingsBundle.Language {
     }
 }
 
-extension SettingsBundle.Language {
+extension SettingsBundleBuilder.Language {
     
     private enum AcknowledgementsStringsKey: String {
         case licenses = "Licenses"
@@ -136,7 +136,7 @@ extension SettingsBundle.Language {
     }
 }
 
-extension SettingsBundle.Language {
+extension SettingsBundleBuilder.Language {
 
     var rootFileData: Data {
         let fileString = rootStrings

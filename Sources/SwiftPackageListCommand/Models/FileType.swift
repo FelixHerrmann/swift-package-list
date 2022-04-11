@@ -12,4 +12,5 @@ enum FileType: String, CaseIterable, ExpressibleByArgument {
     case json
     case plist
     case settingsBundle = "settings-bundle"
+    case pdf
 }
