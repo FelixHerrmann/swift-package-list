@@ -107,8 +107,8 @@ struct SwiftPackageListCommand: ParsableCommand {
             throw CleanExit.message("Generated package-list.plist at \(outputPath)")
         case .settingsBundle:
             let outputURL = URL(fileURLWithPath: outputPath)
-            let settingsBundle = SettingsBundle(outputURL: outputURL, packages: packages)
-            try settingsBundle.create()
+            let settingsBundleBuilder = SettingsBundleBuilder(outputURL: outputURL, packages: packages)
+            try settingsBundleBuilder.build()
             throw CleanExit.message("Generated Settings.bundle at \(outputPath)")
         case .pdf:
             let outputURL = URL(fileURLWithPath: outputPath)

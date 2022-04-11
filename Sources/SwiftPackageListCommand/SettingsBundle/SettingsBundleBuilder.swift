@@ -1,5 +1,5 @@
 //
-//  SettingsBundle.swift
+//  SettingsBundleBuilder.swift
 //  SwiftPackageListCommand
 //
 //  Created by Felix Herrmann on 07.04.22.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftPackageList
 
-struct SettingsBundle {
+struct SettingsBundleBuilder {
     
     private let url: URL
     private let packagesURL: URL
@@ -27,7 +27,7 @@ struct SettingsBundle {
         self.packages = packages
     }
     
-    func create() throws {
+    func build() throws {
         try fileManager.createDirectory(at: url, withIntermediateDirectories: true)
         try createRootPlist()
         try createAcknowledgementsPlist()

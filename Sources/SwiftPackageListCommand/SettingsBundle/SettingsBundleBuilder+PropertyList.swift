@@ -1,5 +1,5 @@
 //
-//  SettingsBundle+PropertyList.swift
+//  SettingsBundleBuilder+PropertyList.swift
 //  SwiftPackageListCommand
 //
 //  Created by Felix Herrmann on 08.04.22.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension SettingsBundle {
+extension SettingsBundleBuilder {
     
     enum SpecifierType: String, Encodable {
         case group = "PSGroupSpecifier"
@@ -27,13 +27,13 @@ extension SettingsBundle {
     }
 }
 
-extension SettingsBundle.Specifier {
+extension SettingsBundleBuilder.Specifier {
     
-    static func group(title: String? = nil, footerText: String? = nil) -> SettingsBundle.Specifier {
-        return SettingsBundle.Specifier(Type: .group, Title: title, FooterText: footerText)
+    static func group(title: String? = nil, footerText: String? = nil) -> SettingsBundleBuilder.Specifier {
+        return SettingsBundleBuilder.Specifier(Type: .group, Title: title, FooterText: footerText)
     }
     
-    static func childPane(title: String, file: String) -> SettingsBundle.Specifier {
-        return SettingsBundle.Specifier(Type: .childPane, Title: title, File: file)
+    static func childPane(title: String, file: String) -> SettingsBundleBuilder.Specifier {
+        return SettingsBundleBuilder.Specifier(Type: .childPane, Title: title, File: file)
     }
 }
