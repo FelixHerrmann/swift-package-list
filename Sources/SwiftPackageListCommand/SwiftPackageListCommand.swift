@@ -28,7 +28,7 @@ struct SwiftPackageListCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
     var outputPath: String = "\(NSHomeDirectory())/Desktop"
     
-    @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist and settings-bundle.")
+    @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf.")
     var fileType: FileType = .json
     
     @Flag(help: "Will skip the packages without a license-file.")
@@ -49,7 +49,7 @@ struct SwiftPackageListCommand: ParsableCommand {
         let packageDotResolved = try Data(contentsOf: project.packageDotResolvedFileURL)
         
         let packages = try createPackages(from: packageDotResolved, checkoutsPath: checkoutsPath)
-        try writeOutputFile(for: packages)
+        try writeOutputFile(for: packages, project: project)
     }
     
     func createPackages(from packageDotResolved: Data, checkoutsPath: URL) throws -> [Package] {
@@ -91,7 +91,7 @@ struct SwiftPackageListCommand: ParsableCommand {
         }
     }
     
-    func writeOutputFile(for packages: [Package]) throws {
+    func writeOutputFile(for packages: [Package], project: Project) throws {
         switch fileType {
         case .json:
             let jsonEncoder = JSONEncoder()
@@ -110,6 +110,11 @@ struct SwiftPackageListCommand: ParsableCommand {
             let settingsBundle = SettingsBundle(outputURL: outputURL, packages: packages)
             try settingsBundle.create()
             throw CleanExit.message("Generated Settings.bundle at \(outputPath)")
+        case .pdf:
+            let outputURL = URL(fileURLWithPath: outputPath)
+            let pdfBuilder = PDFBuilder(outputURL: outputURL, packages: packages, project: project)
+            try pdfBuilder.build()
+            throw CleanExit.message("Generated Acknowledgements.pdf at \(outputPath)")
         }
     }
 }
