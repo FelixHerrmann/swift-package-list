@@ -57,12 +57,8 @@ extension Project {
             case .xcworkspace(let fileURL):
                 let contentsURL = fileURL.appendingPathComponent("contents.xcworkspacedata")
                 let contentsString = try String(contentsOf: contentsURL)
-                let contentsRegex = try NSRegularExpression(pattern: "(?<=location = \"group:).*(?=\")")
-                let locationMatches = contentsRegex.matches(in: contentsString, range: NSRange(location: 0, length: contentsString.count))
-                let locationResults = locationMatches
-                    .map { String(contentsString[Range($0.range, in: contentsString)!]) }
-                    .filter { !$0.contains("Pods.xcodeproj") }
-                guard let firstLocation = locationResults.first else {
+                let locations = try regex("(?<=location = \"group:).*(?=\")", on: contentsString).filter { !$0.contains("Pods.xcodeproj") }
+                guard let firstLocation = locations.first else {
                     return nil
                 }
                 projectFileURL = fileURL.deletingLastPathComponent().appendingPathComponent(firstLocation)
@@ -70,14 +66,22 @@ extension Project {
             
             let projectURL = projectFileURL.appendingPathComponent("project.pbxproj")
             let projectString = try String(contentsOf: projectURL)
-            let projectRegex = try NSRegularExpression(pattern: "(?<=ORGANIZATIONNAME = \").*(?=\";)")
-            let organizationMatches = projectRegex.matches(in: projectString, range: NSRange(location: 0, length: projectString.count))
-            let organizationResults = organizationMatches.map { String(projectString[Range($0.range, in: projectString)!]) }
-            
-            return organizationResults.first
+            let organizationNames = try regex("(?<=ORGANIZATIONNAME = \").*(?=\";)", on: projectString)
+            if organizationNames.isEmpty {
+                let organizationNamesWithoutQuotes = try regex("(?<=ORGANIZATIONNAME = ).*(?=;)", on: projectString)
+                return organizationNamesWithoutQuotes.first
+            } else {
+                return organizationNames.first
+            }
         } catch {
             print("Warning: Could not find the organization name in your project")
             return nil
         }
+    }
+    
+    private func regex(_ pattern: String, on fileContent: String) throws -> [String] {
+        let regex = try NSRegularExpression(pattern: pattern)
+        let matches = regex.matches(in: fileContent, range: NSRange(location: 0, length: fileContent.count))
+        return matches.map { String(fileContent[Range($0.range, in: fileContent)!]) }
     }
 }
