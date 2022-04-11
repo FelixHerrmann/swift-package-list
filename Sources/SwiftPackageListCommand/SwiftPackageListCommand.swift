@@ -36,7 +36,7 @@ struct SwiftPackageListCommand: ParsableCommand {
     
     mutating func run() throws {
         guard let project = Project(path: projectPath) else {
-            throw RuntimeError("The project file is not an Xcode Project or Workspace")
+            throw ValidationError("The project file is not an Xcode Project or Workspace")
         }
         
         guard let checkoutsPath = try locateCheckoutsPath(project: project) else {
