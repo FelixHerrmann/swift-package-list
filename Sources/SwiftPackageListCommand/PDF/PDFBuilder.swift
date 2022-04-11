@@ -87,12 +87,18 @@ struct PDFBuilder {
             let packageName = NSAttributedString(string: package.name, attributes: [.font: boldFont])
             attributedString.append(packageName)
             
+            attributedString.append(NSAttributedString(string: "\n", attributes: [.font: defaultFont]))
+            
             let licenseString = (package.license ?? "No license")
                 .replacingOccurrences(of: "\n", with: " ")
                 .replacingOccurrences(of: " {2,}", with: " ", options: .regularExpression)
                 .trimmingCharacters(in: .whitespacesAndNewlines)
-            let packageLicense = NSAttributedString(string: "\n" + licenseString + "\n\n", attributes: [.font: defaultFont])
+            let packageLicense = NSAttributedString(string: licenseString, attributes: [.font: defaultFont])
             attributedString.append(packageLicense)
+            
+            if package != packages.last {
+                attributedString.append(NSAttributedString(string: "\n\n", attributes: [.font: defaultFont]))
+            }
         }
         
         return attributedString
