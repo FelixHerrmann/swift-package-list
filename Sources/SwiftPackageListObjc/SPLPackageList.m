@@ -32,7 +32,7 @@ NSArray<SPLPackage *> *SPLPackageListFromBundleWithFileName(NSBundle *bundle, NS
     if (jsonPath) {
         NSURL *jsonPathURL = [NSURL fileURLWithPath:jsonPath];
         NSData *jsonData = [NSData dataWithContentsOfURL:jsonPathURL options:kNilOptions error:errorPtr];
-        if (jsonData && [NSJSONSerialization isValidJSONObject:jsonData]) {
+        if (jsonData) {
             NSArray *jsonObject = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:errorPtr];
             if (jsonObject) {
                 return SPLTransformArray(jsonObject);
@@ -45,7 +45,7 @@ NSArray<SPLPackage *> *SPLPackageListFromBundleWithFileName(NSBundle *bundle, NS
     if (plistPath) {
         NSURL *plistPathURL = [NSURL fileURLWithPath:plistPath];
         NSData *plistData = [NSData dataWithContentsOfURL:plistPathURL options:kNilOptions error:errorPtr];
-        if (plistData && [NSPropertyListSerialization propertyList:plistData isValidForFormat:NSPropertyListXMLFormat_v1_0]) {
+        if (plistData) {
             NSArray *propertyList = [NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListMutableContainers format:nil error:errorPtr];
             if (propertyList) {
                 return SPLTransformArray(propertyList);
