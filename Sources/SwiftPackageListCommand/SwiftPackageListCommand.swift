@@ -31,6 +31,9 @@ struct SwiftPackageListCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf.")
     var fileType: FileType = .json
     
+    @Option(name: .shortAndLong, help: "A custom filename to be used instead of the default ones.")
+    var customFileName: String?
+    
     @Flag(help: "Will skip the packages without a license-file.")
     var requiresLicense: Bool = false
     
@@ -97,24 +100,28 @@ struct SwiftPackageListCommand: ParsableCommand {
             let jsonEncoder = JSONEncoder()
             jsonEncoder.outputFormatting = .prettyPrinted
             let json = try jsonEncoder.encode(packages)
-            try json.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.json"))
-            throw CleanExit.message("Generated package-list.json at \(outputPath)")
+            let fileName = "\(customFileName ?? "package-list").json"
+            try json.write(to: URL(fileURLWithPath: "\(outputPath)/\(fileName)"))
+            throw CleanExit.message("Generated \(fileName) at \(outputPath)")
         case .plist:
             let plistEncoder = PropertyListEncoder()
             plistEncoder.outputFormat = .xml
             let plist = try plistEncoder.encode(packages)
-            try plist.write(to: URL(fileURLWithPath: "\(outputPath)/package-list.plist"))
-            throw CleanExit.message("Generated package-list.plist at \(outputPath)")
+            let fileName = "\(customFileName ?? "package-list").plist"
+            try plist.write(to: URL(fileURLWithPath: "\(outputPath)/\(fileName)"))
+            throw CleanExit.message("Generated \(fileName) at \(outputPath)")
         case .settingsBundle:
-            let outputURL = URL(fileURLWithPath: outputPath)
-            let settingsBundleBuilder = SettingsBundleBuilder(outputURL: outputURL, packages: packages)
+            let fileName = "\(customFileName ?? "Settings").bundle"
+            let url = URL(fileURLWithPath: "\(outputPath)/\(fileName)")
+            let settingsBundleBuilder = SettingsBundleBuilder(url: url, packages: packages)
             try settingsBundleBuilder.build()
-            throw CleanExit.message("Generated Settings.bundle at \(outputPath)")
+            throw CleanExit.message("Generated \(fileName) at \(outputPath)")
         case .pdf:
-            let outputURL = URL(fileURLWithPath: outputPath)
-            let pdfBuilder = PDFBuilder(outputURL: outputURL, packages: packages, project: project)
+            let fileName = "\(customFileName ?? "Acknowledgements").pdf"
+            let url = URL(fileURLWithPath: "\(outputPath)/\(fileName)")
+            let pdfBuilder = PDFBuilder(url: url, packages: packages, project: project)
             try pdfBuilder.build()
-            throw CleanExit.message("Generated Acknowledgements.pdf at \(outputPath)")
+            throw CleanExit.message("Generated \(fileName) at \(outputPath)")
         }
     }
 }

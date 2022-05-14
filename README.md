@@ -37,6 +37,7 @@ In addition to that you can specify the following options:
 | -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                                                     |
 | -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
 | --requires-license                            | Will skip the packages without a license-file.                                                                                |
+| -c, --custom-file-name <custom-file-name>     | A custom filename to be used instead of the default ones.                                                                     |
 | --version                                     | Show the version.                                                                                                             |
 | -h, --help                                    | Show help information.                                                                                                        |
 

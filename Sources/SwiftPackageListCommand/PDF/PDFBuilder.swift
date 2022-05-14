@@ -15,8 +15,8 @@ struct PDFBuilder {
     private let project: Project
     private let organizationName: String?
     
-    init(outputURL: URL, packages: [Package], project: Project) {
-        self.url = outputURL.appendingPathComponent("Acknowledgements.pdf")
+    init(url: URL, packages: [Package], project: Project) {
+        self.url = url
         self.packages = packages
         self.project = project
         self.organizationName = project.findOrganizationName()
