@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// A package object in the package-list.json or package-list.plist.
+/// A package object in the package-list file.
 @interface SPLPackage : NSObject
 
 /// The name of the package.
