@@ -18,7 +18,6 @@ import SwiftPackageList
 /// - Important: This view controller must be used inside a `UINavigationController` to function properly.
 open class SPLAcknowledgmentsTableViewController: UITableViewController {
     
-    
     // MARK: - Properties
     
     /// A boolean value indicating if a bar button item to open the repository is shown.
@@ -42,7 +41,6 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         }
     }
     
-    
     // MARK: - Initializers
     
     /// Initializes a table-view controller with the default style for a license list.
@@ -55,7 +53,6 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
             self.init(style: .grouped)
         }
     }
-    
     
     // MARK: - ViewController
     
@@ -76,7 +73,6 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         }
     }
     
-    
     // MARK: - Setup
     
     private func _setupNavigationBar() {
@@ -89,7 +85,6 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         tableView.register(_SPLLicenseTableViewCell.self, forCellReuseIdentifier: "licenseCell")
     }
 }
-
 
 // MARK: - UITableViewDataSource
 
@@ -115,7 +110,6 @@ extension SPLAcknowledgmentsTableViewController {
         return cell
     }
 }
-
 
 // MARK: - UITableViewDelegate
 

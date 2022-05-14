@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 // MARK: - Package
 
 /// A package object in the `package-list.json` or `package-list.plist`.
@@ -48,7 +47,6 @@ public struct Package: Hashable, Codable {
         self.license = license
     }
 }
-
 
 // MARK: - PackageList
 

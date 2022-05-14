@@ -9,7 +9,6 @@ import Foundation
 import ArgumentParser
 import SwiftPackageList
 
-
 // MARK: - Main
 
 @main
@@ -125,7 +124,6 @@ struct SwiftPackageListCommand: ParsableCommand {
         }
     }
 }
-
 
 // MARK: - Locate Files
 
