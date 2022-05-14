@@ -11,13 +11,12 @@ import UIKit
 import OSLog
 import SwiftPackageList
 
-/// A concrete subclass of a table-view controller that shows all licenses from the `package-list.json` or `package-list.plist` file in the specified bundle.
+/// A concrete subclass of a table-view controller that shows all licenses from the package-list file.
 ///
 /// All parameters of the table view can be customized to fit the app's appearance, only the used delegate and data-source methods should not be touched.
 ///
 /// - Important: This view controller must be used inside a `UINavigationController` to function properly.
 open class SPLAcknowledgmentsTableViewController: UITableViewController {
-    
     
     // MARK: - Properties
     
@@ -26,17 +25,21 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
     /// Default value of this property is `false`.
     @objc open var canOpenRepositoryLink: Bool = false
     
-    /// The bundle where the `package-list.json` or `package-list.plist` file is stored.
+    /// The bundle where the package-list file is stored.
     ///
     /// Default value of this property is `Bundle.main`.
     @objc open var packageListBundle: Bundle = .main
+    
+    /// The name of the package-list file.
+    ///
+    /// Default value of this property is `package-list`.
+    @objc open var packageListFileName: String = "package-list"
     
     private var _packages: [Package] = [] {
         didSet {
             tableView.reloadData()
         }
     }
-    
     
     // MARK: - Initializers
     
@@ -51,7 +54,6 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         }
     }
     
-    
     // MARK: - ViewController
     
     open override func viewDidLoad() {
@@ -61,7 +63,7 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         _setupTableView()
         
         do {
-            _packages = try packageList(bundle: packageListBundle)
+            _packages = try packageList(bundle: packageListBundle, fileName: packageListFileName)
         } catch {
             if #available(iOS 10.0, *) {
                 os_log("Error: %@", log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "SPLAcknowledgmentsTableViewController"), type: .error, String(describing: error))
@@ -70,7 +72,6 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
             }
         }
     }
-    
     
     // MARK: - Setup
     
@@ -84,7 +85,6 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         tableView.register(_SPLLicenseTableViewCell.self, forCellReuseIdentifier: "licenseCell")
     }
 }
-
 
 // MARK: - UITableViewDataSource
 
@@ -110,7 +110,6 @@ extension SPLAcknowledgmentsTableViewController {
         return cell
     }
 }
-
 
 // MARK: - UITableViewDelegate
 

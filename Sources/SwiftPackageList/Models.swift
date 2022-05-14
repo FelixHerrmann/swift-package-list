@@ -7,10 +7,9 @@
 
 import Foundation
 
-
 // MARK: - Package
 
-/// A package object in the `package-list.json` or `package-list.plist`.
+/// A package object in the package-list file.
 public struct Package: Hashable, Codable {
     
     /// The name of the package.
@@ -49,12 +48,11 @@ public struct Package: Hashable, Codable {
     }
 }
 
-
 // MARK: - PackageList
 
-/// The possible thrown errors of the `packageList(bundle:)` function.
+/// The possible thrown errors of the `packageList(bundle:fileName:)` function.
 public enum PackageListError: Error {
     
-    /// Couldn't find a `package-list.json` or `package-list.plist` file in the specified bundle.
+    /// Couldn't find a package-list file in the specified bundle for the specified file name.
     case noPackageList
 }

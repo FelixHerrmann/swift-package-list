@@ -26,9 +26,9 @@ NSArray<SPLPackage *> *SPLTransformArray(NSArray *array) {
 
 #pragma mark - Package List
 
-NSArray<SPLPackage *> *SPLPackageListFromBundle(NSBundle *bundle, NSError *__autoreleasing *errorPtr) {
+NSArray<SPLPackage *> *SPLPackageListFromBundleWithFileName(NSBundle *bundle, NSString *fileName, NSError *__autoreleasing *errorPtr) {
     
-    NSString *jsonPath = [bundle pathForResource:@"package-list" ofType:@"json"];
+    NSString *jsonPath = [bundle pathForResource:fileName ofType:@"json"];
     if (jsonPath) {
         NSURL *jsonPathURL = [NSURL fileURLWithPath:jsonPath];
         NSData *jsonData = [NSData dataWithContentsOfURL:jsonPathURL options:kNilOptions error:errorPtr];
@@ -41,7 +41,7 @@ NSArray<SPLPackage *> *SPLPackageListFromBundle(NSBundle *bundle, NSError *__aut
         return nil;
     }
     
-    NSString *plistPath = [bundle pathForResource:@"package-list" ofType:@"plist"];
+    NSString *plistPath = [bundle pathForResource:fileName ofType:@"plist"];
     if (plistPath) {
         NSURL *plistPathURL = [NSURL fileURLWithPath:plistPath];
         NSData *plistData = [NSData dataWithContentsOfURL:plistPathURL options:kNilOptions error:errorPtr];
@@ -65,6 +65,10 @@ NSArray<SPLPackage *> *SPLPackageListFromBundle(NSBundle *bundle, NSError *__aut
     return nil;
 }
 
+NSArray<SPLPackage *> *SPLPackageListFromBundle(NSBundle *bundle, NSError *__autoreleasing *errorPtr) {
+    return SPLPackageListFromBundleWithFileName(bundle, @"package-list", errorPtr);
+}
+
 NSArray<SPLPackage *> *SPLPackageList(NSError *__autoreleasing *errorPtr) {
-    return SPLPackageListFromBundle([NSBundle mainBundle], errorPtr);
+    return SPLPackageListFromBundleWithFileName([NSBundle mainBundle], @"package-list", errorPtr);
 }

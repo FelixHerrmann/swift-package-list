@@ -21,8 +21,8 @@ struct SettingsBundleBuilder {
         return encoder
     }()
     
-    init(outputURL: URL, packages: [Package]) {
-        self.url = outputURL.appendingPathComponent("Settings.bundle")
+    init(url: URL, packages: [Package]) {
+        self.url = url
         self.packagesURL = url.appendingPathComponent("Packages")
         self.packages = packages
     }

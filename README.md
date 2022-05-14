@@ -7,8 +7,7 @@
 A command-line tool to generate a JSON, PLIST, Settings.bundle or PDF file with all used SPM-dependencies of an Xcode project or workspace.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
-Additionally there is a Swift Package to read the generated `package-list.json` or `package-list.plist` from the application's bundle
-with a top-level function or pre-build UI.
+Additionally there is a Swift Package to read the generated package-list file from the application's bundle with a top-level function or pre-build UI.
 
 
 ## Command-Line Tool
@@ -36,13 +35,14 @@ In addition to that you can specify the following options:
 | -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
 | -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                                                     |
 | -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
+| -c, --custom-file-name <custom-file-name>     | A custom filename to be used instead of the default ones.                                                                     |
 | --requires-license                            | Will skip the packages without a license-file.                                                                                |
 | --version                                     | Show the version.                                                                                                             |
 | -h, --help                                    | Show help information.                                                                                                        |
 
 ### Run Script Phase
 
-You can easily set up a Run Script Phase in your target of your Xcode project to keep the `package-list.json` up to date automatically:
+You can easily set up a Run Script Phase in your target of your Xcode project to keep the package-list file up to date automatically:
 
 1. open the corresponding target and click on the plus under the *Build Phases* section
 2. select *New Run Script Phase* and add the following script into the code box:
@@ -60,8 +60,8 @@ fi
 6. right-click on the targets-folder in the sidebar and select *Add Files to "\<project-name\>"*
 7. select `package-list.json` in the Finder-window
 
-The `package-list.json`-file will be updated now on every build and can be opened from the bundle in your app.
-You can do that manually or use the package for that (as follows).
+The package-list file will be updated now on every build and can be opened from the bundle in your app.
+You can do that manually or use the [Swift Package](#swift-package) for that.
 
 #### Xcode Workspace (CocoaPods)
 

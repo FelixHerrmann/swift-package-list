@@ -13,7 +13,6 @@ import SwiftPackageList
 
 internal final class _SPLLicenseTextViewController: UIViewController {
     
-    
     // MARK: - Properties
     
     private let _package: Package
@@ -21,7 +20,6 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     private let _canOpenRepositoryLink: Bool
     
     private let _textView = UITextView()
-    
     
     // MARK: - Initializers
     
@@ -35,7 +33,6 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     // MARK: - ViewController
     
@@ -57,7 +54,6 @@ internal final class _SPLLicenseTextViewController: UIViewController {
         let horizontalInset = _textView.readableContentGuide.layoutFrame.origin.x
         _textView.textContainerInset = UIEdgeInsets(top: 20, left: horizontalInset, bottom: 20, right: horizontalInset)
     }
-    
     
     // MARK: - Setup
     
@@ -91,13 +87,11 @@ internal final class _SPLLicenseTextViewController: UIViewController {
         _textView.preservesSuperviewLayoutMargins = true
     }
     
-    
     // MARK: - Selector Methods
     
     @objc private func _handleRepositoryBarButtonItemPress() {
         _openRepositoryLink()
     }
-    
     
     // MARK: - Methods
     

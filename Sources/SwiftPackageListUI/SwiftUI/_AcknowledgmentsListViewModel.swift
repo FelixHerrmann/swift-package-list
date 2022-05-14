@@ -15,9 +15,9 @@ internal final class _AcknowledgmentsListViewModel: ObservableObject {
     @Published
     internal var _packages: [Package] = []
     
-    internal init(packageListBundle: Bundle) {
+    internal init(packageListBundle: Bundle, packageListFileName: String) {
         do {
-            _packages = try packageList(bundle: packageListBundle)
+            _packages = try packageList(bundle: packageListBundle, fileName: packageListFileName)
         } catch {
             os_log("Error: %@", log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "SPLAcknowledgmentsTableViewController"), type: .error, String(describing: error))
         }

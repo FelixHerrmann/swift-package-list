@@ -15,7 +15,7 @@ NSErrorDomain const SPLErrorDomain;
 /// The possible thrown errors of the SPLPackageList function.
 NS_ERROR_ENUM(SPLErrorDomain, SPLErrorCode) {
     
-    /// Couldn't find a package-list.json or package-list.plist file in the specified bundle.
+    /// Couldn't find a package-list file in the specified bundle and specified file name.
     SPLErrorNoPackageList = 100,
 };
 

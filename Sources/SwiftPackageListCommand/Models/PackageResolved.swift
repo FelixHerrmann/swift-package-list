@@ -7,14 +7,12 @@
 
 import Foundation
 
-
 // MARK: - Version
 
 enum PackageResolvedVersion: Int {
     case v1 = 1
     case v2
 }
-
 
 // MARK: - V1
 
@@ -48,7 +46,6 @@ extension PackageResolved_V1.Object.Pin {
         URL(string: repositoryURL.replacingOccurrences(of: ".git", with: ""))
     }
 }
-
 
 // MARK: - V2
 
