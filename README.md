@@ -61,7 +61,7 @@ fi
 7. select `package-list.json` in the Finder-window
 
 The package-list file will be updated now on every build and can be opened from the bundle in your app.
-You can do that manually or use the [Swift Package](## Swift Package) for that.
+You can do that manually or use the [Swift Package](#swift-package) for that.
 
 #### Xcode Workspace (CocoaPods)
 
