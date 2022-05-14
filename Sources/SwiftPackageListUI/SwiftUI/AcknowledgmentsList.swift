@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-/// A `List` that shows all licenses from the `package-list.json` or `package-list.plist` file in the specified bundle.
+/// A `List` that shows all licenses from the package-list file.
 ///
 /// It can be used as the root view in a `NavigationView`:
 /// ```swift
@@ -41,11 +41,12 @@ public struct AcknowledgmentsList: View {
     @ObservedObject
     private var _viewModel: _AcknowledgmentsListViewModel
     
-    /// Creates a ``AcknowledgmentsList`` with a specified bundle.
+    /// Creates a ``AcknowledgmentsList`` for a package-list file.
     /// - Parameters:
-    ///   - packageListBundle: The bundle where the `package-list.json` or `package-list.plist` file is stored. Default value is `Bundle.main`.
-    public init(packageListBundle: Bundle = .main) {
-        _viewModel = _AcknowledgmentsListViewModel(packageListBundle: packageListBundle)
+    ///   - packageListBundle: The bundle where the package-list file is stored. Default's to `Bundle.main`.
+    ///   - packageListFileName: The name of the package-list file. Default's to `package-list`.
+    public init(packageListBundle: Bundle = .main, packageListFileName: String = "package-list") {
+        _viewModel = _AcknowledgmentsListViewModel(packageListBundle: packageListBundle, packageListFileName: packageListFileName)
     }
     
     public var body: some View {
