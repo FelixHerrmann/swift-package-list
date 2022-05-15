@@ -6,12 +6,76 @@
 //
 
 import Foundation
+import SwiftPackageList
 
-// MARK: - Version
+enum PackageResolved {
+    case v1(PackageResolved_V1)
+    case v2(PackageResolved_V2)
+}
 
-enum PackageResolvedVersion: Int {
-    case v1 = 1
-    case v2
+extension PackageResolved {
+    
+    init(from packageResolvedData: Data) throws {
+        let packageResolvedJSON = try JSONSerialization.jsonObject(with: packageResolvedData) as? [String: Any]
+        let version = packageResolvedJSON?["version"] as? Int
+        
+        switch version {
+        case 1:
+            let packageResolved = try JSONDecoder().decode(PackageResolved_V1.self, from: packageResolvedData)
+            self = .v1(packageResolved)
+        case 2:
+            let packageResolved = try JSONDecoder().decode(PackageResolved_V2.self, from: packageResolvedData)
+            self = .v2(packageResolved)
+        default:
+            throw RuntimeError("The version of the Package.resolved is not supported")
+        }
+    }
+}
+
+extension PackageResolved {
+    
+    func packages(in checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+        switch self {
+        case .v1(let packageResolved):
+            return try packageResolved.object.pins.compactMap { pin -> Package? in
+                guard let checkoutURL = pin.checkoutURL else { return nil }
+                let name = checkoutURL.lastPathComponent
+                if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
+                    let license = try String(contentsOf: licensePath, encoding: .utf8)
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
+                } else if !requiresLicense {
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
+                }
+                return nil
+            }
+        case .v2(let packageResolved):
+            return try packageResolved.pins.compactMap { pin -> Package? in
+                guard let checkoutURL = pin.checkoutURL else { return nil }
+                let name = checkoutURL.lastPathComponent
+                if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
+                    let license = try String(contentsOf: licensePath, encoding: .utf8)
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
+                } else if !requiresLicense {
+                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
+                }
+                return nil
+            }
+        }
+    }
+    
+    private func licensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
+        let checkoutName = checkoutURL.lastPathComponent
+        let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
+        let packageFiles = try FileManager.default.contentsOfDirectory(at: checkoutPath, includingPropertiesForKeys: [.isRegularFileKey, .localizedNameKey], options: .skipsHiddenFiles)
+        
+        for packageFile in packageFiles {
+            if packageFile.deletingPathExtension().lastPathComponent.lowercased() == "license" {
+                return packageFile
+            }
+        }
+        
+        return nil
+    }
 }
 
 // MARK: - V1

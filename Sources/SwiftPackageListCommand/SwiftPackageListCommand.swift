@@ -41,56 +41,18 @@ struct SwiftPackageListCommand: ParsableCommand {
             throw ValidationError("The project file is not an Xcode Project or Workspace")
         }
         
-        guard let checkoutsPath = try locateCheckoutsPath(project: project) else {
+        guard let checkoutsDirectory = try project.checkoutsDirectory(in: derivedDataPath) else {
             throw RuntimeError("No checkouts-path found in your DerivedData-folder")
         }
         
         guard FileManager.default.fileExists(atPath: project.packageDotResolvedFileURL.path) else {
             throw CleanExit.message("This project has no Swift-Package dependencies")
         }
-        let packageDotResolved = try Data(contentsOf: project.packageDotResolvedFileURL)
+        let packageResolvedData = try Data(contentsOf: project.packageDotResolvedFileURL)
+        let packageResolved = try PackageResolved(from: packageResolvedData)
+        let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: requiresLicense)
         
-        let packages = try createPackages(from: packageDotResolved, checkoutsPath: checkoutsPath)
         try writeOutputFile(for: packages, project: project)
-    }
-    
-    func createPackages(from packageDotResolved: Data, checkoutsPath: URL) throws -> [Package] {
-        let packageDotResolvedJSON = try JSONSerialization.jsonObject(with: packageDotResolved) as? [String: Any]
-        let version = packageDotResolvedJSON?["version"] as? Int
-        let packageResolvedVersion = PackageResolvedVersion(rawValue: version ?? 0)
-        
-        switch packageResolvedVersion {
-        case .v1:
-            let packageResolved = try JSONDecoder().decode(PackageResolved_V1.self, from: packageDotResolved)
-            let packages = try packageResolved.object.pins.compactMap { pin -> Package? in
-                guard let checkoutURL = pin.checkoutURL else { return nil }
-                let name = checkoutURL.lastPathComponent
-                if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
-                    let license = try String(contentsOf: licensePath, encoding: .utf8)
-                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
-                } else if !requiresLicense {
-                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
-                }
-                return nil
-            }
-            return packages
-        case .v2:
-            let packageResolved = try JSONDecoder().decode(PackageResolved_V2.self, from: packageDotResolved)
-            let packages = try packageResolved.pins.compactMap { pin -> Package? in
-                guard let checkoutURL = pin.checkoutURL else { return nil }
-                let name = checkoutURL.lastPathComponent
-                if let licensePath = try locateLicensePath(for: checkoutURL, in: checkoutsPath) {
-                    let license = try String(contentsOf: licensePath, encoding: .utf8)
-                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: license)
-                } else if !requiresLicense {
-                    return Package(name: name, version: pin.state.version, branch: pin.state.branch, revision: pin.state.revision, repositoryURL: checkoutURL, license: nil)
-                }
-                return nil
-            }
-            return packages
-        case .none:
-            throw RuntimeError("The version of the Package.resolved is not supported")
-        }
     }
     
     func writeOutputFile(for packages: [Package], project: Project) throws {
@@ -102,40 +64,5 @@ struct SwiftPackageListCommand: ParsableCommand {
         try outputGenerator.generateOutput()
         throw CleanExit.message("Generated \(outputURL.path)")
     }
-}
-
-// MARK: - Locate Files
-
-extension SwiftPackageListCommand {
     
-    func locateCheckoutsPath(project: Project) throws -> URL? {
-        let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
-        
-        for derivedDataDirectory in derivedDataDirectories {
-            let projectFiles = try FileManager.default.contentsOfDirectory(at: derivedDataDirectory, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles])
-            guard let infoDotPlist = projectFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
-            let infoPlistData = try Data(contentsOf: infoDotPlist)
-            let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
-            if infoPlist.WorkspacePath == project.fileURL.path {
-                let checkoutsPath = derivedDataDirectory.appendingPathComponent("/SourcePackages/checkouts")
-                return checkoutsPath
-            }
-        }
-        
-        return nil
-    }
-
-    func locateLicensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
-        let checkoutName = checkoutURL.lastPathComponent
-        let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
-        let packageFiles = try FileManager.default.contentsOfDirectory(at: checkoutPath, includingPropertiesForKeys: [.isRegularFileKey, .localizedNameKey], options: .skipsHiddenFiles)
-        
-        for packageFile in packageFiles {
-            if packageFile.deletingPathExtension().lastPathComponent.lowercased() == "license" {
-                return packageFile
-            }
-        }
-        
-        return nil
-    }
 }
