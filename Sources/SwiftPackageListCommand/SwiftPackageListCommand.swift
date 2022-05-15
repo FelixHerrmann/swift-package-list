@@ -52,17 +52,17 @@ struct SwiftPackageListCommand: ParsableCommand {
         let packageResolved = try PackageResolved(from: packageResolvedData)
         let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: requiresLicense)
         
-        try writeOutputFile(for: packages, project: project)
+        let outputURL = try generateOutputFile(for: packages, project: project)
+        throw CleanExit.message("Generated \(outputURL.path)")
     }
     
-    func writeOutputFile(for packages: [Package], project: Project) throws {
+    private func generateOutputFile(for packages: [Package], project: Project) throws -> URL {
         let fileName = customFileName ?? fileType.defaultFileName
         let outputURL = URL(fileURLWithPath: outputPath)
             .appendingPathComponent(fileName)
             .appendingPathExtension(fileType.fileExtension)
         let outputGenerator = fileType.outputGenerator(outputURL: outputURL, packages: packages, project: project)
         try outputGenerator.generateOutput()
-        throw CleanExit.message("Generated \(outputURL.path)")
+        return outputURL
     }
-    
 }
