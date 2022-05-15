@@ -1,6 +1,6 @@
 //
-//  JSONGenerator.swift
-//  SwiftPackageListCommand
+//  PropertyListGenerator.swift
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 15.05.22.
 //
@@ -8,14 +8,14 @@
 import Foundation
 import SwiftPackageList
 
-struct JSONGenerator: OutputGenerator {
+struct PropertyListGenerator: OutputGenerator {
     
     private let outputURL: URL
     private let packages: [Package]
     
-    private let jsonEncoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
+    private let propertyListEncoder: PropertyListEncoder = {
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .xml
         return encoder
     }()
     
@@ -25,7 +25,7 @@ struct JSONGenerator: OutputGenerator {
     }
     
     func generateOutput() throws {
-        let jsonData = try jsonEncoder.encode(packages)
-        try jsonData.write(to: outputURL)
+        let propertyListData = try propertyListEncoder.encode(packages)
+        try propertyListData.write(to: outputURL)
     }
 }

@@ -1,6 +1,6 @@
 //
 //  PackageResolved.swift
-//  SwiftPackageListCommand
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 15.03.22.
 //
@@ -8,14 +8,14 @@
 import Foundation
 import SwiftPackageList
 
-enum PackageResolved {
+public enum PackageResolved {
     case v1(PackageResolved_V1)
     case v2(PackageResolved_V2)
 }
 
 extension PackageResolved {
     
-    init(at url: URL) throws {
+    public init(at url: URL) throws {
         let packageResolvedData = try Data(contentsOf: url)
         let packageResolvedJSON = try JSONSerialization.jsonObject(with: packageResolvedData) as? [String: Any]
         let version = packageResolvedJSON?["version"] as? Int
@@ -35,7 +35,7 @@ extension PackageResolved {
 
 extension PackageResolved {
     
-    func packages(in checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    public func packages(in checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         switch self {
         case .v1(let packageResolved):
             return try packageResolved.object.pins.compactMap { pin -> Package? in
@@ -81,7 +81,7 @@ extension PackageResolved {
 
 // MARK: - V1
 
-struct PackageResolved_V1: Decodable {
+public struct PackageResolved_V1: Decodable {
     
     struct Object: Decodable {
         
@@ -114,7 +114,7 @@ extension PackageResolved_V1.Object.Pin {
 
 // MARK: - V2
 
-struct PackageResolved_V2: Decodable {
+public struct PackageResolved_V2: Decodable {
     
     struct Pin: Decodable {
         

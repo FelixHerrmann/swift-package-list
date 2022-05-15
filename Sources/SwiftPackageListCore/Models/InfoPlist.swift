@@ -1,6 +1,6 @@
 //
 //  InfoPlist.swift
-//  SwiftPackageListCommand
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 15.03.22.
 //

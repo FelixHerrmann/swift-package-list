@@ -25,6 +25,9 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "SwiftPackageListCommand",
+            dependencies: ["SwiftPackageListCore"]),
+        .target(
+            name: "SwiftPackageListCore",
             dependencies: [
                 .target(name: "SwiftPackageList"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),

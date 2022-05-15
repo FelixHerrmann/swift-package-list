@@ -1,6 +1,6 @@
 //
 //  OutputGenerator.swift
-//  SwiftPackageListCommand
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 15.05.22.
 //
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftPackageList
 
-protocol OutputGenerator {
+public protocol OutputGenerator {
     init(outputURL: URL, packages: [Package], project: Project)
     func generateOutput() throws
 }

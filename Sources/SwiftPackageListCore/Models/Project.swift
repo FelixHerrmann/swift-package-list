@@ -1,20 +1,20 @@
 //
 //  Project.swift
-//  SwiftPackageListCommand
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 15.03.22.
 //
 
 import Foundation
 
-enum Project {
+public enum Project {
     case xcodeproj(fileURL: URL)
     case xcworkspace(fileURL: URL)
 }
 
 extension Project {
     
-    init?(path: String) {
+    public init?(path: String) {
         let fileURL = URL(fileURLWithPath: path)
         switch fileURL.pathExtension {
         case "xcodeproj":
@@ -36,7 +36,7 @@ extension Project {
         }
     }
     
-    var packageDotResolvedFileURL: URL {
+    public var packageDotResolvedFileURL: URL {
         switch self {
         case .xcodeproj(let fileURL):
             return fileURL.appendingPathComponent("project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
@@ -48,7 +48,7 @@ extension Project {
 
 extension Project {
     
-    func checkoutsDirectory(in derivedDataPath: String) throws -> URL? {
+    public func checkoutsDirectory(in derivedDataPath: String) throws -> URL? {
         let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
         
         for derivedDataDirectory in derivedDataDirectories {

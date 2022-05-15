@@ -1,6 +1,6 @@
 //
 //  SettingsBundleGenerator.swift
-//  SwiftPackageListCommand
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 07.04.22.
 //

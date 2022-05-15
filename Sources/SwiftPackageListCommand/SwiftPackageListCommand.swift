@@ -7,7 +7,7 @@
 
 import Foundation
 import ArgumentParser
-import SwiftPackageList
+import SwiftPackageListCore
 
 // MARK: - Main
 

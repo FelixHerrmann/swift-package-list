@@ -1,6 +1,6 @@
 //
 //  FileType.swift
-//  SwiftPackageListCommand
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 15.03.22.
 //
@@ -9,7 +9,7 @@ import Foundation
 import ArgumentParser
 import SwiftPackageList
 
-enum FileType: String, CaseIterable, ExpressibleByArgument {
+public enum FileType: String, CaseIterable, ExpressibleByArgument {
     case json
     case plist
     case settingsBundle = "settings-bundle"
@@ -39,14 +39,14 @@ extension FileType {
 
 extension FileType {
     
-    func outputURL(at outputPath: String, customFileName: String?) -> URL {
+    public func outputURL(at outputPath: String, customFileName: String?) -> URL {
         let fileName = customFileName ?? defaultFileName
         return URL(fileURLWithPath: outputPath)
             .appendingPathComponent(fileName)
             .appendingPathExtension(fileExtension)
     }
     
-    func outputGenerator(outputURL: URL, packages: [Package], project: Project) -> any OutputGenerator {
+    public func outputGenerator(outputURL: URL, packages: [Package], project: Project) -> any OutputGenerator {
         switch self {
         case .json: return JSONGenerator(outputURL: outputURL, packages: packages, project: project)
         case .plist: return PropertyListGenerator(outputURL: outputURL, packages: packages, project: project)

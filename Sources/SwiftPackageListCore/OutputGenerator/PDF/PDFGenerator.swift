@@ -1,6 +1,6 @@
 //
 //  PDFGenerator.swift
-//  SwiftPackageListCommand
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 11.04.22.
 //
