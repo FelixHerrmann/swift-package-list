@@ -18,7 +18,7 @@ enum FileType: String, CaseIterable, ExpressibleByArgument {
 
 extension FileType {
     
-    var fileExtension: String {
+    private var fileExtension: String {
         switch self {
         case .json: return "json"
         case .plist: return "plist"
@@ -27,7 +27,7 @@ extension FileType {
         }
     }
     
-    var defaultFileName: String {
+    private var defaultFileName: String {
         switch self {
         case .json: return "package-list"
         case .plist: return "package-list"
@@ -38,6 +38,13 @@ extension FileType {
 }
 
 extension FileType {
+    
+    func outputURL(at outputPath: String, customFileName: String?) -> URL {
+        let fileName = customFileName ?? defaultFileName
+        return URL(fileURLWithPath: outputPath)
+            .appendingPathComponent(fileName)
+            .appendingPathExtension(fileExtension)
+    }
     
     func outputGenerator(outputURL: URL, packages: [Package], project: Project) -> any OutputGenerator {
         switch self {
