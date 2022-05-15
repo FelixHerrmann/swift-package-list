@@ -1,5 +1,5 @@
 //
-//  SettingsBundleBuilder.swift
+//  SettingsBundleGenerator.swift
 //  SwiftPackageListCommand
 //
 //  Created by Felix Herrmann on 07.04.22.
@@ -8,9 +8,9 @@
 import Foundation
 import SwiftPackageList
 
-struct SettingsBundleBuilder {
+struct SettingsBundleGenerator: OutputGenerator {
     
-    private let url: URL
+    private let outputURL: URL
     private let packagesURL: URL
     private let packages: [Package]
     
@@ -21,14 +21,14 @@ struct SettingsBundleBuilder {
         return encoder
     }()
     
-    init(url: URL, packages: [Package]) {
-        self.url = url
-        self.packagesURL = url.appendingPathComponent("Packages")
+    init(outputURL: URL, packages: [Package], project: Project) {
+        self.outputURL = outputURL
+        self.packagesURL = outputURL.appendingPathComponent("Packages")
         self.packages = packages
     }
     
-    func build() throws {
-        try fileManager.createDirectory(at: url, withIntermediateDirectories: true)
+    func generateOutput() throws {
+        try fileManager.createDirectory(at: outputURL, withIntermediateDirectories: true)
         try createRootPlist()
         try createAcknowledgementsPlist()
         
@@ -43,7 +43,7 @@ struct SettingsBundleBuilder {
     }
     
     private func createRootPlist() throws {
-        let rootURL = url.appendingPathComponent("Root.plist")
+        let rootURL = outputURL.appendingPathComponent("Root.plist")
         guard !fileManager.fileExists(atPath: rootURL.path) else { return }
         let rootSpecifiers: [Specifier] = [.childPane(title: "Acknowledgements", file: "Acknowledgements")]
         let rootPlist = PropertyList(StringsTable: "Root", PreferenceSpecifiers: rootSpecifiers)
@@ -56,7 +56,7 @@ struct SettingsBundleBuilder {
         let acknowledgementsSpecifiers: [Specifier] = [.group(title: "Licenses")] + packageChildPanges
         let acknowledgementsPlist = PropertyList(StringsTable: "Acknowledgements", PreferenceSpecifiers: acknowledgementsSpecifiers)
         let encodedAcknowledgements = try encoder.encode(acknowledgementsPlist)
-        let acknowledgementsURL = url.appendingPathComponent("Acknowledgements.plist")
+        let acknowledgementsURL = outputURL.appendingPathComponent("Acknowledgements.plist")
         try encodedAcknowledgements.write(to: acknowledgementsURL)
     }
     
@@ -69,7 +69,7 @@ struct SettingsBundleBuilder {
     }
     
     private func createStringsFile(for language: Language) throws {
-        let languageURL = url.appendingPathComponent("\(language.rawValue).lproj")
+        let languageURL = outputURL.appendingPathComponent("\(language.rawValue).lproj")
         try fileManager.createDirectory(at: languageURL, withIntermediateDirectories: true)
         
         let rootStringsURL = languageURL.appendingPathComponent("Root.strings")

@@ -7,10 +7,44 @@
 
 import Foundation
 import ArgumentParser
+import SwiftPackageList
 
 enum FileType: String, CaseIterable, ExpressibleByArgument {
     case json
     case plist
     case settingsBundle = "settings-bundle"
     case pdf
+}
+
+extension FileType {
+    
+    var fileExtension: String {
+        switch self {
+        case .json: return "json"
+        case .plist: return "plist"
+        case .settingsBundle: return "bundle"
+        case .pdf: return "pdf"
+        }
+    }
+    
+    var defaultFileName: String {
+        switch self {
+        case .json: return "package-list"
+        case .plist: return "package-list"
+        case .settingsBundle: return "Settings"
+        case .pdf: return "Acknowledgements"
+        }
+    }
+}
+
+extension FileType {
+    
+    func outputGenerator(outputURL: URL, packages: [Package], project: Project) -> any OutputGenerator {
+        switch self {
+        case .json: return JSONGenerator(outputURL: outputURL, packages: packages, project: project)
+        case .plist: return PropertyListGenerator(outputURL: outputURL, packages: packages, project: project)
+        case .settingsBundle: return SettingsBundleGenerator(outputURL: outputURL, packages: packages, project: project)
+        case .pdf: return PDFGenerator(outputURL: outputURL, packages: packages, project: project)
+        }
+    }
 }
