@@ -35,5 +35,9 @@ let package = Package(
             name: "SwiftPackageListUI",
             dependencies: ["SwiftPackageList"],
             resources: [.process("Resources")]),
+        .testTarget(
+            name: "SwiftPackageListTests",
+            dependencies: ["SwiftPackageList"],
+            resources: [.process("Resources")]),
     ]
 )
