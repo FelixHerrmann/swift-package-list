@@ -45,10 +45,10 @@ struct SwiftPackageListCommand: ParsableCommand {
             throw RuntimeError("No checkouts-path found in your DerivedData-folder")
         }
         
-        guard FileManager.default.fileExists(atPath: project.packageDotResolvedFileURL.path) else {
+        guard FileManager.default.fileExists(atPath: project.packageResolvedFileURL.path) else {
             throw CleanExit.message("This project has no Swift-Package dependencies")
         }
-        let packageResolved = try PackageResolved(at: project.packageDotResolvedFileURL)
+        let packageResolved = try PackageResolved(at: project.packageResolvedFileURL)
         let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: requiresLicense)
         
         let outputURL = fileType.outputURL(at: outputPath, customFileName: customFileName)

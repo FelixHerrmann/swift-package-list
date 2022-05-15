@@ -36,7 +36,7 @@ extension Project {
         }
     }
     
-    public var packageDotResolvedFileURL: URL {
+    public var packageResolvedFileURL: URL {
         switch self {
         case .xcodeproj(let fileURL):
             return fileURL.appendingPathComponent("project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
