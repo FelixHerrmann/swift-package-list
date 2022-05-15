@@ -15,7 +15,8 @@ enum PackageResolved {
 
 extension PackageResolved {
     
-    init(from packageResolvedData: Data) throws {
+    init(at url: URL) throws {
+        let packageResolvedData = try Data(contentsOf: url)
         let packageResolvedJSON = try JSONSerialization.jsonObject(with: packageResolvedData) as? [String: Any]
         let version = packageResolvedJSON?["version"] as? Int
         

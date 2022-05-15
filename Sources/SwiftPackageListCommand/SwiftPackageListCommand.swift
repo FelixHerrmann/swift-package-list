@@ -48,8 +48,7 @@ struct SwiftPackageListCommand: ParsableCommand {
         guard FileManager.default.fileExists(atPath: project.packageDotResolvedFileURL.path) else {
             throw CleanExit.message("This project has no Swift-Package dependencies")
         }
-        let packageResolvedData = try Data(contentsOf: project.packageDotResolvedFileURL)
-        let packageResolved = try PackageResolved(from: packageResolvedData)
+        let packageResolved = try PackageResolved(at: project.packageDotResolvedFileURL)
         let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: requiresLicense)
         
         let outputURL = try generateOutputFile(for: packages, project: project)
