@@ -84,7 +84,7 @@ This is because Mint uses it's own /bin directory and Xcode's PATH environment v
 There are 2 easy ways to fix this issue:
 
 - adding `export PATH="$PATH:$HOME/.mint/bin/"` as the first line to your build script
-- execute ln -s $HOME/.mint/bin/swift-package-list /usr/local/bin/swift-package-list` in your Terminal
+- execute `ln -s $HOME/.mint/bin/swift-package-list /usr/local/bin/swift-package-list` in your Terminal
 
 ### Settings Bundle
 
