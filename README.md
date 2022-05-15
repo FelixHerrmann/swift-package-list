@@ -83,7 +83,7 @@ If you used Mint to install the Command-Line Tool, Xcode will not recognize the 
 This is because Mint uses it's own /bin directory and Xcode's PATH environment variable is not aware of that.
 There are 2 easy ways to fix this issue:
 
-- adding `export PATH="$PATH:$HOME/.mint/bin/"` as the first line to your build script
+- add `export PATH="$PATH:$HOME/.mint/bin/"` as the first line to your build script
 - execute `ln -s $HOME/.mint/bin/swift-package-list /usr/local/bin/swift-package-list` in your Terminal
 
 ### Settings Bundle
