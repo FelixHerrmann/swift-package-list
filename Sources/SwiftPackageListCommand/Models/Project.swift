@@ -48,6 +48,26 @@ extension Project {
 
 extension Project {
     
+    func checkoutsDirectory(in derivedDataPath: String) throws -> URL? {
+        let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
+        
+        for derivedDataDirectory in derivedDataDirectories {
+            let projectFiles = try FileManager.default.contentsOfDirectory(at: derivedDataDirectory, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles])
+            guard let infoDotPlist = projectFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
+            let infoPlistData = try Data(contentsOf: infoDotPlist)
+            let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
+            if infoPlist.WorkspacePath == fileURL.path {
+                let checkoutsDirectory = derivedDataDirectory.appendingPathComponent("/SourcePackages/checkouts")
+                return checkoutsDirectory
+            }
+        }
+        
+        return nil
+    }
+}
+
+extension Project {
+    
     func findOrganizationName() -> String? {
         do {
             let projectFileURL: URL

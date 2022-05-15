@@ -1,5 +1,5 @@
 //
-//  PDFBuilder.swift
+//  PDFGenerator.swift
 //  SwiftPackageListCommand
 //
 //  Created by Felix Herrmann on 11.04.22.
@@ -8,22 +8,22 @@
 import AppKit
 import SwiftPackageList
 
-struct PDFBuilder {
+struct PDFGenerator: OutputGenerator {
     
-    private let url: URL
+    private let outputURL: URL
     private let packages: [Package]
     private let project: Project
     private let organizationName: String?
     
-    init(url: URL, packages: [Package], project: Project) {
-        self.url = url
+    init(outputURL: URL, packages: [Package], project: Project) {
+        self.outputURL = outputURL
         self.packages = packages
         self.project = project
         self.organizationName = project.findOrganizationName()
     }
     
-    func build() throws {
-        guard let consumer = CGDataConsumer(url: url as CFURL) else {
+    func generateOutput() throws {
+        guard let consumer = CGDataConsumer(url: outputURL as CFURL) else {
             throw RuntimeError("Something is wrong with the output-path")
         }
         let auxiliaryInfo = createAuxiliaryInfo()
