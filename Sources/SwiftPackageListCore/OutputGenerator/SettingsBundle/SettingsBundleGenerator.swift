@@ -52,8 +52,8 @@ struct SettingsBundleGenerator: OutputGenerator {
     }
     
     private func createAcknowledgementsPlist() throws {
-        let packageChildPanges: [Specifier] = packages.map { .childPane(title: $0.name, file: "Packages/\($0.name)") }
-        let acknowledgementsSpecifiers: [Specifier] = [.group(title: "Licenses")] + packageChildPanges
+        let packageChildPanes: [Specifier] = packages.map { .childPane(title: $0.name, file: "Packages/\($0.name)") }
+        let acknowledgementsSpecifiers: [Specifier] = [.group(title: "Licenses")] + packageChildPanes
         let acknowledgementsPlist = PropertyList(StringsTable: "Acknowledgements", PreferenceSpecifiers: acknowledgementsSpecifiers)
         let encodedAcknowledgements = try encoder.encode(acknowledgementsPlist)
         let acknowledgementsURL = outputURL.appendingPathComponent("Acknowledgements.plist")
