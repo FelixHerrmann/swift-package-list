@@ -4,6 +4,8 @@
 [![License](https://img.shields.io/github/license/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE)
 [![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)
 
+[![Xcode Build](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml/badge.svg)](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml)
+
 A command-line tool to generate a JSON, PLIST, Settings.bundle or PDF file with all used SPM-dependencies of an Xcode project or workspace.
 
 This includes all the `Package.resolved` informations and the license from the checkouts.
