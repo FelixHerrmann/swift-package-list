@@ -20,10 +20,10 @@
     NSArray<NSString *> *expectedNames = @[@"swift-algorithms", @"swift-argument-parser", @"swift-collections", @"swift-numerics"];
     XCTAssertEqualObjects([packages valueForKey:@"name"], expectedNames);
     
-    NSArray<NSString *> *expectedVersions = @[@"1.0.0", [NSNull null], [NSNull null], @"1.0.2"];
+    NSArray *expectedVersions = @[@"1.0.0", [NSNull null], [NSNull null], @"1.0.2"];
     XCTAssertEqualObjects([packages valueForKey:@"version"], expectedVersions);
     
-    NSArray<NSString *> *expectedBranches = @[[NSNull null], [NSNull null], @"main", [NSNull null]];
+    NSArray *expectedBranches = @[[NSNull null], [NSNull null], @"main", [NSNull null]];
     XCTAssertEqualObjects([packages valueForKey:@"branch"], expectedBranches);
     
     NSArray<NSString *> *expectedRevisions = @[@"b14b7f4c528c942f121c8b860b9410b2bf57825e", @"060d52364cf2a3e06b7adf0b17dbb7c33c77e1d3", @"108ac4fa4ef7f2622b97a1f5dd92a3e0c6857c60", @"0a5bc04095a675662cf24757cc0640aa2204253b"];
@@ -42,10 +42,10 @@
     NSArray<NSString *> *expectedNames = @[@"swift-algorithms", @"swift-argument-parser", @"swift-collections", @"swift-numerics"];
     XCTAssertEqualObjects([packages valueForKey:@"name"], expectedNames);
     
-    NSArray<NSString *> *expectedVersions = @[@"1.0.0", [NSNull null], [NSNull null], @"1.0.2"];
+    NSArray *expectedVersions = @[@"1.0.0", [NSNull null], [NSNull null], @"1.0.2"];
     XCTAssertEqualObjects([packages valueForKey:@"version"], expectedVersions);
     
-    NSArray<NSString *> *expectedBranches = @[[NSNull null], [NSNull null], @"main", [NSNull null]];
+    NSArray *expectedBranches = @[[NSNull null], [NSNull null], @"main", [NSNull null]];
     XCTAssertEqualObjects([packages valueForKey:@"branch"], expectedBranches);
     
     NSArray<NSString *> *expectedRevisions = @[@"b14b7f4c528c942f121c8b860b9410b2bf57825e", @"060d52364cf2a3e06b7adf0b17dbb7c33c77e1d3", @"108ac4fa4ef7f2622b97a1f5dd92a3e0c6857c60", @"0a5bc04095a675662cf24757cc0640aa2204253b"];
