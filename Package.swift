@@ -38,6 +38,7 @@ let package = Package(
             name: "SwiftPackageListUI",
             dependencies: ["SwiftPackageList"],
             resources: [.process("Resources")]),
+        .testTarget(name: "SwiftPackageListCommandTests"),
         .testTarget(
             name: "SwiftPackageListCoreTests",
             dependencies: ["SwiftPackageListCore"],
