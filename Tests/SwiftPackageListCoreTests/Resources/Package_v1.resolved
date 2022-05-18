@@ -1,0 +1,16 @@
+{
+    "object": {
+        "pins": [
+            {
+                "package": "SwiftPackageList",
+                "repositoryURL": "https://github.com/FelixHerrmann/swift-package-list",
+                "state": {
+                    "branch": null,
+                    "revision": "3a1b45c9e994aebaf47e8c4bd631bd79075f4abb",
+                    "version": "1.0.1",
+                }
+            }
+        ]
+    },
+    "version": 1
+}
