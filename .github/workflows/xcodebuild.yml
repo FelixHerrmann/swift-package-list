@@ -1,0 +1,77 @@
+name: Xcode Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-12
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build SwiftPackageList on macOS
+        run: xcodebuild -scheme SwiftPackageList -destination 'platform=macOS'
+      - name: Build SwiftPackageListObjc on macOS
+        run: xcodebuild -scheme SwiftPackageListObjc -destination 'platform=macOS'
+      - name: Build SwiftPackageListUI on macOS
+        run: xcodebuild -scheme SwiftPackageListUI -destination 'platform=macOS'
+  
+  build-macos-catalyst:
+    runs-on: macos-12
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build SwiftPackageList on macOS Catalyst
+        run: xcodebuild -scheme SwiftPackageList -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst'
+      - name: Build SwiftPackageListObjc on macOS Catalyst
+        run: xcodebuild -scheme SwiftPackageListObjc -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst'
+      - name: Build SwiftPackageListUI on macOS Catalyst
+        run: xcodebuild -scheme SwiftPackageListUI -destination 'platform=macOS,arch=x86_64,variant=Mac Catalyst'
+  
+  build-ios:
+    runs-on: macos-12
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build SwiftPackageList on iOS
+        run: xcodebuild -scheme SwiftPackageList -destination 'name=iPhone 12'
+      - name: Build SwiftPackageListObjc on iOS
+        run: xcodebuild -scheme SwiftPackageListObjc -destination 'name=iPhone 12'
+      - name: Build SwiftPackageListUI on iOS
+        run: xcodebuild -scheme SwiftPackageListUI -destination 'name=iPhone 12'
+  
+  build-tvos:
+    runs-on: macos-12
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build SwiftPackageList on tvOS
+        run: xcodebuild -scheme SwiftPackageList -destination 'name=Apple TV'
+      - name: Build SwiftPackageListObjc on tvOS
+        run: xcodebuild -scheme SwiftPackageListObjc -destination 'name=Apple TV'
+      - name: Build SwiftPackageListUI on tvOS
+        run: xcodebuild -scheme SwiftPackageListUI -destination 'name=Apple TV'
+  
+  build-watchos:
+    runs-on: macos-12
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build SwiftPackageList on watchOS
+        run: xcodebuild -scheme SwiftPackageList -destination 'name=Apple Watch Series 6 - 44mm'
+      - name: Build SwiftPackageListObjc on watchOS
+        run: xcodebuild -scheme SwiftPackageListObjc -destination 'name=Apple Watch Series 6 - 44mm'
+      - name: Build SwiftPackageListUI on watchOS
+        run: xcodebuild -scheme SwiftPackageListUI -destination 'name=Apple Watch Series 6 - 44mm'
+  
+  test:
+    runs-on: macos-12
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: xcodebuild -scheme SwiftPackageList-Package -destination 'platform=macOS' test
