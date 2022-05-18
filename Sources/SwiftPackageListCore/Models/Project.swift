@@ -48,6 +48,10 @@ extension Project {
 
 extension Project {
     
+    private struct InfoPlist: Decodable {
+        let WorkspacePath: String
+    }
+    
     public func checkoutsDirectory(in derivedDataPath: String) throws -> URL? {
         let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
         
