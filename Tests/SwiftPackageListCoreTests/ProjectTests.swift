@@ -11,7 +11,6 @@ import XCTest
 class ProjectTests: XCTestCase {
     
     func testProject() throws {
-        print(FileManager.default.temporaryDirectory)
         // Note: The project and workspace files in the Resources directory get's hidden by Xcode
         let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
         let project = try XCTUnwrap(Project(path: url.path))
