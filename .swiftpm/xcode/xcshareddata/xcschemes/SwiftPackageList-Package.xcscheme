@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1330"
+   LastUpgradeVersion = "1320"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -84,6 +84,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SwiftPackageListCore"
+               BuildableName = "SwiftPackageListCore"
+               BlueprintName = "SwiftPackageListCore"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "SwiftPackageListCommand"
                BuildableName = "SwiftPackageListCommand"
                BlueprintName = "SwiftPackageListCommand"
@@ -126,20 +140,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageListCore"
-               BuildableName = "SwiftPackageListCore"
-               BlueprintName = "SwiftPackageListCore"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "SwiftPackageList_SwiftPackageListCoreTests"
                BuildableName = "SwiftPackageList_SwiftPackageListCoreTests"
                BlueprintName = "SwiftPackageList_SwiftPackageListCoreTests"
@@ -158,19 +158,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageListTests"
-               BuildableName = "SwiftPackageListTests"
-               BlueprintName = "SwiftPackageListTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageListObjcTests"
-               BuildableName = "SwiftPackageListObjcTests"
-               BlueprintName = "SwiftPackageListObjcTests"
+               BlueprintIdentifier = "SwiftPackageListCommandTests"
+               BuildableName = "SwiftPackageListCommandTests"
+               BlueprintName = "SwiftPackageListCommandTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -188,9 +178,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageListCommandTests"
-               BuildableName = "SwiftPackageListCommandTests"
-               BlueprintName = "SwiftPackageListCommandTests"
+               BlueprintIdentifier = "SwiftPackageListObjcTests"
+               BuildableName = "SwiftPackageListObjcTests"
+               BlueprintName = "SwiftPackageListObjcTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SwiftPackageListTests"
+               BuildableName = "SwiftPackageListTests"
+               BlueprintName = "SwiftPackageListTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
