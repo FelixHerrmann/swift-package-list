@@ -9,8 +9,6 @@ import Foundation
 import ArgumentParser
 import SwiftPackageListCore
 
-// MARK: - Main
-
 @main
 struct SwiftPackageListCommand: ParsableCommand {
     
