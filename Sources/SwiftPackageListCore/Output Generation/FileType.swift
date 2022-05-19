@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import ArgumentParser
 import SwiftPackageList
 
-public enum FileType: String, CaseIterable, ExpressibleByArgument {
+public enum FileType: String, CaseIterable {
     case json
     case plist
     case settingsBundle = "settings-bundle"
