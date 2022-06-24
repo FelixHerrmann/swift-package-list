@@ -52,6 +52,26 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SwiftPackageListCoreTests"
+               BuildableName = "SwiftPackageListCoreTests"
+               BlueprintName = "SwiftPackageListCoreTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SwiftPackageListTests"
+               BuildableName = "SwiftPackageListTests"
+               BlueprintName = "SwiftPackageListTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
