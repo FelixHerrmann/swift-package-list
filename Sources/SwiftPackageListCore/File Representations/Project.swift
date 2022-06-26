@@ -31,16 +31,16 @@ extension Project {
     
     var fileURL: URL {
         switch self {
-        case .xcodeproj(let fileURL): return fileURL
-        case .xcworkspace(let fileURL): return fileURL
+        case .xcodeproj(fileURL: let fileURL): return fileURL
+        case .xcworkspace(fileURL: let fileURL): return fileURL
         }
     }
     
     public var packageResolvedFileURL: URL {
         switch self {
-        case .xcodeproj(let fileURL):
+        case .xcodeproj(fileURL: let fileURL):
             return fileURL.appendingPathComponent("project.xcworkspace/xcshareddata/swiftpm/Package.resolved")
-        case .xcworkspace(let fileURL):
+        case .xcworkspace(fileURL: let fileURL):
             return fileURL.appendingPathComponent("xcshareddata/swiftpm/Package.resolved")
         }
     }
@@ -76,9 +76,9 @@ extension Project {
         do {
             let projectFileURL: URL
             switch self {
-            case .xcodeproj(let fileURL):
+            case .xcodeproj(fileURL: let fileURL):
                 projectFileURL = fileURL
-            case .xcworkspace(let fileURL):
+            case .xcworkspace(fileURL: let fileURL):
                 let contentsURL = fileURL.appendingPathComponent("contents.xcworkspacedata")
                 let contentsString = try String(contentsOf: contentsURL)
                 let locations = try regex("(?<=location = \"group:).*(?=\")", on: contentsString).filter { !$0.contains("Pods.xcodeproj") }
