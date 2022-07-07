@@ -22,7 +22,7 @@ struct SwiftPackageListCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path to your DerivedData-folder.")
     var derivedDataPath = "\(NSHomeDirectory())/Library/Developer/Xcode/DerivedData"
     
-    @Option(name: .shortAndLong, help: "The path to the SourcePackages-folder.")
+    @Option(name: .shortAndLong, help: "The path to a custom SourcePackages-folder.")
     var sourcePackagesPath: String?
     
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
