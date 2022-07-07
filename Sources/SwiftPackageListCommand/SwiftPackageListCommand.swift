@@ -22,6 +22,9 @@ struct SwiftPackageListCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path to your DerivedData-folder.")
     var derivedDataPath = "\(NSHomeDirectory())/Library/Developer/Xcode/DerivedData"
     
+    @Option(name: .shortAndLong, help: "The path to a custom SourcePackages-folder.")
+    var sourcePackagesPath: String?
+    
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
     var outputPath: String = "\(NSHomeDirectory())/Desktop"
     
@@ -39,13 +42,23 @@ struct SwiftPackageListCommand: ParsableCommand {
             throw ValidationError("The project file is not an Xcode Project or Workspace")
         }
         
-        guard let checkoutsDirectory = try project.checkoutsDirectory(in: derivedDataPath) else {
-            throw RuntimeError("No checkouts-path found in your DerivedData-folder")
-        }
-        
         guard FileManager.default.fileExists(atPath: project.packageResolvedFileURL.path) else {
             throw CleanExit.message("This project has no Swift-Package dependencies")
         }
+        
+        let checkoutsDirectory: URL
+        if let sourcePackagesPath = sourcePackagesPath {
+            checkoutsDirectory = URL(fileURLWithPath: sourcePackagesPath).appendingPathComponent("checkouts")
+        } else {
+            guard let buildDirectory = try project.buildDirectory(in: derivedDataPath) else {
+                throw RuntimeError("No build-directory found in your DerivedData-folder")
+            }
+            checkoutsDirectory = buildDirectory.appendingPathComponent("/SourcePackages/checkouts")
+        }
+        guard FileManager.default.fileExists(atPath: checkoutsDirectory.path) else {
+            throw RuntimeError("No checkouts-directory found in your SourcePackages-folder")
+        }
+        
         let packageResolved = try PackageResolved(at: project.packageResolvedFileURL)
         let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: requiresLicense)
         
