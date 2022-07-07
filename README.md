@@ -32,15 +32,16 @@ Open the terminal and run `swift-package-list <project-path>` with the path to t
 
 In addition to that you can specify the following options:
 
-| Option                                        | Description                                                                                                                   |
-| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\> | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
-| -o, --output-path \<output-path\>             | The path where the package-list file will be stored. (default: ~/Desktop)                                                     |
-| -f, --file-type \<file-type\>                 | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
-| -c, --custom-file-name <custom-file-name>     | A custom filename to be used instead of the default ones.                                                                     |
-| --requires-license                            | Will skip the packages without a license-file.                                                                                |
-| --version                                     | Show the version.                                                                                                             |
-| -h, --help                                    | Show help information.                                                                                                        |
+| Option                                            | Description                                                                                                                   |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| -d, --derived-data-path \<derived-data-path\>     | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
+| -s, --source-packages-path <source-packages-path> | The path to a custom SourcePackages-folder.                                                                                   |
+| -o, --output-path \<output-path\>                 | The path where the package-list file will be stored. (default: ~/Desktop)                                                     |
+| -f, --file-type \<file-type\>                     | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
+| -c, --custom-file-name <custom-file-name>         | A custom filename to be used instead of the default ones.                                                                     |
+| --requires-license                                | Will skip the packages without a license-file.                                                                                |
+| --version                                         | Show the version.                                                                                                             |
+| -h, --help                                        | Show help information.                                                                                                        |
 
 ### Run Script Phase
 
