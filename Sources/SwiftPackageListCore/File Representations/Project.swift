@@ -52,17 +52,16 @@ extension Project {
         let WorkspacePath: String
     }
     
-    public func checkoutsDirectory(in derivedDataPath: String) throws -> URL? {
-        let derivedDataDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
+    public func buildDirectory(in derivedDataPath: String) throws -> URL? {
+        let buildDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
         
-        for derivedDataDirectory in derivedDataDirectories {
-            let projectFiles = try FileManager.default.contentsOfDirectory(at: derivedDataDirectory, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles])
-            guard let infoDotPlist = projectFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
+        for buildDirectory in buildDirectories {
+            let buildFiles = try FileManager.default.contentsOfDirectory(at: buildDirectory, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles])
+            guard let infoDotPlist = buildFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
             let infoPlistData = try Data(contentsOf: infoDotPlist)
             let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
             if infoPlist.WorkspacePath == fileURL.path {
-                let checkoutsDirectory = derivedDataDirectory.appendingPathComponent("/SourcePackages/checkouts")
-                return checkoutsDirectory
+                return buildDirectory
             }
         }
         
