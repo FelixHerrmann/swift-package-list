@@ -7,7 +7,7 @@
 
 import XCTest
 
-class SwiftPackageListCommandTests: XCTestCase {
+final class SwiftPackageListCommandTests: XCTestCase {
     
     private var productsDirectory: URL {
         for bundle in Bundle.allBundles where bundle.bundlePath.hasSuffix(".xctest") {

@@ -9,7 +9,7 @@ import XCTest
 import SwiftPackageList
 @testable import SwiftPackageListCore
 
-class PropertyListGeneratorTests: XCTestCase {
+final class PropertyListGeneratorTests: XCTestCase {
     
     let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("package-list").appendingPathExtension("plist")
     

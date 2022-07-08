@@ -8,7 +8,7 @@
 import XCTest
 @testable import SwiftPackageListCore
 
-class FileTypeTests: XCTestCase {
+final class FileTypeTests: XCTestCase {
     
     func testOutputURL() {
         let jsonURL = FileType.json.outputURL(at: "/User/test/Desktop", customFileName: nil)

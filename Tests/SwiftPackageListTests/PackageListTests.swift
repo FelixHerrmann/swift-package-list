@@ -8,7 +8,7 @@
 import XCTest
 @testable import SwiftPackageList
 
-class PackageListTests: XCTestCase {
+final class PackageListTests: XCTestCase {
     
     func testJSON() throws {
         let packages = try packageList(bundle: .module, fileName: "example_1")

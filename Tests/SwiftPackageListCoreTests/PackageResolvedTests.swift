@@ -8,7 +8,7 @@
 import XCTest
 @testable import SwiftPackageListCore
 
-class PackageResolvedTests: XCTestCase {
+final class PackageResolvedTests: XCTestCase {
     
     func testVersion1() throws {
         let url = try XCTUnwrap(Bundle.module.url(forResource: "Package_v1", withExtension: "resolved", subdirectory: "Resources"))

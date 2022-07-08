@@ -9,7 +9,7 @@ import XCTest
 import SwiftPackageList
 @testable import SwiftPackageListCore
 
-class JSONGeneratorTests: XCTestCase {
+final class JSONGeneratorTests: XCTestCase {
     
     let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("package-list").appendingPathExtension("json")
     

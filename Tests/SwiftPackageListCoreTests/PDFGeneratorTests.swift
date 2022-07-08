@@ -10,7 +10,7 @@ import PDFKit
 import SwiftPackageList
 @testable import SwiftPackageListCore
 
-class PDFGeneratorTests: XCTestCase {
+final class PDFGeneratorTests: XCTestCase {
     
     let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("Acknowledgements").appendingPathExtension("pdf")
     

@@ -8,7 +8,7 @@
 import XCTest
 @testable import SwiftPackageListCore
 
-class ProjectTests: XCTestCase {
+final class ProjectTests: XCTestCase {
     
     func testProject() throws {
         // Note: The project and workspace files in the Resources directory get's hidden by Xcode

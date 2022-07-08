@@ -9,7 +9,7 @@ import XCTest
 import SwiftPackageList
 @testable import SwiftPackageListCore
 
-class SettingsBundleGeneratorTests: XCTestCase {
+final class SettingsBundleGeneratorTests: XCTestCase {
     
     let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("Settings").appendingPathExtension("bundle")
     
