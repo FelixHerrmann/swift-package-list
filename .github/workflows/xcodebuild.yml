@@ -62,11 +62,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build SwiftPackageList on watchOS
-        run: xcodebuild -scheme SwiftPackageList -destination 'name=Apple Watch Series 6 - 44mm'
+        run: xcodebuild -scheme SwiftPackageList -destination 'name=Apple Watch Series 6 (44mm)'
       - name: Build SwiftPackageListObjc on watchOS
-        run: xcodebuild -scheme SwiftPackageListObjc -destination 'name=Apple Watch Series 6 - 44mm'
+        run: xcodebuild -scheme SwiftPackageListObjc -destination 'name=Apple Watch Series 6 (44mm)'
       - name: Build SwiftPackageListUI on watchOS
-        run: xcodebuild -scheme SwiftPackageListUI -destination 'name=Apple Watch Series 6 - 44mm'
+        run: xcodebuild -scheme SwiftPackageListUI -destination 'name=Apple Watch Series 6 (44mm)'
   
   test:
     runs-on: macos-12
