@@ -13,7 +13,7 @@ import SwiftPackageListCore
 struct SwiftPackageListCommand: ParsableCommand {
     
     static var configuration: CommandConfiguration {
-        return CommandConfiguration(version: "2.1.2")
+        return CommandConfiguration(version: "2.1.3")
     }
     
     @Argument(help: "The path to your .xcodeproj or .xcworkspace file.")
