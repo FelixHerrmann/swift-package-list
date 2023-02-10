@@ -24,7 +24,7 @@ jobs:
           - name=Apple Watch Series 6 (44mm)
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build Scheme
         run: xcodebuild -scheme ${{ matrix.scheme }} -destination '${{ matrix.destination }}'
   
@@ -33,6 +33,6 @@ jobs:
     needs: build
     runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run tests
         run: xcodebuild -scheme SwiftPackageList-Package -destination 'platform=macOS' test
