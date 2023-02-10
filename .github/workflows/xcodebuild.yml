@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build
     strategy:
       matrix:
         scheme:
@@ -28,6 +29,7 @@ jobs:
         run: xcodebuild -scheme ${{ matrix.scheme }} -destination '${{ matrix.destination }}'
   
   test:
+    name: Test
     runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
