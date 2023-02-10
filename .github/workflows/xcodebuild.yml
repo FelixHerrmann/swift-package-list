@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Scheme
-        run: xcodebuild -scheme ${{ matrix.scheme }} -destination ${{ matrix.destination }}
+        run: xcodebuild -scheme ${{ matrix.scheme }} -destination '${{ matrix.destination }}'
   
   test:
     runs-on: macos-12
