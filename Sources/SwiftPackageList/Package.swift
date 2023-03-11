@@ -1,13 +1,11 @@
 //
-//  Models.swift
+//  Package.swift
 //  SwiftPackageList
 //
-//  Created by Felix Herrmann on 02.11.21.
+//  Created by Felix Herrmann on 11.03.23.
 //
 
 import Foundation
-
-// MARK: - Package
 
 /// A package object in the package-list file.
 public struct Package: Hashable, Codable {
@@ -46,13 +44,4 @@ public struct Package: Hashable, Codable {
         self.repositoryURL = repositoryURL
         self.license = license
     }
-}
-
-// MARK: - PackageList
-
-/// The possible thrown errors of the `packageList(bundle:fileName:)` function.
-public enum PackageListError: Error {
-    
-    /// Couldn't find a package-list file in the specified bundle for the specified file name.
-    case noPackageList
 }

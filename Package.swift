@@ -28,28 +28,34 @@ let package = Package(
             dependencies: [
                 .target(name: "SwiftPackageListCore"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ]),
+            ]
+        ),
         .target(
             name: "SwiftPackageListCore",
-            dependencies: ["SwiftPackageList"]),
+            dependencies: ["SwiftPackageList"]
+        ),
         .target(name: "SwiftPackageList"),
         .target(name: "SwiftPackageListObjc"),
         .target(
             name: "SwiftPackageListUI",
             dependencies: ["SwiftPackageList"],
-            resources: [.process("Resources")]),
+            resources: [.process("Resources")]
+        ),
         .testTarget(name: "SwiftPackageListCommandTests"),
         .testTarget(
             name: "SwiftPackageListCoreTests",
             dependencies: ["SwiftPackageListCore"],
-            resources: [.copy("Resources")]),
+            resources: [.copy("Resources")]
+        ),
         .testTarget(
             name: "SwiftPackageListTests",
             dependencies: ["SwiftPackageList"],
-            resources: [.process("Resources")]),
+            resources: [.process("Resources")]
+        ),
         .testTarget(
             name: "SwiftPackageListObjcTests",
             dependencies: ["SwiftPackageListObjc"],
-            resources: [.process("Resources")]),
+            resources: [.process("Resources")]
+        ),
     ]
 )

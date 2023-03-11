@@ -40,9 +40,16 @@ final class FileTypeTests: XCTestCase {
         let outputURL = URL(fileURLWithPath: "")
         let project: Project = .xcodeproj(fileURL: URL(fileURLWithPath: ""))
         
-        XCTAssertTrue(FileType.json.outputGenerator(outputURL: outputURL, packages: [], project: project) is JSONGenerator)
-        XCTAssertTrue(FileType.plist.outputGenerator(outputURL: outputURL, packages: [], project: project) is PropertyListGenerator)
-        XCTAssertTrue(FileType.settingsBundle.outputGenerator(outputURL: outputURL, packages: [], project: project) is SettingsBundleGenerator)
-        XCTAssertTrue(FileType.pdf.outputGenerator(outputURL: outputURL, packages: [], project: project) is PDFGenerator)
+        let jsonGenerator = FileType.json.outputGenerator(outputURL: outputURL, packages: [], project: project)
+        XCTAssertTrue(jsonGenerator is JSONGenerator)
+        
+        let plistGenerator = FileType.plist.outputGenerator(outputURL: outputURL, packages: [], project: project)
+        XCTAssertTrue(plistGenerator is PropertyListGenerator)
+        
+        let bundleGenerator = FileType.settingsBundle.outputGenerator(outputURL: outputURL, packages: [], project: project)
+        XCTAssertTrue(bundleGenerator is SettingsBundleGenerator)
+        
+        let pdfGenerator = FileType.pdf.outputGenerator(outputURL: outputURL, packages: [], project: project)
+        XCTAssertTrue(pdfGenerator is PDFGenerator)
     }
 }

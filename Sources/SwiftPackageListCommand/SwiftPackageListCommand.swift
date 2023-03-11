@@ -28,6 +28,7 @@ struct SwiftPackageListCommand: ParsableCommand {
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
     var outputPath: String = "\(NSHomeDirectory())/Desktop"
     
+    // swiftlint:disable:next line_length
     @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf.")
     var fileType: FileType = .json
     
@@ -35,7 +36,7 @@ struct SwiftPackageListCommand: ParsableCommand {
     var customFileName: String?
     
     @Flag(help: "Will skip the packages without a license-file.")
-    var requiresLicense: Bool = false
+    var requiresLicense = false
     
     mutating func run() throws {
         guard let project = Project(path: projectPath) else {
@@ -47,7 +48,7 @@ struct SwiftPackageListCommand: ParsableCommand {
         }
         
         let checkoutsDirectory: URL
-        if let sourcePackagesPath = sourcePackagesPath {
+        if let sourcePackagesPath {
             checkoutsDirectory = URL(fileURLWithPath: sourcePackagesPath).appendingPathComponent("checkouts")
         } else {
             guard let buildDirectory = try project.buildDirectory(in: derivedDataPath) else {

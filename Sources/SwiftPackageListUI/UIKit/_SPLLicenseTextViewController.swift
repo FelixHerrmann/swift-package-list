@@ -23,24 +23,25 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     
     // MARK: - Initializers
     
-    init(package: Package, backgroundColor: UIColor, canOpenRepositoryLink: Bool) {
+    internal init(package: Package, backgroundColor: UIColor, canOpenRepositoryLink: Bool) {
         self._package = package
         self._backgroundColor = backgroundColor
         self._canOpenRepositoryLink = canOpenRepositoryLink
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    internal required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - ViewController
     
-    override func loadView() {
+    override internal func loadView() {
         view = _textView
     }
     
-    override func viewDidLoad() {
+    override internal func viewDidLoad() {
         super.viewDidLoad()
         
         _setupNavigationBar()
@@ -48,7 +49,7 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     }
     
     @available(iOS 11.0, *)
-    override func viewLayoutMarginsDidChange() {
+    override internal func viewLayoutMarginsDidChange() {
         super.viewLayoutMarginsDidChange()
         
         let horizontalInset = _textView.readableContentGuide.layoutFrame.origin.x
@@ -64,10 +65,25 @@ internal final class _SPLLicenseTextViewController: UIViewController {
             let repositoryBarButtonItem: UIBarButtonItem
             if #available(iOS 13.0, *) {
                 let image = UIImage(systemName: "safari")
-                repositoryBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(_handleRepositoryBarButtonItemPress))
+                repositoryBarButtonItem = UIBarButtonItem(
+                    image: image,
+                    style: .plain,
+                    target: self,
+                    action: #selector(_handleRepositoryBarButtonItemPress)
+                )
             } else {
-                let title = NSLocalizedString("license-text.repository-button-text", bundle: .module, value: "Repository", comment: "Opens the repository in a browser window, only shown on iOS 12 and lower")
-            repositoryBarButtonItem = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(_handleRepositoryBarButtonItemPress))
+                let title = NSLocalizedString(
+                    "license-text.repository-button-text",
+                    bundle: .module,
+                    value: "Repository",
+                    comment: "Opens the repository in a browser window, only shown on iOS 12 and lower"
+                )
+                repositoryBarButtonItem = UIBarButtonItem(
+                    title: title,
+                    style: .plain,
+                    target: self,
+                    action: #selector(_handleRepositoryBarButtonItemPress)
+                )
             }
             navigationItem.rightBarButtonItem = repositoryBarButtonItem
         }
@@ -79,7 +95,7 @@ internal final class _SPLLicenseTextViewController: UIViewController {
         if #available(iOS 13.0, *) {
             _textView.textColor = .secondaryLabel
         } else {
-            _textView.textColor = UIColor(red: 60 / 255, green: 60/255, blue: 67/255, alpha: 0.6)
+            _textView.textColor = UIColor(red: 60 / 255, green: 60 / 255, blue: 67 / 255, alpha: 0.6)
         }
         _textView.alwaysBounceVertical = true
         _textView.isEditable = false
@@ -89,7 +105,8 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     
     // MARK: - Selector Methods
     
-    @objc private func _handleRepositoryBarButtonItemPress() {
+    @objc
+    private func _handleRepositoryBarButtonItemPress() {
         _openRepositoryLink()
     }
     

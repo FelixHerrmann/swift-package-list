@@ -8,8 +8,8 @@
 import Foundation
 
 extension SettingsBundleGenerator {
-    
     enum Language: String, CaseIterable {
+        // swiftlint:disable identifier_name
         case ar
         case zhHans = "zh-hans"
         case zhHant = "zh-hant"
@@ -21,11 +21,11 @@ extension SettingsBundleGenerator {
         case pt
         case ru
         case es
+        // swiftlint:enable identifier_name
     }
 }
 
 extension SettingsBundleGenerator.Language {
-    
     private enum RootStringsKey: String {
         case acknowledgements = "Acknowledgements"
     }
@@ -81,7 +81,6 @@ extension SettingsBundleGenerator.Language {
 }
 
 extension SettingsBundleGenerator.Language {
-    
     private enum AcknowledgementsStringsKey: String {
         case licenses = "Licenses"
     }
@@ -137,7 +136,6 @@ extension SettingsBundleGenerator.Language {
 }
 
 extension SettingsBundleGenerator.Language {
-
     var rootFileData: Data {
         let fileString = rootStrings
             .map { "\"\($0.key.rawValue)\" = \"\($0.value)\"" }
