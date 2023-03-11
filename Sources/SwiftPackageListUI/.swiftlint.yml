@@ -1,0 +1,6 @@
+disabled_rules:
+    - legacy_objc_type
+opt_in_rules:
+    - explicit_acl
+    - fatal_error_message
+    - missing_docs

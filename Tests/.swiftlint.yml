@@ -1,0 +1,5 @@
+opt_in_rules:
+    - empty_xctest_method
+    - single_test_class
+    - test_case_accessibility
+    - xct_specific_matcher
