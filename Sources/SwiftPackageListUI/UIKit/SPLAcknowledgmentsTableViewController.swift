@@ -13,7 +13,8 @@ import SwiftPackageList
 
 /// A concrete subclass of a table-view controller that shows all licenses from the package-list file.
 ///
-/// All parameters of the table view can be customized to fit the app's appearance, only the used delegate and data-source methods should not be touched.
+/// All parameters of the table view can be customized to fit the app's appearance, only the used delegate and
+/// data-source methods should not be touched.
 ///
 /// - Important: This view controller must be used inside a `UINavigationController` to function properly.
 open class SPLAcknowledgmentsTableViewController: UITableViewController {
@@ -23,7 +24,7 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
     /// A boolean value indicating if a bar button item to open the repository is shown.
     ///
     /// Default value of this property is `false`.
-    @objc open var canOpenRepositoryLink: Bool = false
+    @objc open var canOpenRepositoryLink = false
     
     /// The bundle where the package-list file is stored.
     ///
@@ -56,7 +57,7 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
     
     // MARK: - ViewController
     
-    open override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
         _setupNavigationBar()
@@ -66,7 +67,15 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
             _packages = try packageList(bundle: packageListBundle, fileName: packageListFileName)
         } catch {
             if #available(iOS 10.0, *) {
-                os_log("Error: %@", log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "SPLAcknowledgmentsTableViewController"), type: .error, String(describing: error))
+                os_log(
+                    "Error: %@",
+                    log: OSLog(
+                        subsystem: "com.felixherrmann.swift-package-list",
+                        category: "SPLAcknowledgmentsTableViewController"
+                    ),
+                    type: .error,
+                    String(describing: error)
+                )
             } else {
                 NSLog("Error: %@", String(describing: error))
             }
@@ -76,7 +85,12 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
     // MARK: - Setup
     
     private func _setupNavigationBar() {
-        let title = NSLocalizedString("acknowledgments.title", bundle: .module, value: "Acknowledgments", comment: "Navigation bar title of the license list")
+        let title = NSLocalizedString(
+            "acknowledgments.title",
+            bundle: .module,
+            value: "Acknowledgments",
+            comment: "Navigation bar title of the license list"
+        )
         navigationItem.title = title
     }
     
@@ -89,23 +103,25 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
 // MARK: - UITableViewDataSource
 
 extension SPLAcknowledgmentsTableViewController {
-    
-    open override func numberOfSections(in tableView: UITableView) -> Int {
+    override open func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return _packages.count
     }
     
-    open override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return NSLocalizedString("acknowledgments.section-title", bundle: .module, value: "Licenses", comment: "Section title for the license list")
+    override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return NSLocalizedString(
+            "acknowledgments.section-title",
+            bundle: .module,
+            value: "Licenses",
+            comment: "Section title for the license list"
+        )
     }
     
-    open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "licenseCell", for: indexPath) as? _SPLLicenseTableViewCell else {
-            return UITableViewCell()
-        }
+    override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "licenseCell", for: indexPath)
         cell.textLabel?.text = _packages[indexPath.row].name
         return cell
     }
@@ -114,10 +130,13 @@ extension SPLAcknowledgmentsTableViewController {
 // MARK: - UITableViewDelegate
 
 extension SPLAcknowledgmentsTableViewController {
-    
-    open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let package = _packages[indexPath.row]
-        let licenseTextViewController = _SPLLicenseTextViewController(package: package, backgroundColor: tableView.backgroundColor ?? .white, canOpenRepositoryLink: canOpenRepositoryLink)
+        let licenseTextViewController = _SPLLicenseTextViewController(
+            package: package,
+            backgroundColor: tableView.backgroundColor ?? .white,
+            canOpenRepositoryLink: canOpenRepositoryLink
+        )
         navigationController?.pushViewController(licenseTextViewController, animated: true)
     }
 }

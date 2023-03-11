@@ -12,18 +12,28 @@ import SwiftPackageList
 
 final class PDFGeneratorTests: XCTestCase {
     
-    let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("Acknowledgements").appendingPathExtension("pdf")
+    private let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("Acknowledgements.pdf")
     
     override func setUpWithError() throws {
+        try super.setUpWithError()
+        
         let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
         let project = try XCTUnwrap(Project(path: url.path))
-        let package = Package(name: "test", version: "1.0.0", branch: nil, revision: "xxxx", repositoryURL: URL(string: "https://github.com/test/test")!, license: "MIT")
+        let package = Package(
+            name: "test",
+            version: "1.0.0",
+            branch: nil,
+            revision: "xxxx",
+            repositoryURL: URL(string: "https://github.com/test/test")!, // swiftlint:disable:this force_unwrapping
+            license: "MIT"
+        )
         
         let pdfGenerator = PDFGenerator(outputURL: outputURL, packages: [package], project: project)
         try pdfGenerator.generateOutput()
     }
     
     override func tearDownWithError() throws {
+        try super.tearDownWithError()
         try FileManager.default.removeItem(at: outputURL)
     }
     
@@ -40,6 +50,7 @@ final class PDFGeneratorTests: XCTestCase {
         XCTAssertEqual(attributes["Title"] as? String, "Project_Acks_File_\(creationDate)")
         XCTAssertEqual(attributes["Creator"] as? String, "swift-package-list")
         
+        // swiftlint:disable line_length
         let expectedOutput = """
         Acknowledgements
         Portions of this SwiftPackageList Software may utilize the following copyrighted material, the use of which is hereby acknowledged.
@@ -47,6 +58,7 @@ final class PDFGeneratorTests: XCTestCase {
         MIT
         
         """
+        // swiftlint:enable line_length
         XCTAssertEqual(output.string, expectedOutput)
     }
 }

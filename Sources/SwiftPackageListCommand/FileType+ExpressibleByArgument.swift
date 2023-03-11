@@ -1,5 +1,5 @@
 //
-//  SwiftPackageListCore+ArgumentParser.swift
+//  FileType+ExpressibleByArgument.swift
 //  SwiftPackageListCommand
 //
 //  Created by Felix Herrmann on 19.05.22.

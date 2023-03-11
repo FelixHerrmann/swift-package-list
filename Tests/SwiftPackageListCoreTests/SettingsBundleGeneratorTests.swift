@@ -11,23 +11,34 @@ import SwiftPackageList
 
 final class SettingsBundleGeneratorTests: XCTestCase {
     
-    let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("Settings").appendingPathExtension("bundle")
+    private let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("Settings.bundle")
     
     override func setUpWithError() throws {
+        try super.setUpWithError()
+        
         let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
         let project = try XCTUnwrap(Project(path: url.path))
-        let package = Package(name: "test", version: "1.0.0", branch: nil, revision: "xxxx", repositoryURL: URL(string: "https://github.com/test/test")!, license: "MIT")
+        let package = Package(
+            name: "test",
+            version: "1.0.0",
+            branch: nil,
+            revision: "xxxx",
+            repositoryURL: URL(string: "https://github.com/test/test")!, // swiftlint:disable:this force_unwrapping
+            license: "MIT"
+        )
         
         let settingsBundleGenerator = SettingsBundleGenerator(outputURL: outputURL, packages: [package], project: project)
         try settingsBundleGenerator.generateOutput()
     }
     
     override func tearDownWithError() throws {
+        try super.tearDownWithError()
         try FileManager.default.removeItem(at: outputURL)
     }
     
-    func testOutput() throws {
+    func testRootPlistOutput() throws {
         let rootPlist = try String(contentsOf: outputURL.appendingPathComponent("Root.plist"))
+        // swiftlint:disable indentation_width
         let expectedRootPlist = """
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -50,9 +61,13 @@ final class SettingsBundleGeneratorTests: XCTestCase {
         </plist>
         
         """
+        // swiftlint:enable indentation_width
         XCTAssertEqual(rootPlist, expectedRootPlist)
-        
+    }
+    
+    func testAcknowledgementsPlistOutput() throws {
         let acknowledgementsPlist = try String(contentsOf: outputURL.appendingPathComponent("Acknowledgements.plist"))
+        // swiftlint:disable indentation_width
         let expectedAcknowledgementsPlist = """
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -81,9 +96,14 @@ final class SettingsBundleGeneratorTests: XCTestCase {
         </plist>
         
         """
+        // swiftlint:enable indentation_width
         XCTAssertEqual(acknowledgementsPlist, expectedAcknowledgementsPlist)
-        
-        let testPlist = try String(contentsOf: outputURL.appendingPathComponent("Packages").appendingPathComponent("test.plist"))
+    }
+    
+    func testTestPlistPathOutput() throws {
+        let testPlistPath = outputURL.appendingPathComponent("Packages").appendingPathComponent("test.plist")
+        let testPlist = try String(contentsOf: testPlistPath)
+        // swiftlint:disable indentation_width
         let expectedTestPlist = """
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -102,15 +122,24 @@ final class SettingsBundleGeneratorTests: XCTestCase {
         </plist>
         
         """
+        // swiftlint:enable indentation_width
         XCTAssertEqual(testPlist, expectedTestPlist)
-        
-        let rootStrings = try String(contentsOf: outputURL.appendingPathComponent("de.lproj").appendingPathComponent("Root.strings"))
+    }
+    
+    func testRootStringsOutput() throws {
+        let rootStringsPath = outputURL.appendingPathComponent("de.lproj").appendingPathComponent("Root.strings")
+        let rootStrings = try String(contentsOf: rootStringsPath)
         let expectedRootStrings = """
         "Acknowledgements" = "Danksagungen";
         """
         XCTAssertEqual(rootStrings, expectedRootStrings)
-        
-        let acknowledgementsStrings = try String(contentsOf: outputURL.appendingPathComponent("de.lproj").appendingPathComponent("Acknowledgements.strings"))
+    }
+    
+    func testAcknowledgementsStringsOutput() throws {
+        let acknowledgementsStringsPath = outputURL
+            .appendingPathComponent("de.lproj")
+            .appendingPathComponent("Acknowledgements.strings")
+        let acknowledgementsStrings = try String(contentsOf: acknowledgementsStringsPath)
         let expectedAcknowledgementsStrings = """
         "Licenses" = "Lizenzen";
         """

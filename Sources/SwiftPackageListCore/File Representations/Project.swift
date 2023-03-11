@@ -13,7 +13,6 @@ public enum Project {
 }
 
 extension Project {
-    
     public init?(path: String) {
         let fileURL = URL(fileURLWithPath: path)
         switch fileURL.pathExtension {
@@ -28,7 +27,6 @@ extension Project {
 }
 
 extension Project {
-    
     var fileURL: URL {
         switch self {
         case .xcodeproj(fileURL: let fileURL): return fileURL
@@ -47,20 +45,31 @@ extension Project {
 }
 
 extension Project {
-    
     private struct InfoPlist: Decodable {
-        let WorkspacePath: String
+        let workspacePath: String
+        
+        enum CodingKeys: String, CodingKey {
+            case workspacePath = "WorkspacePath"
+        }
     }
     
     public func buildDirectory(in derivedDataPath: String) throws -> URL? {
-        let buildDirectories = try FileManager.default.contentsOfDirectory(at: URL(fileURLWithPath: derivedDataPath), includingPropertiesForKeys: [.isDirectoryKey], options: [.skipsHiddenFiles])
+        let buildDirectories = try FileManager.default.contentsOfDirectory(
+            at: URL(fileURLWithPath: derivedDataPath),
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        )
         
         for buildDirectory in buildDirectories {
-            let buildFiles = try FileManager.default.contentsOfDirectory(at: buildDirectory, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles])
+            let buildFiles = try FileManager.default.contentsOfDirectory(
+                at: buildDirectory,
+                includingPropertiesForKeys: [.isRegularFileKey],
+                options: [.skipsHiddenFiles]
+            )
             guard let infoDotPlist = buildFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
             let infoPlistData = try Data(contentsOf: infoDotPlist)
             let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
-            if infoPlist.WorkspacePath == fileURL.path {
+            if infoPlist.workspacePath == fileURL.path {
                 return buildDirectory
             }
         }
@@ -70,7 +79,6 @@ extension Project {
 }
 
 extension Project {
-    
     func findOrganizationName() -> String? {
         do {
             let projectFileURL: URL
@@ -80,11 +88,12 @@ extension Project {
             case .xcworkspace(fileURL: let fileURL):
                 let contentsURL = fileURL.appendingPathComponent("contents.xcworkspacedata")
                 let contentsString = try String(contentsOf: contentsURL)
-                let locations = try regex("(?<=location = \"group:).*(?=\")", on: contentsString).filter { !$0.contains("Pods.xcodeproj") }
-                guard let firstLocation = locations.first else {
+                let locations = try regex("(?<=location = \"group:).*(?=\")", on: contentsString)
+                guard let firstNonPodsLocation = locations.first(where: { !$0.contains("Pods.xcodeproj") }) else {
+                    print("Warning: Could not find the organization name in your project")
                     return nil
                 }
-                projectFileURL = fileURL.deletingLastPathComponent().appendingPathComponent(firstLocation)
+                projectFileURL = fileURL.deletingLastPathComponent().appendingPathComponent(firstNonPodsLocation)
             }
             
             let projectURL = projectFileURL.appendingPathComponent("project.pbxproj")
@@ -105,6 +114,9 @@ extension Project {
     private func regex(_ pattern: String, on fileContent: String) throws -> [String] {
         let regex = try NSRegularExpression(pattern: pattern)
         let matches = regex.matches(in: fileContent, range: NSRange(location: 0, length: fileContent.count))
-        return matches.map { String(fileContent[Range($0.range, in: fileContent)!]) }
+        return matches.compactMap { result in
+            guard let range = Range(result.range, in: fileContent) else { return nil }
+            return String(fileContent[range])
+        }
     }
 }

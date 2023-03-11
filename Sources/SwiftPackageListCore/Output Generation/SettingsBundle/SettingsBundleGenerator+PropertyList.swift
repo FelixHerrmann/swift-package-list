@@ -8,32 +8,42 @@
 import Foundation
 
 extension SettingsBundleGenerator {
-    
     enum SpecifierType: String, Encodable {
         case group = "PSGroupSpecifier"
         case childPane = "PSChildPaneSpecifier"
     }
     
     struct Specifier: Encodable {
-        let `Type`: SpecifierType
-        var Title: String?
-        var FooterText: String?
-        var File: String?
+        let type: SpecifierType
+        var title: String?
+        var footerText: String?
+        var file: String?
+        
+        enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case title = "Title"
+            case footerText = "FooterText"
+            case file = "File"
+        }
     }
     
     struct PropertyList: Encodable {
-        var StringsTable: String?
-        let PreferenceSpecifiers: [Specifier]
+        var stringsTable: String?
+        let preferenceSpecifiers: [Specifier]
+        
+        enum CodingKeys: String, CodingKey {
+            case stringsTable = "StringsTable"
+            case preferenceSpecifiers = "PreferenceSpecifiers"
+        }
     }
 }
 
 extension SettingsBundleGenerator.Specifier {
-    
     static func group(title: String? = nil, footerText: String? = nil) -> SettingsBundleGenerator.Specifier {
-        return SettingsBundleGenerator.Specifier(Type: .group, Title: title, FooterText: footerText)
+        return SettingsBundleGenerator.Specifier(type: .group, title: title, footerText: footerText)
     }
     
     static func childPane(title: String, file: String) -> SettingsBundleGenerator.Specifier {
-        return SettingsBundleGenerator.Specifier(Type: .childPane, Title: title, File: file)
+        return SettingsBundleGenerator.Specifier(type: .childPane, title: title, file: file)
     }
 }

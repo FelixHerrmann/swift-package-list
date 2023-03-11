@@ -15,7 +15,7 @@ internal struct _LicenseText: View {
     
     internal var _package: Package
     
-    var body: some View {
+    internal var body: some View {
         ZStack {
             #if os(iOS)
             Color(.systemGroupedBackground)

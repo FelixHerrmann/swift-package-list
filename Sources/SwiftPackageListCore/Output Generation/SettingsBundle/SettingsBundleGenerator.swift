@@ -46,23 +46,23 @@ struct SettingsBundleGenerator: OutputGenerator {
         let rootURL = outputURL.appendingPathComponent("Root.plist")
         guard !fileManager.fileExists(atPath: rootURL.path) else { return }
         let rootSpecifiers: [Specifier] = [.childPane(title: "Acknowledgements", file: "Acknowledgements")]
-        let rootPlist = PropertyList(StringsTable: "Root", PreferenceSpecifiers: rootSpecifiers)
+        let rootPlist = PropertyList(stringsTable: "Root", preferenceSpecifiers: rootSpecifiers)
         let encodedRoot = try encoder.encode(rootPlist)
         try encodedRoot.write(to: rootURL)
     }
     
     private func createAcknowledgementsPlist() throws {
         let packageChildPanes: [Specifier] = packages.map { .childPane(title: $0.name, file: "Packages/\($0.name)") }
-        let acknowledgementsSpecifiers: [Specifier] = [.group(title: "Licenses")] + packageChildPanes
-        let acknowledgementsPlist = PropertyList(StringsTable: "Acknowledgements", PreferenceSpecifiers: acknowledgementsSpecifiers)
+        let preferenceSpecifiers: [Specifier] = [.group(title: "Licenses")] + packageChildPanes
+        let acknowledgementsPlist = PropertyList(stringsTable: "Acknowledgements", preferenceSpecifiers: preferenceSpecifiers)
         let encodedAcknowledgements = try encoder.encode(acknowledgementsPlist)
         let acknowledgementsURL = outputURL.appendingPathComponent("Acknowledgements.plist")
         try encodedAcknowledgements.write(to: acknowledgementsURL)
     }
     
     private func createPackagePlist(for package: Package) throws {
-        let packageSpecifiers: [Specifier] = [.group(footerText: package.license)]
-        let packagePlist = PropertyList(PreferenceSpecifiers: packageSpecifiers)
+        let preferenceSpecifiers: [Specifier] = [.group(footerText: package.license)]
+        let packagePlist = PropertyList(preferenceSpecifiers: preferenceSpecifiers)
         let encodedPackage = try encoder.encode(packagePlist)
         let packageURL = packagesURL.appendingPathComponent("\(package.name).plist")
         try encodedPackage.write(to: packageURL)

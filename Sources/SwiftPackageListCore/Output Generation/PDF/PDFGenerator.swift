@@ -77,11 +77,17 @@ struct PDFGenerator: OutputGenerator {
         let attributedString = NSMutableAttributedString()
         
         let headerTitle = NSAttributedString(string: "Acknowledgements", attributes: [.font: boldFont])
-        let organizationText = organizationName.map { $0 + " " } ?? ""
-        let headerString = "\nPortions of this \(organizationText)Software may utilize the following copyrighted material, the use of which is hereby acknowledged.\n\n"
-        let header = NSAttributedString(string: headerString, attributes: [.font: defaultFont])
         attributedString.append(headerTitle)
+        attributedString.append(NSAttributedString(string: "\n", attributes: [.font: defaultFont]))
+        
+        let organizationText = organizationName.map { $0 + " " } ?? ""
+        let headerString = """
+        Portions of this \(organizationText)Software may utilize the following copyrighted material, \
+        the use of which is hereby acknowledged.
+        """
+        let header = NSAttributedString(string: headerString, attributes: [.font: defaultFont])
         attributedString.append(header)
+        attributedString.append(NSAttributedString(string: "\n\n", attributes: [.font: defaultFont]))
         
         for package in packages {
             let packageName = NSAttributedString(string: package.name, attributes: [.font: boldFont])

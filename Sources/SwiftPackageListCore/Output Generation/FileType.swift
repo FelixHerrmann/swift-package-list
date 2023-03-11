@@ -16,7 +16,6 @@ public enum FileType: String, CaseIterable {
 }
 
 extension FileType {
-    
     private var fileExtension: String {
         switch self {
         case .json: return "json"
@@ -37,7 +36,6 @@ extension FileType {
 }
 
 extension FileType {
-    
     public func outputURL(at outputPath: String, customFileName: String?) -> URL {
         let fileName = customFileName ?? defaultFileName
         return URL(fileURLWithPath: outputPath)

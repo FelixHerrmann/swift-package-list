@@ -38,8 +38,7 @@ import SwiftUI
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct AcknowledgmentsList: View {
     
-    @ObservedObject
-    private var _viewModel: _AcknowledgmentsListViewModel
+    @ObservedObject private var _viewModel: _AcknowledgmentsListViewModel
     
     /// Creates a ``AcknowledgmentsList`` for a package-list file.
     /// - Parameters:
@@ -51,7 +50,9 @@ public struct AcknowledgmentsList: View {
     
     public var body: some View {
         List {
-            Section(header: Text("acknowledgments.section-title", bundle: .module, comment: "Section title for the license list")) {
+            Section(
+                header: Text("acknowledgments.section-title", bundle: .module, comment: "Section title for the license list")
+            ) {
                 ForEach(_viewModel._packages, id: \.self) { package in
                     NavigationLink(package.name) {
                         _LicenseText(_package: package)
