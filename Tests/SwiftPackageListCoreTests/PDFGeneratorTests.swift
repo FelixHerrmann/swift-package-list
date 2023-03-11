@@ -50,15 +50,14 @@ final class PDFGeneratorTests: XCTestCase {
         XCTAssertEqual(attributes["Title"] as? String, "Project_Acks_File_\(creationDate)")
         XCTAssertEqual(attributes["Creator"] as? String, "swift-package-list")
         
-        // swiftlint:disable line_length
         let expectedOutput = """
         Acknowledgements
-        Portions of this SwiftPackageList Software may utilize the following copyrighted material, the use of which is hereby acknowledged.
+        Portions of this SwiftPackageList Software may utilize the following \
+        copyrighted material, the use of which is hereby acknowledged.
         test
         MIT
         
         """
-        // swiftlint:enable line_length
         XCTAssertEqual(output.string, expectedOutput)
     }
 }
