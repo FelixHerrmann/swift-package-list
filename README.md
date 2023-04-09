@@ -141,6 +141,9 @@ You can then use [QuickLook](https://developer.apple.com/documentation/quicklook
 
 ## Swift Package
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFelixHerrmann%2Fswift-package-list%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/FelixHerrmann/swift-package-list)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFelixHerrmann%2Fswift-package-list%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/FelixHerrmann/swift-package-list)
+
 Load `package-list.json` or `package-list.plist` from the bundle with a single function call or use the pre-build UI components.
 
 ### Requirements
