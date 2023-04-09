@@ -1,0 +1,8 @@
+version: 1
+builder:
+  configs:
+    - scheme: Libraries
+      documentation_targets:
+        - SwiftPackageList
+        - SwiftPackageListObjc
+        - SwiftPackageListUI
