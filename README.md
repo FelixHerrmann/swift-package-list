@@ -17,6 +17,13 @@ Additionally there is a Swift Package to read the generated package-list file fr
 
 ### Installation
 
+#### Using [Homebrew](https://brew.sh)
+
+```shell
+brew tap FelixHerrmann/tap
+brew install swift-package-list
+```
+
 #### Using [Mint](https://github.com/yonaskolb/mint):
 
 ```shell
@@ -80,6 +87,15 @@ else
     echo "warning: swift-package-list not installed"
 fi
 ```
+
+#### Homebrew Troubleshooting on Apple Silicon
+
+If you used Homebrew to install the Command-Line Tool on an Apple Silicon Mac, Xcode will not recognize the swift-package-list command.
+This is because Homebrew uses it's own /bin directory and Xcode's PATH environment variable is not aware of that.
+There are 2 easy ways to fix this issue:
+
+- add `export PATH="$PATH:/opt/homebrew/bin"` as the first line to your build script
+- execute `ln -s /opt/homebrew/bin/swift-package-list /usr/local/bin/swift-package-list` in your Terminal
 
 #### Mint Troubleshooting
 
