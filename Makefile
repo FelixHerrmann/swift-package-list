@@ -5,7 +5,7 @@ INSTALL_PATH=$(BIN_PATH)/swift-package-list
 all: install
 
 build:
-	swift build --configuration release
+	swift build --configuration release --product swift-package-list
 
 install: build
 	mkdir -p $(BIN_PATH)
