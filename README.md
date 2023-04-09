@@ -1,9 +1,5 @@
 # SwiftPackageList
 
-[![Version](https://img.shields.io/github/v/release/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/releases)
-[![License](https://img.shields.io/github/license/FelixHerrmann/swift-package-list)](https://github.com/FelixHerrmann/swift-package-list/blob/master/LICENSE)
-[![Tweet](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FFelixHerrmann%2Fswift-package-list)
-
 [![Xcode Build](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml/badge.svg)](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml)
 [![SwiftLint](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/swiftlint.yml)
 
