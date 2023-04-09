@@ -62,4 +62,5 @@ jobs:
           body: This automated PR will update swift-package-list to version ${{ env.TAG }}.
           commit-message: Bump swift-package-list to ${{ env.TAG }}
           reviewers: FelixHerrmann
+          labels: release, automated pr
           delete-branch: true
