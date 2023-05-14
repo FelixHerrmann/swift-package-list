@@ -19,10 +19,10 @@ jobs:
         destination:
           - platform=macOS
           - platform=macOS,arch=x86_64,variant=Mac Catalyst
-          - name=iPhone 12
+          - name=iPhone 14
           - name=Apple TV
           - name=Apple Watch Series 6 (44mm)
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
       - name: Build Scheme
@@ -31,7 +31,7 @@ jobs:
   test:
     name: Test
     needs: build
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
       - name: Run tests
