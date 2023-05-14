@@ -19,7 +19,7 @@ jobs:
         destination:
           - platform=macOS
           - platform=macOS,arch=x86_64,variant=Mac Catalyst
-          - name=iPhone 12
+          - name=iPhone 14
           - name=Apple TV
           - name=Apple Watch Series 6 (44mm)
     runs-on: macos-13
