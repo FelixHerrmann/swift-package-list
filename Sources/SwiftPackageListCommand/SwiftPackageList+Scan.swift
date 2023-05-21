@@ -12,7 +12,7 @@ import SwiftPackageListCore
 extension SwiftPackageList {
     struct Scan: ParsableCommand {
         static var configuration: CommandConfiguration {
-            return CommandConfiguration(abstract: "Print all packages to the console.")
+            return CommandConfiguration(abstract: "Print all packages as JSON to the console.")
         }
         
         @OptionGroup var options: Options
