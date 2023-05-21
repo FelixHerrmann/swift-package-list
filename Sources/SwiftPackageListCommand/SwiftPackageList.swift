@@ -13,7 +13,7 @@ struct SwiftPackageList: ParsableCommand {
     static var configuration: CommandConfiguration {
         return CommandConfiguration(
             discussion: "A command-line tool to get all used SPM-dependencies of an Xcode project or workspace.",
-            version: "2.2.0",
+            version: "3.0.0",
             subcommands: [Scan.self, Generate.self]
         )
     }
