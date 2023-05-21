@@ -26,7 +26,7 @@ struct SwiftPackageListCommand: ParsableCommand {
     var sourcePackagesPath: String?
     
     @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
-    var outputPath: String = "\(NSHomeDirectory())/Desktop"
+    var outputPath = "\(NSHomeDirectory())/Desktop"
     
     // swiftlint:disable:next line_length
     @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf.")
