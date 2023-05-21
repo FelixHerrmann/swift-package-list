@@ -28,7 +28,7 @@ mint install FelixHerrmann/swift-package-list
 
 #### Installing from source:
 
-Clone or download this repository and run `make install`, `make update` or `make uninstall` (with sudo if required).
+Clone or download this repository and run `make install`, `make update` or `make uninstall`.
 
 ### Usage
 
