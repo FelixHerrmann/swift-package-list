@@ -34,7 +34,7 @@ Clone or download this repository and run `make install`, `make update` or `make
 
 ### Usage
 
-#### Scan command
+#### Scan Command
 
 Open the terminal and run `swift-package-list scan <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to get the JSON output from.
 
@@ -48,7 +48,7 @@ In addition to that you can specify the following options:
 | --version                                           | Show the version.                                                                                                             |
 | -h, --help                                          | Show help information.                                                                                                        |
 
-#### Generate command
+#### Generate Command
 
 Open the terminal and run `swift-package-list generate <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to generate the list from.
 
