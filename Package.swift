@@ -15,6 +15,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "swift-package-list", targets: ["SwiftPackageListCommand"]),
+        .plugin(name: "SwiftPackageListPlugin", targets: ["SwiftPackageListPlugin"]),
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
         .library(name: "SwiftPackageListObjc", type: .dynamic, targets: ["SwiftPackageListObjc"]),
         .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
@@ -29,6 +30,11 @@ let package = Package(
                 .target(name: "SwiftPackageListCore"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
+        ),
+        .plugin(
+            name: "SwiftPackageListPlugin",
+            capability: .buildTool(),
+            dependencies: [.target(name: "SwiftPackageListCommand")]
         ),
         .target(
             name: "SwiftPackageListCore",
