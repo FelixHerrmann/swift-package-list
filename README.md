@@ -65,6 +65,15 @@ In addition to that you can specify the following options:
 | --version                                           | Show the version.                                                                                                             |
 | -h, --help                                          | Show help information.                                                                                                        |
 
+### Build Tool Plugins
+
+For each file type there is a dedicated plugin available which you can add to your targets.
+
+Simply add them under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies.
+
+Once added the file(s) will get generated during every build process and are available in the App's bundle.
+You can then open them manually or use the various options in the included [Swift Package](#swift-package).
+
 ### Run Script Phase
 
 You can easily set up a Run Script Phase in your target of your Xcode project to keep the package-list file up to date automatically:
