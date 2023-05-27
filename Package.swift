@@ -18,6 +18,7 @@ let package = Package(
         .plugin(name: "SwiftPackageListJSONPlugin", targets: ["SwiftPackageListJSONPlugin"]),
         .plugin(name: "SwiftPackageListPropertyListPlugin", targets: ["SwiftPackageListPropertyListPlugin"]),
         .plugin(name: "SwiftPackageListSettingsBundlePlugin", targets: ["SwiftPackageListSettingsBundlePlugin"]),
+        .plugin(name: "SwiftPackageListPDFPlugin", targets: ["SwiftPackageListPDFPlugin"]),
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
         .library(name: "SwiftPackageListObjc", type: .dynamic, targets: ["SwiftPackageListObjc"]),
         .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
@@ -45,6 +46,11 @@ let package = Package(
         ),
         .plugin(
             name: "SwiftPackageListSettingsBundlePlugin",
+            capability: .buildTool(),
+            dependencies: [.target(name: "SwiftPackageListCommand")]
+        ),
+        .plugin(
+            name: "SwiftPackageListPDFPlugin",
             capability: .buildTool(),
             dependencies: [.target(name: "SwiftPackageListCommand")]
         ),
