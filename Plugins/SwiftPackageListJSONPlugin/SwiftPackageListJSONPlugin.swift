@@ -1,5 +1,5 @@
 //
-//  SwiftPackageListPlugin.swift
+//  SwiftPackageListJSONPlugin.swift
 //  SwiftPackageListPlugin
 //
 //  Created by Felix Herrmann on 22.05.23.
@@ -9,7 +9,7 @@ import Foundation
 import PackagePlugin
 
 @main
-struct SwiftPackageListPlugin: BuildToolPlugin {
+struct SwiftPackageListJSONPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
         return []
     }
@@ -18,7 +18,7 @@ struct SwiftPackageListPlugin: BuildToolPlugin {
 #if canImport(XcodeProjectPlugin)
 import XcodeProjectPlugin
 
-extension SwiftPackageListPlugin: XcodeBuildToolPlugin {
+extension SwiftPackageListJSONPlugin: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         let projectPath = context.xcodeProject.directory.appending("\(context.xcodeProject.displayName).xcodeproj")
         let executable = try context.tool(named: "SwiftPackageListCommand").path.removingLastComponent().appending("swift-package-list")
@@ -27,7 +27,7 @@ extension SwiftPackageListPlugin: XcodeBuildToolPlugin {
             .buildCommand(
                 displayName: "SwiftPackageListPlugin",
                 executable: executable,
-                arguments: ["generate", projectPath, "--output-path", outputPath, "--requires-license"],
+                arguments: ["generate", projectPath, "--output-path", outputPath, "--file-type", "json", "--requires-license"],
                 outputFiles: [outputPath.appending("package-list.json")]
             )
         ]

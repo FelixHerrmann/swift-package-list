@@ -154,9 +154,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageListPlugin"
-               BuildableName = "SwiftPackageListPlugin"
-               BlueprintName = "SwiftPackageListPlugin"
+               BlueprintIdentifier = "SwiftPackageListJSONPlugin"
+               BuildableName = "SwiftPackageListJSONPlugin"
+               BlueprintName = "SwiftPackageListJSONPlugin"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
