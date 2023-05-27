@@ -1,6 +1,6 @@
 //
 //  SwiftPackageListJSONPlugin.swift
-//  SwiftPackageListPlugin
+//  SwiftPackageListJSONPlugin
 //
 //  Created by Felix Herrmann on 22.05.23.
 //
