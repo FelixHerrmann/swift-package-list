@@ -22,8 +22,6 @@ extension SwiftPackageListJSONPlugin: XcodeBuildToolPlugin {
     func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
         let projectPath = context.xcodeProject.directory.appending("\(context.xcodeProject.displayName).xcodeproj")
         let executable = try context.tool(named: "SwiftPackageListCommand").path
-            .removingLastComponent()
-            .appending("swift-package-list")
         let outputPath = context.pluginWorkDirectory
         let fileType = "json"
         return [
