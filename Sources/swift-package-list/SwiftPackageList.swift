@@ -1,6 +1,6 @@
 //
 //  SwiftPackageList.swift
-//  SwiftPackageListCommand
+//  swift-package-list
 //
 //  Created by Felix Herrmann on 01.11.21.
 //

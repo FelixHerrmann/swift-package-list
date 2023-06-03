@@ -1,6 +1,6 @@
 //
-//  SwiftPackageList+Scan.swift
-//  SwiftPackageListCommand
+//  SwiftPackageList+Generate.swift
+//  swift-package-list
 //
 //  Created by Felix Herrmann on 21.05.23.
 //
@@ -10,12 +10,22 @@ import ArgumentParser
 import SwiftPackageListCore
 
 extension SwiftPackageList {
-    struct Scan: ParsableCommand {
+    struct Generate: ParsableCommand {
         static var configuration: CommandConfiguration {
-            return CommandConfiguration(abstract: "Print all packages as JSON to the console.")
+            return CommandConfiguration(abstract: "Generate the specified output for all packages.")
         }
         
         @OptionGroup var options: Options
+        
+        @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
+        var outputPath = "\(NSHomeDirectory())/Desktop"
+        
+        // swiftlint:disable:next line_length
+        @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf.")
+        var fileType: FileType = .json
+        
+        @Option(name: .shortAndLong, help: "A custom filename to be used instead of the default ones.")
+        var customFileName: String?
         
         mutating func run() throws {
             guard let project = Project(path: options.projectPath) else {
@@ -42,11 +52,10 @@ extension SwiftPackageList {
             let packageResolved = try PackageResolved(at: project.packageResolvedFileURL)
             let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: options.requiresLicense)
             
-            let jsonEncoder = JSONEncoder()
-            jsonEncoder.outputFormatting = .prettyPrinted
-            let jsonData = try jsonEncoder.encode(packages)
-            let jsonString = String(decoding: jsonData, as: UTF8.self)
-            print(jsonString)
+            let outputURL = fileType.outputURL(at: outputPath, customFileName: customFileName)
+            let outputGenerator = fileType.outputGenerator(outputURL: outputURL, packages: packages, project: project)
+            try outputGenerator.generateOutput()
+            throw CleanExit.message("Generated \(outputURL.path)")
         }
     }
 }
