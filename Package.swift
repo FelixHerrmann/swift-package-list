@@ -14,7 +14,7 @@ let package = Package(
         .watchOS(.v6),
     ],
     products: [
-        .executable(name: "swift-package-list", targets: ["SwiftPackageListCommand"]),
+        .executable(name: "swift-package-list", targets: ["swift-package-list"]),
         .plugin(name: "SwiftPackageListJSONPlugin", targets: ["SwiftPackageListJSONPlugin"]),
         .plugin(name: "SwiftPackageListPropertyListPlugin", targets: ["SwiftPackageListPropertyListPlugin"]),
         .plugin(name: "SwiftPackageListSettingsBundlePlugin", targets: ["SwiftPackageListSettingsBundlePlugin"]),
@@ -28,7 +28,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "SwiftPackageListCommand",
+            name: "swift-package-list",
             dependencies: [
                 .target(name: "SwiftPackageListCore"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
@@ -37,22 +37,22 @@ let package = Package(
         .plugin(
             name: "SwiftPackageListJSONPlugin",
             capability: .buildTool(),
-            dependencies: [.target(name: "SwiftPackageListCommand")]
+            dependencies: [.target(name: "swift-package-list")]
         ),
         .plugin(
             name: "SwiftPackageListPropertyListPlugin",
             capability: .buildTool(),
-            dependencies: [.target(name: "SwiftPackageListCommand")]
+            dependencies: [.target(name: "swift-package-list")]
         ),
         .plugin(
             name: "SwiftPackageListSettingsBundlePlugin",
             capability: .buildTool(),
-            dependencies: [.target(name: "SwiftPackageListCommand")]
+            dependencies: [.target(name: "swift-package-list")]
         ),
         .plugin(
             name: "SwiftPackageListPDFPlugin",
             capability: .buildTool(),
-            dependencies: [.target(name: "SwiftPackageListCommand")]
+            dependencies: [.target(name: "swift-package-list")]
         ),
         .target(
             name: "SwiftPackageListCore",
@@ -65,7 +65,7 @@ let package = Package(
             dependencies: ["SwiftPackageList"],
             resources: [.process("Resources")]
         ),
-        .testTarget(name: "SwiftPackageListCommandTests"),
+        .testTarget(name: "swift-package-list-tests"),
         .testTarget(
             name: "SwiftPackageListCoreTests",
             dependencies: ["SwiftPackageListCore"],

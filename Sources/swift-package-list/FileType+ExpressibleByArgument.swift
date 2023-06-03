@@ -1,6 +1,6 @@
 //
 //  FileType+ExpressibleByArgument.swift
-//  SwiftPackageListCommand
+//  swift-package-list
 //
 //  Created by Felix Herrmann on 19.05.22.
 //

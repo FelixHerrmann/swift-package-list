@@ -1,13 +1,13 @@
 //
-//  SwiftPackageListCommandTests.swift
-//  SwiftPackageListCommandTests
+//  ExecutionTests.swift
+//  swift-package-list-tests
 //
 //  Created by Felix Herrmann on 18.05.22.
 //
 
 import XCTest
 
-final class SwiftPackageListCommandTests: XCTestCase {
+final class ExecutionTests: XCTestCase {
     
     private var productsDirectory: URL {
         for bundle in Bundle.allBundles where bundle.bundlePath.hasSuffix(".xctest") {
