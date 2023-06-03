@@ -4,5 +4,4 @@ builder:
     - scheme: Libraries
       documentation_targets:
         - SwiftPackageList
-        - SwiftPackageListObjc
         - SwiftPackageListUI
