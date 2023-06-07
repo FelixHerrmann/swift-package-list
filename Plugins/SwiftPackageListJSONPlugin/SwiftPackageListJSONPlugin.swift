@@ -24,14 +24,35 @@ extension SwiftPackageListJSONPlugin: XcodeBuildToolPlugin {
         let executable = try context.tool(named: "swift-package-list").path
         let outputPath = context.pluginWorkDirectory
         let fileType = "json"
+        let derivedDataPath = context.derivedDataDirectory
         return [
             .buildCommand(
                 displayName: "SwiftPackageListPlugin",
                 executable: executable,
-                arguments: ["generate", projectPath, "--output-path", outputPath, "--file-type", fileType, "--requires-license"],
+                arguments: [
+                    "generate",
+                    projectPath,
+                    "--derived-data-path", derivedDataPath,
+                    "--output-path", outputPath,
+                    "--file-type", fileType,
+                    "--requires-license"
+                ],
                 outputFiles: [outputPath.appending("package-list.json")]
             )
         ]
+    }
+}
+
+extension XcodePluginContext {
+    var derivedDataDirectory: Path {
+        var path = pluginWorkDirectory
+        while path.lastComponent != "DerivedData" {
+            guard path.string != "/" else {
+                return Path("\(NSHomeDirectory())/Library/Developer/Xcode/DerivedData")
+            }
+            path = path.removingLastComponent()
+        }
+        return path
     }
 }
 #endif
