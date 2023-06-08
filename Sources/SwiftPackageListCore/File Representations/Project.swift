@@ -67,14 +67,10 @@ extension Project {
                 options: [.skipsHiddenFiles]
             )
             guard let infoDotPlist = buildFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
-            do {
-                let infoPlistData = try Data(contentsOf: infoDotPlist)
-                let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
-                if infoPlist.workspacePath == fileURL.path {
-                    return buildDirectory
-                }
-            } catch {
-                print("Warning: Could not open or decode \(infoDotPlist)")
+            let infoPlistData = try Data(contentsOf: infoDotPlist)
+            let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
+            if infoPlist.workspacePath == fileURL.path {
+                return buildDirectory
             }
         }
         
