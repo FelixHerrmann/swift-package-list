@@ -21,6 +21,7 @@ extension SettingsBundleGenerator {
         case pt
         case ru
         case es
+        case ua
         // swiftlint:enable identifier_name
     }
 }
@@ -76,6 +77,10 @@ extension SettingsBundleGenerator.Language {
             return [
                 .acknowledgements: "Expresiones de gratitud",
             ]
+        case .ua:
+            return [
+                .acknowledgements: "Подяки",
+            ]
         }
     }
 }
@@ -130,6 +135,10 @@ extension SettingsBundleGenerator.Language {
         case .es:
             return [
                 .licenses: "Licencias",
+            ]
+        case .ua:
+            return [
+                .licenses: "Ліцензії",
             ]
         }
     }
