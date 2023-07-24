@@ -258,6 +258,7 @@ The Settings Bundle and the UI-components are currently localized in the followi
 | Portuguese           | pt      |
 | Russian              | ru      |
 | Spanish              | es      |
+| Ukrainian            | ua      |
 
 > If a language has mistakes or is missing, feel free to create an issue or open a pull request.
 
