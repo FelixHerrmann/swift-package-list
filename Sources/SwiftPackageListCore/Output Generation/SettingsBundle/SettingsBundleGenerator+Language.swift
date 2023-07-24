@@ -11,17 +11,17 @@ extension SettingsBundleGenerator {
     enum Language: String, CaseIterable {
         // swiftlint:disable identifier_name
         case ar
-        case zhHans = "zh-hans"
-        case zhHant = "zh-hant"
-        case en
-        case fr
         case de
+        case en
+        case es
+        case fr
         case hi
         case it
         case pt
         case ru
-        case es
         case ua
+        case zhHans = "zh-hans"
+        case zhHant = "zh-hant"
         // swiftlint:enable identifier_name
     }
 }
@@ -37,25 +37,21 @@ extension SettingsBundleGenerator.Language {
             return [
                 .acknowledgements: "مخزن",
             ]
-        case .zhHans:
+        case .de:
             return [
-                .acknowledgements: "致谢",
-            ]
-        case .zhHant:
-            return [
-                .acknowledgements: "致謝",
+                .acknowledgements: "Danksagungen",
             ]
         case .en:
             return [
                 .acknowledgements: "Acknowledgements",
             ]
+        case .es:
+            return [
+                .acknowledgements: "Expresiones de gratitud",
+            ]
         case .fr:
             return [
                 .acknowledgements: "Remerciements",
-            ]
-        case .de:
-            return [
-                .acknowledgements: "Danksagungen",
             ]
         case .hi:
             return [
@@ -73,13 +69,17 @@ extension SettingsBundleGenerator.Language {
             return [
                 .acknowledgements: "Благодарности",
             ]
-        case .es:
-            return [
-                .acknowledgements: "Expresiones de gratitud",
-            ]
         case .ua:
             return [
                 .acknowledgements: "Подяки",
+            ]
+        case .zhHans:
+            return [
+                .acknowledgements: "致谢",
+            ]
+        case .zhHant:
+            return [
+                .acknowledgements: "致謝",
             ]
         }
     }
@@ -96,25 +96,21 @@ extension SettingsBundleGenerator.Language {
             return [
                 .licenses: "التراخيص",
             ]
-        case .zhHans:
+        case .de:
             return [
-                .licenses: "许可证",
-            ]
-        case .zhHant:
-            return [
-                .licenses: "許可證",
+                .licenses: "Lizenzen",
             ]
         case .en:
             return [
                 .licenses: "Licenses",
             ]
+        case .es:
+            return [
+                .licenses: "Licencias",
+            ]
         case .fr:
             return [
                 .licenses: "Licences",
-            ]
-        case .de:
-            return [
-                .licenses: "Lizenzen",
             ]
         case .hi:
             return [
@@ -132,13 +128,17 @@ extension SettingsBundleGenerator.Language {
             return [
                 .licenses: "Лицензии",
             ]
-        case .es:
-            return [
-                .licenses: "Licencias",
-            ]
         case .ua:
             return [
                 .licenses: "Ліцензії",
+            ]
+        case .zhHans:
+            return [
+                .licenses: "许可证",
+            ]
+        case .zhHant:
+            return [
+                .licenses: "許可證",
             ]
         }
     }
