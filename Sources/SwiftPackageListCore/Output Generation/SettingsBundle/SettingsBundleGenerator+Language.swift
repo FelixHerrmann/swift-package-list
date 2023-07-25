@@ -19,7 +19,7 @@ extension SettingsBundleGenerator {
         case it
         case pt
         case ru
-        case ua
+        case uk
         case zhHans = "zh-hans"
         case zhHant = "zh-hant"
         // swiftlint:enable identifier_name
@@ -69,7 +69,7 @@ extension SettingsBundleGenerator.Language {
             return [
                 .acknowledgements: "Благодарности",
             ]
-        case .ua:
+        case .uk:
             return [
                 .acknowledgements: "Подяки",
             ]
@@ -128,7 +128,7 @@ extension SettingsBundleGenerator.Language {
             return [
                 .licenses: "Лицензии",
             ]
-        case .ua:
+        case .uk:
             return [
                 .licenses: "Ліцензії",
             ]
