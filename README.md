@@ -74,6 +74,10 @@ Simply add them under the `Run Build Tool Plug-ins` section in the Target's Buil
 Once added the file(s) will get generated during every build process and are available in the App's bundle.
 You can then open them manually or use the various options in the included [Swift Package](#swift-package).
 
+> [!NOTE]  
+> When using Xcode Cloud add `defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES`
+> to `ci_post_clone.sh` which disables the plugin validation.
+
 ### Run Script Phase
 
 You can easily set up a Run Script Phase in your target of your Xcode project to keep the package-list file up to date automatically:
