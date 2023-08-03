@@ -52,7 +52,11 @@ extension PackageResolved {
             includingPropertiesForKeys: [.isRegularFileKey, .localizedNameKey],
             options: .skipsHiddenFiles
         )
-        return packageFiles.first { $0.deletingPathExtension().lastPathComponent.lowercased() == "license" }
+        return packageFiles.first { packageFile in
+            let fileName = packageFile.deletingPathExtension().lastPathComponent.lowercased()
+            let allowedFileNames = ["license", "licence"]
+            return allowedFileNames.contains(fileName)
+        }
     }
     
     // swiftlint:disable:next identifier_name
