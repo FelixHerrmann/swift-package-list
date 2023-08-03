@@ -14,8 +14,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  build-libraries:
+    name: Build Libraries
     strategy:
       matrix:
         scheme:
@@ -32,13 +32,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Scheme
-        run: xcodebuild -scheme ${{ matrix.scheme }} -destination '${{ matrix.destination }}'
+        run: |
+          xcodebuild \
+          -scheme ${{ matrix.scheme }} \
+          -destination '${{ matrix.destination }}'
   
   test:
     name: Test
-    needs: build
+    needs: build-libraries
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
       - name: Run tests
-        run: xcodebuild -scheme SwiftPackageList-Package -destination 'platform=macOS' test
+        run: |
+          xcodebuild \
+          -scheme SwiftPackageList-Package \
+          -destination 'platform=macOS' \
+          -resultBundlePath TestResults \
+          test
+      - uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          path: TestResults.xcresult
+        if: success() || failure()
