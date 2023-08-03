@@ -14,8 +14,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  build-libraries:
+    name: Build Libraries
     strategy:
       matrix:
         scheme:
@@ -36,7 +36,7 @@ jobs:
   
   test:
     name: Test
-    needs: build
+    needs: build-libraries
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
