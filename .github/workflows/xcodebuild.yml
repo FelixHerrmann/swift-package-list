@@ -32,7 +32,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Scheme
-        run: xcodebuild -scheme ${{ matrix.scheme }} -destination '${{ matrix.destination }}'
+        run: |
+          xcodebuild \
+          -scheme ${{ matrix.scheme }} \
+          -destination '${{ matrix.destination }}'
   
   test:
     name: Test
@@ -41,7 +44,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run tests
-        run: xcodebuild -scheme SwiftPackageList-Package -destination 'platform=macOS' -resultBundlePath TestResults test
+        run: |
+          xcodebuild \
+          -scheme SwiftPackageList-Package \
+          -destination 'platform=macOS' \
+          -resultBundlePath TestResults \
+          test
       - uses: kishikawakatsumi/xcresulttool@v1
         with:
           path: TestResults.xcresult
