@@ -35,7 +35,7 @@ extension SwiftPackageListPropertyListPlugin: XcodeBuildToolPlugin {
                     "--source-packages-path", sourcePackagesPath,
                     "--output-path", outputPath,
                     "--file-type", fileType,
-                    "--requires-license"
+                    "--requires-license",
                 ],
                 outputFiles: [outputPath.appending("package-list.plist")]
             )
