@@ -17,6 +17,7 @@ extension SettingsBundleGenerator {
         case fr
         case hi
         case it
+        case pl
         case pt
         case ru
         case uk
@@ -60,6 +61,10 @@ extension SettingsBundleGenerator.Language {
         case .it:
             return [
                 .acknowledgements: "Ringraziamenti",
+            ]
+        case .pl:
+            return [
+                .acknowledgements: "Podziękowania",
             ]
         case .pt:
             return [
@@ -119,6 +124,10 @@ extension SettingsBundleGenerator.Language {
         case .it:
             return [
                 .licenses: "Licenze",
+            ]
+        case .pl:
+            return [
+                .licenses: "Licencje",
             ]
         case .pt:
             return [

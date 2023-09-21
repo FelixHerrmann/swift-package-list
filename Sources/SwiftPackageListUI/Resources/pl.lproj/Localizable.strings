@@ -1,0 +1,9 @@
+
+// Navigation bar title of the license list
+"acknowledgments.title" = "Podziękowania";
+
+// Section title for the license list
+"acknowledgments.section-title" = "Licencje";
+
+// Opens the repository in a browser window, only shown on iOS 12 and lower
+"license-text.repository-button-text" = "Repozytorium";
