@@ -14,7 +14,7 @@ jobs:
       TAG: ${{ github.ref_name }}
       GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build executable
         run: |
           swift build \
@@ -46,7 +46,7 @@ jobs:
       SHA256: ${{ needs.release-build.outputs.sha }}
     steps:
       - name: Checkout FelixHerrmann/homebrew-tap
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'FelixHerrmann/homebrew-tap'
       - name: Update Formula
