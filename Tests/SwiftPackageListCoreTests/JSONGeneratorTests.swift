@@ -42,10 +42,10 @@ final class JSONGeneratorTests: XCTestCase {
         let expectedOutput = """
         [
           {
-            "revision" : "xxxx",
             "license" : "MIT",
             "name" : "test",
             "repositoryURL" : "https:\\/\\/github.com\\/test\\/test",
+            "revision" : "xxxx",
             "version" : "1.0.0"
           }
         ]
