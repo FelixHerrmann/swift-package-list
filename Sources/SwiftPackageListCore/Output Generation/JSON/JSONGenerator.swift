@@ -15,7 +15,7 @@ struct JSONGenerator: OutputGenerator {
     
     private let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         return encoder
     }()
     
