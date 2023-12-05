@@ -45,6 +45,14 @@ extension PackageResolved {
     }
     
     private func licensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
+        return try path(with: ["license", "licence"], for: checkoutURL, in: checkoutsDirectory)
+    }
+    
+    private func packagePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
+        return try path(with: ["package"], disallowedFileNames: ["package.resolved"], for: checkoutURL, in: checkoutsDirectory)
+    }
+    
+    private func path(with allowedFileNames: [String], disallowedFileNames: [String] = [], for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
         let checkoutName = checkoutURL.lastPathComponent
         let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
         let packageFiles = try FileManager.default.contentsOfDirectory(
@@ -53,9 +61,12 @@ extension PackageResolved {
             options: .skipsHiddenFiles
         )
         return packageFiles.first { packageFile in
-            let fileName = packageFile.deletingPathExtension().lastPathComponent.lowercased()
-            let allowedFileNames = ["license", "licence"]
-            return allowedFileNames.contains(fileName)
+            let fileName = packageFile.lastPathComponent.lowercased()
+            let fileNameWithoutExtension = packageFile.deletingPathExtension().lastPathComponent.lowercased()
+            if disallowedFileNames.contains(fileName) {
+                return false
+            }
+            return allowedFileNames.contains(fileNameWithoutExtension)
         }
     }
     
@@ -63,10 +74,11 @@ extension PackageResolved {
     private func packages(v1: PackageResolved_V1, checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         return try v1.object.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
+            let name = try extractPackageName(for: checkoutURL, in: checkoutsDirectory)
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -75,7 +87,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -87,14 +99,37 @@ extension PackageResolved {
         }
     }
     
+    private func extractPackageName(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> String {
+        
+        let packageNameKey = "name:"
+        if let packagePath = try packagePath(for: checkoutURL, in: checkoutsDirectory) {
+            let readFile = try String(contentsOf: packagePath, encoding: .utf8)
+            let lines = readFile.components(separatedBy: .newlines)
+            for line in lines {
+                let sanitized = line.trimmingCharacters(in: .whitespaces)
+                if sanitized.hasPrefix(packageNameKey) {
+                    let cleanedResult = sanitized
+                        .replacingOccurrences(of: packageNameKey, with: "")
+                        .replacingOccurrences(of: "\"", with: "")
+                        .replacingOccurrences(of: ",", with: "")
+                        .trimmingCharacters(in: .whitespaces)
+                    return cleanedResult
+                }
+            }
+        }
+        
+        return checkoutURL.lastPathComponent
+    }
+    
     // swiftlint:disable:next identifier_name
     private func packages(v2: PackageResolved_V2, checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         return try v2.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
+            let name = try extractPackageName(for: checkoutURL, in: checkoutsDirectory)
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -103,7 +138,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
