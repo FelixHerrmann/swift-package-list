@@ -50,7 +50,7 @@ extension SwiftPackageList {
             }
             
             let packageResolved = try PackageResolved(at: project.packageResolvedFileURL)
-            let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: options.requiresLicense)
+            let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: options.requiresLicense, resolvesPackageNames: options.resolvesPackageNames)
             
             let outputURL = fileType.outputURL(at: outputPath, customFileName: customFileName)
             let outputGenerator = fileType.outputGenerator(outputURL: outputURL, packages: packages, project: project)
