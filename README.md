@@ -45,6 +45,7 @@ In addition to that you can specify the following options:
 | -d, --derived-data-path \<derived-data-path\>       | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
 | -s, --source-packages-path \<source-packages-path\> | The path to a custom SourcePackages-folder.                                                                                   |
 | --requires-license                                  | Will skip the packages without a license-file.                                                                                |
+| --resolves-packages-names                           | Will try to resolve the package name from the Package.swift file.                                                             |
 | --version                                           | Show the version.                                                                                                             |
 | -h, --help                                          | Show help information.                                                                                                        |
 
@@ -62,6 +63,7 @@ In addition to that you can specify the following options:
 | -f, --file-type \<file-type\>                       | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
 | -c, --custom-file-name \<custom-file-name\>         | A custom filename to be used instead of the default ones.                                                                     |
 | --requires-license                                  | Will skip the packages without a license-file.                                                                                |
+| --resolves-packages-names                           | Will try to resolve the package name from the Package.swift file.                                                             |
 | --version                                           | Show the version.                                                                                                             |
 | -h, --help                                          | Show help information.                                                                                                        |
 
