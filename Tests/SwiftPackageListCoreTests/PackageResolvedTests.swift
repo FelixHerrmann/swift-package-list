@@ -6,7 +6,9 @@
 //
 
 import XCTest
+
 @testable import SwiftPackageListCore
+@testable import SwiftPackageList
 
 final class PackageResolvedTests: XCTestCase {
     
@@ -55,5 +57,44 @@ final class PackageResolvedTests: XCTestCase {
             XCTAssertTrue(error is RuntimeError)
             XCTAssertEqual((error as? RuntimeError)?.description, "The version of the Package.resolved is not supported")
         }
+    }
+    
+    func testPackagesVersion1WithoutResolvingPackageNames() throws {
+        
+        let output = try generatePackagesOutput(for: "Package_v1", resolvesPackageNames: false)
+        XCTAssertEqual(output.count, 1)
+        XCTAssertEqual(output.first?.name, "swift-package-list")
+    }
+    
+    func testPackagesVersion1ByResolvingPackageNames() throws {
+        
+        let output = try generatePackagesOutput(for: "Package_v1", resolvesPackageNames: true)
+        XCTAssertEqual(output.count, 1)
+        XCTAssertEqual(output.first?.name, "SwiftPackageList")
+    }
+    
+    func testPackagesVersion2WithoutResolvingPackageNames() throws {
+        
+        let output = try generatePackagesOutput(for: "Package_v2", resolvesPackageNames: false)
+        XCTAssertEqual(output.count, 1)
+        XCTAssertEqual(output.first?.name, "swift-package-list")
+    }
+    
+    func testPackagesVersion2ByResolvingPackageNames() throws {
+        
+        let output = try generatePackagesOutput(for: "Package_v2", resolvesPackageNames: true)
+        XCTAssertEqual(output.count, 1)
+        XCTAssertEqual(output.first?.name, "SwiftPackageList")
+    }
+    
+    private func generatePackagesOutput(for packageFileName: String, resolvesPackageNames: Bool) throws -> [Package] {
+        
+        let url = Bundle.module.url(forResource: packageFileName, withExtension: "resolved", subdirectory: "Resources")
+        let unwrappedURL = try XCTUnwrap(url)
+        let packageResolved = try PackageResolved(at: unwrappedURL)
+        let packageFileURL = Bundle.module.url(forResource: "Package", withExtension: "swift", subdirectory: "Resources/swift-package-list")
+        let ressourcesURL = packageFileURL!.deletingLastPathComponent().deletingLastPathComponent()
+        
+        return try packageResolved.packages(in: ressourcesURL, requiresLicense: false, resolvesPackageNames: resolvesPackageNames)
     }
 }

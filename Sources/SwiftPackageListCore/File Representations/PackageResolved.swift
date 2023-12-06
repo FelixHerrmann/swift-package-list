@@ -74,11 +74,11 @@ extension PackageResolved {
     private func packages(v1: PackageResolved_V1, checkoutsDirectory: URL, requiresLicense: Bool, resolvesPackageNames: Bool) throws -> [Package] {
         return try v1.object.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
-            let name = try extractPackageName(for: checkoutURL, in: checkoutsDirectory, resolvesPackageNames: resolvesPackageNames)
+            let packageName = try extractPackageName(for: checkoutURL, in: checkoutsDirectory, resolvesPackageNames: resolvesPackageNames)
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: name,
+                    name: packageName,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -87,7 +87,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: name,
+                    name: packageName,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -132,11 +132,11 @@ extension PackageResolved {
     private func packages(v2: PackageResolved_V2, checkoutsDirectory: URL, requiresLicense: Bool, resolvesPackageNames: Bool) throws -> [Package] {
         return try v2.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
-            let name = try extractPackageName(for: checkoutURL, in: checkoutsDirectory, resolvesPackageNames: resolvesPackageNames)
+            let packageName = try extractPackageName(for: checkoutURL, in: checkoutsDirectory, resolvesPackageNames: resolvesPackageNames)
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: name,
+                    name: packageName,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -145,7 +145,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: name,
+                    name: packageName,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,

@@ -22,7 +22,7 @@ extension SwiftPackageList {
         @Flag(help: "Will skip the packages without a license-file.")
         var requiresLicense = false
         
-        @Flag(help: "Will try to resolve the package name from the Package.swift file if true.")
+        @Flag(help: "Will try to resolve the package name from the Package.swift file.")
         var resolvesPackageNames = false
     }
 }
