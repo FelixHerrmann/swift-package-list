@@ -115,7 +115,11 @@ extension PackageResolved {
         }
     }
     
-    private func packages(pins: [PackageResolved_V2.Pin], sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    private func packages(
+        pins: [PackageResolved_V2.Pin],
+        sourcePackagesDirectory: URL,
+        requiresLicense: Bool
+    ) throws -> [Package] {
         let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
         let workspaceStateFile = sourcePackagesDirectory.appendingPathComponent("workspace-state.json")
         let workspaceState = try WorkspaceState(at: workspaceStateFile)
