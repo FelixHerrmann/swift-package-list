@@ -53,7 +53,7 @@ extension PackageResolved {
     }
     
     private func licensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
-        let checkoutName = checkoutURL.lastPathComponent
+        let checkoutName = checkoutURL.deletingPathExtension().lastPathComponent
         let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
         let packageFiles = try FileManager.default.contentsOfDirectory(
             at: checkoutPath,
@@ -157,7 +157,7 @@ public struct PackageResolved_V1: Decodable {
 
 extension PackageResolved_V1.Object.Pin {
     var checkoutURL: URL? {
-        URL(string: repositoryURL.replacingOccurrences(of: ".git", with: ""))
+        return URL(string: repositoryURL)
     }
 }
 
@@ -183,6 +183,6 @@ public struct PackageResolved_V2: Decodable {
 
 extension PackageResolved_V2.Pin {
     var checkoutURL: URL? {
-        URL(string: location.replacingOccurrences(of: ".git", with: ""))
+        return URL(string: location)
     }
 }
