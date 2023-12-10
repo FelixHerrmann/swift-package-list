@@ -76,7 +76,7 @@ extension PackageResolved {
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: pin.package,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -85,7 +85,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: pin.package,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -100,13 +100,17 @@ extension PackageResolved {
     // swiftlint:disable:next identifier_name
     private func packages(v2: PackageResolved_V2, sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
+        let workspaceStateFile = sourcePackagesDirectory.appendingPathComponent("workspace-state.json")
+        let workspaceState = try WorkspaceState(at: workspaceStateFile)
         
         return try v2.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
+            let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
+            
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -115,7 +119,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
