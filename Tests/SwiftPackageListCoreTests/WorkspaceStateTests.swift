@@ -32,7 +32,7 @@ final class WorkspaceStateTests: XCTestCase {
         
         XCTAssertThrowsError(try WorkspaceState(at: unwrappedURL)) { error in
             XCTAssertTrue(error is RuntimeError)
-            XCTAssertEqual((error as? RuntimeError)?.description, "The version of the workspace-state.json is not supported")
+            XCTAssertEqual((error as? RuntimeError)?.description, "Version 999 of workspace-state.json is not supported")
         }
     }
 }

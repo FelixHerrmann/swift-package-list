@@ -33,7 +33,7 @@ extension WorkspaceState {
             let workspaceState = try decoder.decode(WorkspaceState_V6.self, from: data)
             self = .v6(workspaceState)
         default:
-            throw RuntimeError("The version of the workspace-state.json is not supported")
+            throw RuntimeError("Version \(version.version) of workspace-state.json is not supported")
         }
     }
 }
