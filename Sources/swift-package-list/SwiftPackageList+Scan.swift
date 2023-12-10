@@ -43,7 +43,7 @@ extension SwiftPackageList {
             let packages = try packageResolved.packages(in: sourcePackagesDirectory, requiresLicense: options.requiresLicense)
             
             let jsonEncoder = JSONEncoder()
-            jsonEncoder.outputFormatting = .prettyPrinted
+            jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
             let jsonData = try jsonEncoder.encode(packages)
             let jsonString = String(decoding: jsonData, as: UTF8.self)
             print(jsonString)

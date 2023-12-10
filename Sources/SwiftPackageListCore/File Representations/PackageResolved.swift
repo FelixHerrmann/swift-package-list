@@ -8,44 +8,57 @@
 import Foundation
 import SwiftPackageList
 
+/// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageGraph/PinsStore.swift
 public enum PackageResolved {
     // swiftlint:disable identifier_name
     case v1(PackageResolved_V1)
     case v2(PackageResolved_V2)
+    case v3(PackageResolved_V3)
     // swiftlint:enable identifier_name
 }
 
 extension PackageResolved {
     public init(at url: URL) throws {
-        let packageResolvedData = try Data(contentsOf: url)
-        let packageResolvedJSON = try JSONSerialization.jsonObject(with: packageResolvedData) as? [String: Any]
-        let version = packageResolvedJSON?["version"] as? Int
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let version = try decoder.decode(Version.self, from: data)
         
-        switch version {
+        switch version.version {
         case 1:
-            let packageResolved = try JSONDecoder().decode(PackageResolved_V1.self, from: packageResolvedData)
+            let packageResolved = try decoder.decode(PackageResolved_V1.self, from: data)
             self = .v1(packageResolved)
         case 2:
-            let packageResolved = try JSONDecoder().decode(PackageResolved_V2.self, from: packageResolvedData)
+            let packageResolved = try decoder.decode(PackageResolved_V2.self, from: data)
             self = .v2(packageResolved)
+        case 3:
+            let packageResolved = try decoder.decode(PackageResolved_V3.self, from: data)
+            self = .v3(packageResolved)
         default:
-            throw RuntimeError("The version of the Package.resolved is not supported")
+            throw RuntimeError("Version \(version.version) of Package.resolved is not supported")
         }
     }
 }
+
+// MARK: - Packages
 
 extension PackageResolved {
     public func packages(in sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         switch self {
         case .v1(let packageResolved):
             return try packages(
-                v1: packageResolved,
+                pins: packageResolved.object.pins,
                 sourcePackagesDirectory: sourcePackagesDirectory,
                 requiresLicense: requiresLicense
             )
         case .v2(let packageResolved):
             return try packages(
-                v2: packageResolved,
+                pins: packageResolved.pins,
+                sourcePackagesDirectory: sourcePackagesDirectory,
+                requiresLicense: requiresLicense
+            )
+        case .v3(let packageResolved):
+            return try packages(
+                pins: packageResolved.pins,
                 sourcePackagesDirectory: sourcePackagesDirectory,
                 requiresLicense: requiresLicense
             )
@@ -67,11 +80,14 @@ extension PackageResolved {
         }
     }
     
-    // swiftlint:disable:next identifier_name
-    private func packages(v1: PackageResolved_V1, sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    private func packages(
+        pins: [PackageResolved_V1.Object.Pin],
+        sourcePackagesDirectory: URL,
+        requiresLicense: Bool
+    ) throws -> [Package] {
         let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
         
-        return try v1.object.pins.compactMap { pin -> Package? in
+        return try pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
@@ -99,13 +115,12 @@ extension PackageResolved {
         }
     }
     
-    // swiftlint:disable:next identifier_name
-    private func packages(v2: PackageResolved_V2, sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    private func packages(pins: [PackageResolved_V2.Pin], sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
         let workspaceStateFile = sourcePackagesDirectory.appendingPathComponent("workspace-state.json")
         let workspaceState = try WorkspaceState(at: workspaceStateFile)
         
-        return try v2.pins.compactMap { pin -> Package? in
+        return try pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
             let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
             
@@ -133,6 +148,14 @@ extension PackageResolved {
             }
             return nil
         }
+    }
+}
+
+// MARK: - Version
+
+extension PackageResolved {
+    struct Version: Decodable {
+        let version: Int
     }
 }
 
@@ -200,4 +223,12 @@ extension PackageResolved_V2.Pin {
     var checkoutURL: URL? {
         return URL(string: location)
     }
+}
+
+// MARK: - V3
+
+public struct PackageResolved_V3: Decodable {
+    let pins: [PackageResolved_V2.Pin]
+    let originHash: String?
+    let version: Int
 }

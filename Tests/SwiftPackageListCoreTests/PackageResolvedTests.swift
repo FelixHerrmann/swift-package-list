@@ -52,7 +52,7 @@ final class PackageResolvedTests: XCTestCase {
         
         XCTAssertThrowsError(try PackageResolved(at: unwrappedURL)) { error in
             XCTAssertTrue(error is RuntimeError)
-            XCTAssertEqual((error as? RuntimeError)?.description, "The version of the Package.resolved is not supported")
+            XCTAssertEqual((error as? RuntimeError)?.description, "Version 999 of Package.resolved is not supported")
         }
     }
     
