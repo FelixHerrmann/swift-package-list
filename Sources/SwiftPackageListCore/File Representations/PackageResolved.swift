@@ -34,7 +34,7 @@ extension PackageResolved {
             let packageResolved = try decoder.decode(PackageResolved_V3.self, from: data)
             self = .v3(packageResolved)
         default:
-            throw RuntimeError("The version of the Package.resolved is not supported")
+            throw RuntimeError("Version \(version.version) of Package.resolved is not supported")
         }
     }
 }
