@@ -18,25 +18,27 @@ public enum WorkspaceState {
 
 extension WorkspaceState {
     public init(at url: URL) throws {
-        let packageResolvedData = try Data(contentsOf: url)
-        let packageResolvedJSON = try JSONSerialization.jsonObject(with: packageResolvedData) as? [String: Any]
-        let version = packageResolvedJSON?["version"] as? Int
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let version = try decoder.decode(Version.self, from: data)
         
-        switch version {
+        switch version.version {
         case 1, 2, 3, 4:
-            let workspaceState = try JSONDecoder().decode(WorkspaceState_V4.self, from: packageResolvedData)
+            let workspaceState = try decoder.decode(WorkspaceState_V4.self, from: data)
             self = .v4(workspaceState)
         case 5:
-            let workspaceState = try JSONDecoder().decode(WorkspaceState_V5.self, from: packageResolvedData)
+            let workspaceState = try decoder.decode(WorkspaceState_V5.self, from: data)
             self = .v5(workspaceState)
         case 6:
-            let workspaceState = try JSONDecoder().decode(WorkspaceState_V6.self, from: packageResolvedData)
+            let workspaceState = try decoder.decode(WorkspaceState_V6.self, from: data)
             self = .v6(workspaceState)
         default:
             throw RuntimeError("The version of the workspace-state.json is not supported")
         }
     }
 }
+
+// MARK: - Package Name
 
 extension WorkspaceState {
     func packageName(for identity: String) -> String? {
@@ -67,6 +69,14 @@ extension WorkspaceState {
             }
         }
         return nil
+    }
+}
+
+// MARK: - Version
+
+extension WorkspaceState {
+    struct Version: Decodable {
+        let version: Int
     }
 }
 
