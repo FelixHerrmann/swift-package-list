@@ -19,25 +19,27 @@ public enum PackageResolved {
 
 extension PackageResolved {
     public init(at url: URL) throws {
-        let packageResolvedData = try Data(contentsOf: url)
-        let packageResolvedJSON = try JSONSerialization.jsonObject(with: packageResolvedData) as? [String: Any]
-        let version = packageResolvedJSON?["version"] as? Int
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let version = try decoder.decode(Version.self, from: data)
         
-        switch version {
+        switch version.version {
         case 1:
-            let packageResolved = try JSONDecoder().decode(PackageResolved_V1.self, from: packageResolvedData)
+            let packageResolved = try decoder.decode(PackageResolved_V1.self, from: data)
             self = .v1(packageResolved)
         case 2:
-            let packageResolved = try JSONDecoder().decode(PackageResolved_V2.self, from: packageResolvedData)
+            let packageResolved = try decoder.decode(PackageResolved_V2.self, from: data)
             self = .v2(packageResolved)
         case 3:
-            let packageResolved = try JSONDecoder().decode(PackageResolved_V3.self, from: packageResolvedData)
+            let packageResolved = try decoder.decode(PackageResolved_V3.self, from: data)
             self = .v3(packageResolved)
         default:
             throw RuntimeError("The version of the Package.resolved is not supported")
         }
     }
 }
+
+// MARK: - Packages
 
 extension PackageResolved {
     public func packages(in checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
@@ -134,6 +136,14 @@ extension PackageResolved {
             }
             return nil
         }
+    }
+}
+
+// MARK: - Version
+
+extension PackageResolved {
+    struct Version: Decodable {
+        let version: Int
     }
 }
 
