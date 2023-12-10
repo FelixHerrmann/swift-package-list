@@ -35,12 +35,20 @@ extension PackageResolved {
 }
 
 extension PackageResolved {
-    public func packages(in checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    public func packages(in sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         switch self {
         case .v1(let packageResolved):
-            return try packages(v1: packageResolved, checkoutsDirectory: checkoutsDirectory, requiresLicense: requiresLicense)
+            return try packages(
+                v1: packageResolved,
+                sourcePackagesDirectory: sourcePackagesDirectory,
+                requiresLicense: requiresLicense
+            )
         case .v2(let packageResolved):
-            return try packages(v2: packageResolved, checkoutsDirectory: checkoutsDirectory, requiresLicense: requiresLicense)
+            return try packages(
+                v2: packageResolved,
+                sourcePackagesDirectory: sourcePackagesDirectory,
+                requiresLicense: requiresLicense
+            )
         }
     }
     
@@ -60,7 +68,9 @@ extension PackageResolved {
     }
     
     // swiftlint:disable:next identifier_name
-    private func packages(v1: PackageResolved_V1, checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    private func packages(v1: PackageResolved_V1, sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+        let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
+        
         return try v1.object.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
@@ -88,7 +98,9 @@ extension PackageResolved {
     }
     
     // swiftlint:disable:next identifier_name
-    private func packages(v2: PackageResolved_V2, checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    private func packages(v2: PackageResolved_V2, sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+        let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
+        
         return try v2.pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {

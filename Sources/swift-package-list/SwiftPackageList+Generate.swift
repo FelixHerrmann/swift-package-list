@@ -36,21 +36,21 @@ extension SwiftPackageList {
                 throw CleanExit.message("This project has no Swift-Package dependencies")
             }
             
-            let checkoutsDirectory: URL
+            let sourcePackagesDirectory: URL
             if let sourcePackagesPath = options.sourcePackagesPath {
-                checkoutsDirectory = URL(fileURLWithPath: sourcePackagesPath).appendingPathComponent("checkouts")
+                sourcePackagesDirectory = URL(fileURLWithPath: sourcePackagesPath)
             } else {
                 guard let buildDirectory = try project.buildDirectory(in: options.derivedDataPath) else {
                     throw RuntimeError("No build-directory found in your DerivedData-folder")
                 }
-                checkoutsDirectory = buildDirectory.appendingPathComponent("/SourcePackages/checkouts")
+                sourcePackagesDirectory = buildDirectory.appendingPathComponent("SourcePackages")
             }
-            guard FileManager.default.fileExists(atPath: checkoutsDirectory.path) else {
-                throw RuntimeError("No checkouts-directory found in your SourcePackages-folder")
+            guard FileManager.default.fileExists(atPath: sourcePackagesDirectory.path) else {
+                throw RuntimeError("No SourcePackages-directory found")
             }
             
             let packageResolved = try PackageResolved(at: project.packageResolvedFileURL)
-            let packages = try packageResolved.packages(in: checkoutsDirectory, requiresLicense: options.requiresLicense)
+            let packages = try packageResolved.packages(in: sourcePackagesDirectory, requiresLicense: options.requiresLicense)
             
             let outputURL = fileType.outputURL(at: outputPath, customFileName: customFileName)
             let outputGenerator = fileType.outputGenerator(outputURL: outputURL, packages: packages, project: project)
