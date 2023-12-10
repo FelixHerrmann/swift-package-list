@@ -93,8 +93,9 @@ identifier_name:
         - y
 
 line_length:
-    - 130
-    - 200
+    warning: 130
+    error: 200
+    ignores_urls: true
 
 trailing_whitespace:
     ignores_empty_lines: true
