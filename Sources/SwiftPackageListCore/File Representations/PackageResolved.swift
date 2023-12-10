@@ -8,6 +8,7 @@
 import Foundation
 import SwiftPackageList
 
+/// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageGraph/PinsStore.swift
 public enum PackageResolved {
     // swiftlint:disable identifier_name
     case v1(PackageResolved_V1)
