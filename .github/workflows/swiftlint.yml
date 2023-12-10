@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - 'release/**'
     paths:
       - '.github/workflows/swiftlint.yml'
       - '**/.swiftlint.yml'
@@ -11,6 +12,7 @@ on:
   pull_request:
     branches:
       - master
+      - 'release/**'
     paths:
       - '.github/workflows/swiftlint.yml'
       - '**/.swiftlint.yml'
