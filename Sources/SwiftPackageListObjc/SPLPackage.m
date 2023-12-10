@@ -9,14 +9,16 @@
 
 @implementation SPLPackage
 
-- (instancetype)initWithName:(NSString *)name
-                     version:(NSString *)version
-                      branch:(NSString *)branch
-                    revision:(NSString *)revision
-               repositoryURL:(NSURL *)repositoryURL
-                     license:(NSString *)license {
+- (instancetype)initWithIdentity:(NSString *)identity
+                            name:(NSString *)name
+                         version:(NSString *)version
+                          branch:(NSString *)branch
+                        revision:(NSString *)revision
+                   repositoryURL:(NSURL *)repositoryURL
+                         license:(NSString *)license {
     self = [super init];
     if (self) {
+        _identity = identity;
         _name = name;
         _version = version;
         _branch = branch;

@@ -13,12 +13,13 @@
 NSArray<SPLPackage *> *SPLTransformArray(NSArray *array) {
     NSMutableArray<SPLPackage *> *packages = [[NSMutableArray alloc] init];
     for (NSDictionary *packageDict in array) {
-        SPLPackage *package = [[SPLPackage alloc] initWithName:[packageDict valueForKey:@"name"]
-                                                       version:[packageDict valueForKey:@"version"]
-                                                        branch:[packageDict valueForKey:@"branch"]
-                                                      revision:[packageDict valueForKey:@"revision"]
-                                                 repositoryURL:[packageDict valueForKey:@"repositoryURL"]
-                                                       license:[packageDict valueForKey:@"license"]];
+        SPLPackage *package = [[SPLPackage alloc] initWithIdentity:[packageDict valueForKey:@"identity"]
+                                                              name:[packageDict valueForKey:@"name"]
+                                                           version:[packageDict valueForKey:@"version"]
+                                                            branch:[packageDict valueForKey:@"branch"]
+                                                          revision:[packageDict valueForKey:@"revision"]
+                                                     repositoryURL:[packageDict valueForKey:@"repositoryURL"]
+                                                           license:[packageDict valueForKey:@"license"]];
         [packages addObject:package];
     }
     return packages;

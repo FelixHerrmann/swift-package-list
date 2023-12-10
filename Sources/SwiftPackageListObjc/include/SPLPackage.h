@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// A package object in the package-list file.
 @interface SPLPackage : NSObject
 
+/// The package identity based on it's source location.
+@property(nonatomic, readonly) NSString *identity;
+
 /// The name of the package.
 @property(nonatomic, readonly) NSString *name;
 
@@ -38,12 +41,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// This is always present if the --requires-license flag is parsed on command execution.
 @property(nonatomic, readonly, nullable) NSString *license;
 
-- (instancetype)initWithName:(NSString *)name
-                     version:(nullable NSString *)version
-                      branch:(nullable NSString *)branch
-                    revision:(NSString *)revision
-               repositoryURL:(NSURL *)repositoryURL
-                     license:(nullable NSString *)license;
+- (instancetype)initWithIdentity:(NSString *)identity
+                            name:(NSString *)name
+                         version:(nullable NSString *)version
+                          branch:(nullable NSString *)branch
+                        revision:(NSString *)revision
+                   repositoryURL:(NSURL *)repositoryURL
+                         license:(nullable NSString *)license;
 
 @end
 

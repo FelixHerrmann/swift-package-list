@@ -76,6 +76,7 @@ extension PackageResolved {
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
+                    identity: pin.identity,
                     name: pin.package,
                     version: pin.state.version,
                     branch: pin.state.branch,
@@ -85,6 +86,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
+                    identity: pin.identity,
                     name: pin.package,
                     version: pin.state.version,
                     branch: pin.state.branch,
@@ -110,6 +112,7 @@ extension PackageResolved {
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
+                    identity: pin.identity,
                     name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
@@ -119,6 +122,7 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
+                    identity: pin.identity,
                     name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
@@ -158,6 +162,17 @@ public struct PackageResolved_V1: Decodable {
 extension PackageResolved_V1.Object.Pin {
     var checkoutURL: URL? {
         return URL(string: repositoryURL)
+    }
+    
+    /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
+    var identity: String {
+        let url: URL
+        if let remoteURL = URL(string: repositoryURL) {
+            url = remoteURL
+        } else {
+            url = URL(fileURLWithPath: repositoryURL)
+        }
+        return url.deletingPathExtension().lastPathComponent.lowercased()
     }
 }
 

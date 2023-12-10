@@ -17,6 +17,9 @@
 - (void) testJSON {
     NSArray<SPLPackage *> *packages = SPLPackageListFromBundleWithFileName(SWIFTPM_MODULE_BUNDLE, @"example_1", nil);
     
+    NSArray<NSString *> *expectedIdentities = @[@"swift-algorithms", @"swift-argument-parser", @"swift-collections", @"swift-numerics"];
+    XCTAssertEqualObjects([packages valueForKey:@"identity"], expectedIdentities);
+    
     NSArray<NSString *> *expectedNames = @[@"swift-algorithms", @"swift-argument-parser", @"swift-collections", @"swift-numerics"];
     XCTAssertEqualObjects([packages valueForKey:@"name"], expectedNames);
     
@@ -38,6 +41,9 @@
 
 - (void) testPropertyList {
     NSArray<SPLPackage *> *packages = SPLPackageListFromBundleWithFileName(SWIFTPM_MODULE_BUNDLE, @"example_2", nil);
+    
+    NSArray<NSString *> *expectedIdentities = @[@"swift-algorithms", @"swift-argument-parser", @"swift-collections", @"swift-numerics"];
+    XCTAssertEqualObjects([packages valueForKey:@"identity"], expectedIdentities);
     
     NSArray<NSString *> *expectedNames = @[@"swift-algorithms", @"swift-argument-parser", @"swift-collections", @"swift-numerics"];
     XCTAssertEqualObjects([packages valueForKey:@"name"], expectedNames);

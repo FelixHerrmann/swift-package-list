@@ -19,6 +19,7 @@ final class PropertyListGeneratorTests: XCTestCase {
         let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
         let project = try XCTUnwrap(Project(path: url.path))
         let package = Package(
+            identity: "test",
             name: "test",
             version: "1.0.0",
             branch: nil,
@@ -45,6 +46,8 @@ final class PropertyListGeneratorTests: XCTestCase {
         <plist version="1.0">
         <array>
         	<dict>
+        		<key>identity</key>
+        		<string>test</string>
         		<key>license</key>
         		<string>MIT</string>
         		<key>name</key>

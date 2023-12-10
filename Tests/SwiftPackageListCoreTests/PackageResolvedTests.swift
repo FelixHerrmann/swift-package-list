@@ -56,4 +56,20 @@ final class PackageResolvedTests: XCTestCase {
             XCTAssertEqual((error as? RuntimeError)?.description, "The version of the Package.resolved is not supported")
         }
     }
+    
+    func testVersion1IdentityConstruction() {
+        let remotePin = PackageResolved_V1.Object.Pin(
+            package: "",
+            repositoryURL: "https://github.com/test/TestRemote.git",
+            state: PackageResolved_V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
+        let localPin = PackageResolved_V1.Object.Pin(
+            package: "",
+            repositoryURL: "/Users/test/Desktop/TestLocal/",
+            state: PackageResolved_V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
+        
+        XCTAssertEqual(remotePin.identity, "testremote")
+        XCTAssertEqual(localPin.identity, "testlocal")
+    }
 }
