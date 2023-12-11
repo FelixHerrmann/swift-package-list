@@ -42,31 +42,31 @@ extension PackageResolved {
 // MARK: - Packages
 
 extension PackageResolved {
-    public func packages(in checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    public func packages(in sourcePackagesDirectory: URL, requiresLicense: Bool) throws -> [Package] {
         switch self {
         case .v1(let packageResolved):
             return try packages(
                 pins: packageResolved.object.pins,
-                checkoutsDirectory: checkoutsDirectory,
+                sourcePackagesDirectory: sourcePackagesDirectory,
                 requiresLicense: requiresLicense
             )
         case .v2(let packageResolved):
             return try packages(
                 pins: packageResolved.pins,
-                checkoutsDirectory: checkoutsDirectory,
+                sourcePackagesDirectory: sourcePackagesDirectory,
                 requiresLicense: requiresLicense
             )
         case .v3(let packageResolved):
             return try packages(
                 pins: packageResolved.pins,
-                checkoutsDirectory: checkoutsDirectory,
+                sourcePackagesDirectory: sourcePackagesDirectory,
                 requiresLicense: requiresLicense
             )
         }
     }
     
     private func licensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
-        let checkoutName = checkoutURL.lastPathComponent
+        let checkoutName = checkoutURL.deletingPathExtension().lastPathComponent
         let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
         let packageFiles = try FileManager.default.contentsOfDirectory(
             at: checkoutPath,
@@ -82,15 +82,18 @@ extension PackageResolved {
     
     private func packages(
         pins: [PackageResolved_V1.Object.Pin],
-        checkoutsDirectory: URL,
+        sourcePackagesDirectory: URL,
         requiresLicense: Bool
     ) throws -> [Package] {
+        let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
+        
         return try pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    identity: pin.identity,
+                    name: pin.package,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -99,7 +102,8 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    identity: pin.identity,
+                    name: pin.package,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -111,13 +115,24 @@ extension PackageResolved {
         }
     }
     
-    private func packages(pins: [PackageResolved_V2.Pin], checkoutsDirectory: URL, requiresLicense: Bool) throws -> [Package] {
+    private func packages(
+        pins: [PackageResolved_V2.Pin],
+        sourcePackagesDirectory: URL,
+        requiresLicense: Bool
+    ) throws -> [Package] {
+        let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
+        let workspaceStateFile = sourcePackagesDirectory.appendingPathComponent("workspace-state.json")
+        let workspaceState = try WorkspaceState(at: workspaceStateFile)
+        
         return try pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
+            let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
+            
             if let licensePath = try licensePath(for: checkoutURL, in: checkoutsDirectory) {
                 let license = try String(contentsOf: licensePath, encoding: .utf8)
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    identity: pin.identity,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -126,7 +141,8 @@ extension PackageResolved {
                 )
             } else if !requiresLicense {
                 return Package(
-                    name: checkoutURL.lastPathComponent,
+                    identity: pin.identity,
+                    name: name,
                     version: pin.state.version,
                     branch: pin.state.branch,
                     revision: pin.state.revision,
@@ -172,7 +188,18 @@ public struct PackageResolved_V1: Decodable {
 
 extension PackageResolved_V1.Object.Pin {
     var checkoutURL: URL? {
-        URL(string: repositoryURL.replacingOccurrences(of: ".git", with: ""))
+        return URL(string: repositoryURL)
+    }
+    
+    /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
+    var identity: String {
+        let url: URL
+        if let remoteURL = URL(string: repositoryURL) {
+            url = remoteURL
+        } else {
+            url = URL(fileURLWithPath: repositoryURL)
+        }
+        return url.deletingPathExtension().lastPathComponent.lowercased()
     }
 }
 
@@ -198,7 +225,7 @@ public struct PackageResolved_V2: Decodable {
 
 extension PackageResolved_V2.Pin {
     var checkoutURL: URL? {
-        URL(string: location.replacingOccurrences(of: ".git", with: ""))
+        return URL(string: location)
     }
 }
 

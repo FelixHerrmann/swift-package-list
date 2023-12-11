@@ -8,7 +8,6 @@
 import XCTest
 
 final class ExecutionTests: XCTestCase {
-    
     private var productsDirectory: URL {
         for bundle in Bundle.allBundles where bundle.bundlePath.hasSuffix(".xctest") {
             return bundle.bundleURL.deletingLastPathComponent()

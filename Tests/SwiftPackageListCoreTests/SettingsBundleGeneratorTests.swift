@@ -19,6 +19,7 @@ final class SettingsBundleGeneratorTests: XCTestCase {
         let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
         let project = try XCTUnwrap(Project(path: url.path))
         let package = Package(
+            identity: "test",
             name: "test",
             version: "1.0.0",
             branch: nil,

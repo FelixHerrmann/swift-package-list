@@ -9,7 +9,6 @@ import XCTest
 @testable import SwiftPackageListCore
 
 final class ProjectTests: XCTestCase {
-    
     func testProject() throws {
         // Note: The project and workspace files in the Resources directory get's hidden by Xcode
         let url = Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources")

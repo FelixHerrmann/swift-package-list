@@ -9,7 +9,6 @@ import XCTest
 @testable import SwiftPackageListCore
 
 final class FileTypeTests: XCTestCase {
-    
     func testOutputURL() {
         let jsonURL = FileType.json.outputURL(at: "/User/test/Desktop", customFileName: nil)
         XCTAssertEqual(jsonURL.path, "/User/test/Desktop/package-list.json")

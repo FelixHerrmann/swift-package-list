@@ -9,7 +9,6 @@ import XCTest
 @testable import SwiftPackageListCore
 
 final class PackageResolvedTests: XCTestCase {
-    
     func testVersion1() throws {
         let url = Bundle.module.url(forResource: "Package_v1", withExtension: "resolved", subdirectory: "Resources")
         let unwrappedURL = try XCTUnwrap(url)
@@ -55,5 +54,21 @@ final class PackageResolvedTests: XCTestCase {
             XCTAssertTrue(error is RuntimeError)
             XCTAssertEqual((error as? RuntimeError)?.description, "Version 999 of Package.resolved is not supported")
         }
+    }
+    
+    func testVersion1IdentityConstruction() {
+        let remotePin = PackageResolved_V1.Object.Pin(
+            package: "",
+            repositoryURL: "https://github.com/test/TestRemote.git",
+            state: PackageResolved_V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
+        let localPin = PackageResolved_V1.Object.Pin(
+            package: "",
+            repositoryURL: "/Users/test/Desktop/TestLocal/",
+            state: PackageResolved_V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
+        
+        XCTAssertEqual(remotePin.identity, "testremote")
+        XCTAssertEqual(localPin.identity, "testlocal")
     }
 }

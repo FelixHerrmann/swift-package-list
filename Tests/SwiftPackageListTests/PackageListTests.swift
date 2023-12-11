@@ -9,9 +9,11 @@ import XCTest
 @testable import SwiftPackageList
 
 final class PackageListTests: XCTestCase {
-    
     func testJSON() throws {
         let packages = try packageList(bundle: .module, fileName: "example_1")
+        
+        let expectedIdentities = ["swift-algorithms", "swift-argument-parser", "swift-collections", "swift-numerics"]
+        XCTAssertEqual(packages.map(\.identity), expectedIdentities)
         
         let expectedNames = ["swift-algorithms", "swift-argument-parser", "swift-collections", "swift-numerics"]
         XCTAssertEqual(packages.map(\.name), expectedNames)
@@ -44,6 +46,9 @@ final class PackageListTests: XCTestCase {
     
     func testPropertyList() throws {
         let packages = try packageList(bundle: .module, fileName: "example_2")
+        
+        let expectedIdentities = ["swift-algorithms", "swift-argument-parser", "swift-collections", "swift-numerics"]
+        XCTAssertEqual(packages.map(\.identity), expectedIdentities)
         
         let expectedNames = ["swift-algorithms", "swift-argument-parser", "swift-collections", "swift-numerics"]
         XCTAssertEqual(packages.map(\.name), expectedNames)
