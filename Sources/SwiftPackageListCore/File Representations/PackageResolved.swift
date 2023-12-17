@@ -8,16 +8,22 @@
 import Foundation
 import SwiftPackageList
 
+// swiftlint:disable identifier_name type_name
+
 /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageGraph/PinsStore.swift
 public enum PackageResolved {
-    // swiftlint:disable identifier_name
-    case v1(PackageResolved_V1)
-    case v2(PackageResolved_V2)
-    case v3(PackageResolved_V3)
-    // swiftlint:enable identifier_name
+    case v1(V1)
+    case v2(V2)
+    case v3(V3)
 }
 
+// MARK: - Version
+
 extension PackageResolved {
+    struct Version: Decodable {
+        let version: Int
+    }
+    
     public init(at url: URL) throws {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
@@ -25,17 +31,97 @@ extension PackageResolved {
         
         switch version.version {
         case 1:
-            let packageResolved = try decoder.decode(PackageResolved_V1.self, from: data)
-            self = .v1(packageResolved)
+            let v1 = try decoder.decode(V1.self, from: data)
+            self = .v1(v1)
         case 2:
-            let packageResolved = try decoder.decode(PackageResolved_V2.self, from: data)
-            self = .v2(packageResolved)
+            let v2 = try decoder.decode(V2.self, from: data)
+            self = .v2(v2)
         case 3:
-            let packageResolved = try decoder.decode(PackageResolved_V3.self, from: data)
-            self = .v3(packageResolved)
+            let v3 = try decoder.decode(V3.self, from: data)
+            self = .v3(v3)
         default:
             throw RuntimeError("Version \(version.version) of Package.resolved is not supported")
         }
+    }
+}
+
+// MARK: - V1
+
+extension PackageResolved {
+    public struct V1: Decodable {
+        struct Object: Decodable {
+            struct Pin: Decodable {
+                struct State: Decodable {
+                    let branch: String?
+                    let revision: String
+                    let version: String?
+                }
+                
+                let package: String
+                let repositoryURL: String
+                let state: State
+            }
+            
+            let pins: [Pin]
+        }
+        
+        let object: Object
+        let version: Int
+    }
+}
+
+extension PackageResolved.V1.Object.Pin {
+    var checkoutURL: URL? {
+        return URL(string: repositoryURL)
+    }
+    
+    /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
+    var identity: String {
+        let url: URL
+        if let remoteURL = URL(string: repositoryURL) {
+            url = remoteURL
+        } else {
+            url = URL(fileURLWithPath: repositoryURL)
+        }
+        return url.deletingPathExtension().lastPathComponent.lowercased()
+    }
+}
+
+// MARK: - V2
+
+extension PackageResolved {
+    public struct V2: Decodable {
+        struct Pin: Decodable {
+            struct State: Decodable {
+                let revision: String
+                let version: String?
+                let branch: String?
+            }
+            
+            let identity: String
+            let kind: String
+            let location: String
+            let state: State
+        }
+        
+        let pins: [Pin]
+        let version: Int
+    }
+}
+
+extension PackageResolved.V2.Pin {
+    var checkoutURL: URL? {
+        return URL(string: location)
+    }
+}
+
+// MARK: - V3
+
+extension PackageResolved {
+    public struct V3: Decodable {
+        let pins: [V2.Pin]
+        let originHash: String?
+        let version: Int
     }
 }
 
@@ -65,23 +151,8 @@ extension PackageResolved {
         }
     }
     
-    private func licensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
-        let checkoutName = checkoutURL.deletingPathExtension().lastPathComponent
-        let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
-        let packageFiles = try FileManager.default.contentsOfDirectory(
-            at: checkoutPath,
-            includingPropertiesForKeys: [.isRegularFileKey, .localizedNameKey],
-            options: .skipsHiddenFiles
-        )
-        return packageFiles.first { packageFile in
-            let fileName = packageFile.deletingPathExtension().lastPathComponent.lowercased()
-            let allowedFileNames = ["license", "licence"]
-            return allowedFileNames.contains(fileName)
-        }
-    }
-    
     private func packages(
-        pins: [PackageResolved_V1.Object.Pin],
+        pins: [PackageResolved.V1.Object.Pin],
         sourcePackagesDirectory: URL,
         requiresLicense: Bool
     ) throws -> [Package] {
@@ -116,7 +187,7 @@ extension PackageResolved {
     }
     
     private func packages(
-        pins: [PackageResolved_V2.Pin],
+        pins: [PackageResolved.V2.Pin],
         sourcePackagesDirectory: URL,
         requiresLicense: Bool
     ) throws -> [Package] {
@@ -153,86 +224,21 @@ extension PackageResolved {
             return nil
         }
     }
-}
-
-// MARK: - Version
-
-extension PackageResolved {
-    struct Version: Decodable {
-        let version: Int
-    }
-}
-
-// MARK: - V1
-
-public struct PackageResolved_V1: Decodable {
-    struct Object: Decodable {
-        struct Pin: Decodable {
-            struct State: Decodable {
-                let branch: String?
-                let revision: String
-                let version: String?
-            }
-            
-            let package: String
-            let repositoryURL: String
-            let state: State
-        }
-        
-        let pins: [Pin]
-    }
     
-    let object: Object
-    let version: Int
-}
-
-extension PackageResolved_V1.Object.Pin {
-    var checkoutURL: URL? {
-        return URL(string: repositoryURL)
-    }
-    
-    /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
-    var identity: String {
-        let url: URL
-        if let remoteURL = URL(string: repositoryURL) {
-            url = remoteURL
-        } else {
-            url = URL(fileURLWithPath: repositoryURL)
+    private func licensePath(for checkoutURL: URL, in checkoutsDirectory: URL) throws -> URL? {
+        let checkoutName = checkoutURL.deletingPathExtension().lastPathComponent
+        let checkoutPath = checkoutsDirectory.appendingPathComponent(checkoutName)
+        let packageFiles = try FileManager.default.contentsOfDirectory(
+            at: checkoutPath,
+            includingPropertiesForKeys: [.isRegularFileKey, .localizedNameKey],
+            options: .skipsHiddenFiles
+        )
+        return packageFiles.first { packageFile in
+            let fileName = packageFile.deletingPathExtension().lastPathComponent.lowercased()
+            let allowedFileNames = ["license", "licence"]
+            return allowedFileNames.contains(fileName)
         }
-        return url.deletingPathExtension().lastPathComponent.lowercased()
     }
 }
 
-// MARK: - V2
-
-public struct PackageResolved_V2: Decodable {
-    struct Pin: Decodable {
-        struct State: Decodable {
-            let revision: String
-            let version: String?
-            let branch: String?
-        }
-        
-        let identity: String
-        let kind: String
-        let location: String
-        let state: State
-    }
-    
-    let pins: [Pin]
-    let version: Int
-}
-
-extension PackageResolved_V2.Pin {
-    var checkoutURL: URL? {
-        return URL(string: location)
-    }
-}
-
-// MARK: - V3
-
-public struct PackageResolved_V3: Decodable {
-    let pins: [PackageResolved_V2.Pin]
-    let originHash: String?
-    let version: Int
-}
+// swiftlint:enable identifier_name type_name
