@@ -23,8 +23,8 @@ extension WorkspaceState {
         let version: Int
     }
     
-    public init(at url: URL) throws {
-        let data = try Data(contentsOf: url)
+    public init(fileURL: URL) throws {
+        let data = try Data(contentsOf: fileURL)
         let decoder = JSONDecoder()
         let version = try decoder.decode(Version.self, from: data)
         

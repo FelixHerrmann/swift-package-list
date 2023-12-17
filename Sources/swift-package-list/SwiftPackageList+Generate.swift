@@ -49,7 +49,7 @@ extension SwiftPackageList {
                 throw RuntimeError("No SourcePackages-directory found")
             }
             
-            let packageResolved = try PackageResolved(at: project.packageResolvedFileURL)
+            let packageResolved = try PackageResolved(fileURL: project.packageResolvedFileURL)
             let packages = try packageResolved.packages(in: sourcePackagesDirectory, requiresLicense: options.requiresLicense)
             
             let outputURL = fileType.outputURL(at: outputPath, customFileName: customFileName)

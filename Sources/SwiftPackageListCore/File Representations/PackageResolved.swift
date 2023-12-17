@@ -24,8 +24,8 @@ extension PackageResolved {
         let version: Int
     }
     
-    public init(at url: URL) throws {
-        let data = try Data(contentsOf: url)
+    public init(fileURL: URL) throws {
+        let data = try Data(contentsOf: fileURL)
         let decoder = JSONDecoder()
         let version = try decoder.decode(Version.self, from: data)
         
@@ -193,7 +193,7 @@ extension PackageResolved {
     ) throws -> [Package] {
         let checkoutsDirectory = sourcePackagesDirectory.appendingPathComponent("checkouts")
         let workspaceStateFile = sourcePackagesDirectory.appendingPathComponent("workspace-state.json")
-        let workspaceState = try WorkspaceState(at: workspaceStateFile)
+        let workspaceState = try WorkspaceState(fileURL: workspaceStateFile)
         
         return try pins.compactMap { pin -> Package? in
             guard let checkoutURL = pin.checkoutURL else { return nil }
