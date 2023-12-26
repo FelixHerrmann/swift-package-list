@@ -9,7 +9,6 @@ import Foundation
 import SwiftPackageList
 
 struct JSONGenerator: OutputGenerator {
-    
     private let outputURL: URL
     private let packages: [Package]
     

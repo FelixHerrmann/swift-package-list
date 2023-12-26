@@ -18,19 +18,27 @@ public enum FileType: String, CaseIterable {
 extension FileType {
     private var fileExtension: String {
         switch self {
-        case .json: return "json"
-        case .plist: return "plist"
-        case .settingsBundle: return "bundle"
-        case .pdf: return "pdf"
+        case .json:
+            return "json"
+        case .plist:
+            return "plist"
+        case .settingsBundle:
+            return "bundle"
+        case .pdf:
+            return "pdf"
         }
     }
     
     private var defaultFileName: String {
         switch self {
-        case .json: return "package-list"
-        case .plist: return "package-list"
-        case .settingsBundle: return "Settings"
-        case .pdf: return "Acknowledgements"
+        case .json:
+            return "package-list"
+        case .plist:
+            return "package-list"
+        case .settingsBundle:
+            return "Settings"
+        case .pdf:
+            return "Acknowledgements"
         }
     }
 }
@@ -45,10 +53,14 @@ extension FileType {
     
     public func outputGenerator(outputURL: URL, packages: [Package], project: Project) -> any OutputGenerator {
         switch self {
-        case .json: return JSONGenerator(outputURL: outputURL, packages: packages, project: project)
-        case .plist: return PropertyListGenerator(outputURL: outputURL, packages: packages, project: project)
-        case .settingsBundle: return SettingsBundleGenerator(outputURL: outputURL, packages: packages, project: project)
-        case .pdf: return PDFGenerator(outputURL: outputURL, packages: packages, project: project)
+        case .json:
+            return JSONGenerator(outputURL: outputURL, packages: packages, project: project)
+        case .plist:
+            return PropertyListGenerator(outputURL: outputURL, packages: packages, project: project)
+        case .settingsBundle:
+            return SettingsBundleGenerator(outputURL: outputURL, packages: packages, project: project)
+        case .pdf:
+            return PDFGenerator(outputURL: outputURL, packages: packages, project: project)
         }
     }
 }

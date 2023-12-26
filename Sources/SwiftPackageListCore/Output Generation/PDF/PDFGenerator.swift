@@ -9,7 +9,6 @@ import AppKit
 import SwiftPackageList
 
 struct PDFGenerator: OutputGenerator {
-    
     private let outputURL: URL
     private let packages: [Package]
     private let project: Project

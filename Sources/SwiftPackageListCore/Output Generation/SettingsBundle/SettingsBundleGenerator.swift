@@ -9,7 +9,6 @@ import Foundation
 import SwiftPackageList
 
 struct SettingsBundleGenerator: OutputGenerator {
-    
     private let outputURL: URL
     private let packagesURL: URL
     private let packages: [Package]
