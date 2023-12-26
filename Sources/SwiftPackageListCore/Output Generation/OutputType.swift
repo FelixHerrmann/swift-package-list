@@ -1,5 +1,5 @@
 //
-//  FileType.swift
+//  OutputType.swift
 //  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 15.03.22.
@@ -8,14 +8,14 @@
 import Foundation
 import SwiftPackageList
 
-public enum FileType: String, CaseIterable {
+public enum OutputType: String, CaseIterable {
     case json
     case plist
     case settingsBundle = "settings-bundle"
     case pdf
 }
 
-extension FileType {
+extension OutputType {
     private var fileExtension: String {
         switch self {
         case .json:
@@ -43,7 +43,7 @@ extension FileType {
     }
 }
 
-extension FileType {
+extension OutputType {
     public func outputURL(at outputPath: String, customFileName: String?) -> URL {
         let fileName = customFileName ?? defaultFileName
         return URL(fileURLWithPath: outputPath)

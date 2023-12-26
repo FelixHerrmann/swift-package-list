@@ -22,7 +22,7 @@ extension SwiftPackageList {
         
         // swiftlint:disable:next line_length
         @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf.")
-        var fileType: FileType = .json
+        var fileType: OutputType = .json
         
         @Option(name: .shortAndLong, help: "A custom filename to be used instead of the default ones.")
         var customFileName: String?
