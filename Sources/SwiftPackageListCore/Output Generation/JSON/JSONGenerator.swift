@@ -18,7 +18,7 @@ struct JSONGenerator: OutputGenerator {
         return encoder
     }()
     
-    init(outputURL: URL, packages: [Package], project: Project) {
+    init(outputURL: URL, packages: [Package], project: any Project) {
         self.outputURL = outputURL
         self.packages = packages
     }

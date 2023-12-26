@@ -20,7 +20,7 @@ struct SettingsBundleGenerator: OutputGenerator {
         return encoder
     }()
     
-    init(outputURL: URL, packages: [Package], project: Project) {
+    init(outputURL: URL, packages: [Package], project: any Project) {
         self.outputURL = outputURL
         self.packagesURL = outputURL.appendingPathComponent("Packages")
         self.packages = packages

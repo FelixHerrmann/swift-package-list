@@ -11,14 +11,20 @@ import SwiftPackageList
 struct PDFGenerator: OutputGenerator {
     private let outputURL: URL
     private let packages: [Package]
-    private let project: Project
+    private let project: any Project
     private let organizationName: String?
     
-    init(outputURL: URL, packages: [Package], project: Project) {
+    init(outputURL: URL, packages: [Package], project: any Project) {
         self.outputURL = outputURL
         self.packages = packages
         self.project = project
-        self.organizationName = project.findOrganizationName()
+        
+        if let organizationName = project.projectPbxproj?.organizationName {
+            self.organizationName = organizationName
+        } else {
+            print("Warning: Could not find the organization name in your project")
+            self.organizationName = nil
+        }
     }
     
     func generateOutput() throws {

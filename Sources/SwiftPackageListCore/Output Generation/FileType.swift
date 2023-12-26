@@ -51,7 +51,7 @@ extension FileType {
             .appendingPathExtension(fileExtension)
     }
     
-    public func outputGenerator(outputURL: URL, packages: [Package], project: Project) -> any OutputGenerator {
+    public func outputGenerator(outputURL: URL, packages: [Package], project: any Project) -> any OutputGenerator {
         switch self {
         case .json:
             return JSONGenerator(outputURL: outputURL, packages: packages, project: project)

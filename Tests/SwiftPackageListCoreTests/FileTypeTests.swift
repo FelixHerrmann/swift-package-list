@@ -37,7 +37,7 @@ final class FileTypeTests: XCTestCase {
     
     func testOutputGenerator() {
         let outputURL = URL(fileURLWithPath: "")
-        let project: Project = .xcodeproj(fileURL: URL(fileURLWithPath: ""))
+        let project = XcodeProject(fileURL: URL(fileURLWithPath: ""), options: ProjectOptions())
         
         let jsonGenerator = FileType.json.outputGenerator(outputURL: outputURL, packages: [], project: project)
         XCTAssertTrue(jsonGenerator is JSONGenerator)
