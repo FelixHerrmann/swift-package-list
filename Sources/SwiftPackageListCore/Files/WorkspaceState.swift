@@ -10,21 +10,33 @@ import Foundation
 // swiftlint:disable identifier_name type_name
 
 /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/Workspace/Workspace%2BState.swift
-public enum WorkspaceState {
-    case v4(V4)
-    case v5(V5)
-    case v6(V6)
+struct WorkspaceState: VersionedFile {
+    let url: URL
+    let storage: Storage
+    
+    init(url: URL) throws {
+        self.url = url
+        self.storage = try Storage(url: url)
+    }
 }
 
-// MARK: - Version
+// MARK: - Storage
 
 extension WorkspaceState {
-    struct Version: Decodable {
+    enum Storage {
+        case v4(V4)
+        case v5(V5)
+        case v6(V6)
+    }
+}
+
+extension WorkspaceState.Storage: VersionedFileStorage {
+    private struct Version: Decodable {
         let version: Int
     }
     
-    public init(fileURL: URL) throws {
-        let data = try Data(contentsOf: fileURL)
+    init(url: URL) throws {
+        let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
         let version = try decoder.decode(Version.self, from: data)
         
@@ -46,8 +58,8 @@ extension WorkspaceState {
 
 // MARK: - V4
 
-extension WorkspaceState {
-    public struct V4: Decodable {
+extension WorkspaceState.Storage {
+    struct V4: Decodable {
         struct Object: Decodable {
             struct Artifact: Decodable {
                 let packageRef: PackageRef
@@ -73,8 +85,8 @@ extension WorkspaceState {
 
 // MARK: - V5
 
-extension WorkspaceState {
-    public struct V5: Decodable {
+extension WorkspaceState.Storage {
+    struct V5: Decodable {
         struct Object: Decodable {
             struct Artifact: Decodable {
                 let packageRef: PackageRef
@@ -100,8 +112,8 @@ extension WorkspaceState {
 
 // MARK: - V6
 
-extension WorkspaceState {
-    public struct V6: Decodable {
+extension WorkspaceState.Storage {
+    struct V6: Decodable {
         struct Object: Decodable {
             struct Artifact: Decodable {
                 let packageRef: PackageRef
@@ -129,7 +141,7 @@ extension WorkspaceState {
 
 extension WorkspaceState {
     func packageName(for identity: String) -> String? {
-        switch self {
+        switch self.storage {
         case .v4(let v4):
             for artifact in v4.object.artifacts where artifact.packageRef.identity == identity {
                 return artifact.packageRef.name
