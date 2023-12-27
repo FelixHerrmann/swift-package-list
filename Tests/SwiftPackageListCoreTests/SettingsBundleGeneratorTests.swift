@@ -16,9 +16,6 @@ final class SettingsBundleGeneratorTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
-        let projectType = try XCTUnwrap(ProjectType(fileURL: url))
-        let project = projectType.project(fileURL: url)
         let package = Package(
             identity: "test",
             name: "test",
@@ -29,7 +26,7 @@ final class SettingsBundleGeneratorTests: XCTestCase {
             license: "MIT"
         )
         
-        let settingsBundleGenerator = SettingsBundleGenerator(outputURL: outputURL, packages: [package], project: project)
+        let settingsBundleGenerator = SettingsBundleGenerator(outputURL: outputURL, packages: [package])
         try settingsBundleGenerator.generateOutput()
     }
     

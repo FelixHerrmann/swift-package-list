@@ -6,9 +6,7 @@
 //
 
 import Foundation
-import SwiftPackageList
 
 public protocol OutputGenerator {
-    init(outputURL: URL, packages: [Package], project: any Project)
     func generateOutput() throws
 }

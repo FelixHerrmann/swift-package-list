@@ -55,10 +55,11 @@ extension OutputType {
         switch self {
         case .json:
             return JSONGenerator(outputURL: outputURL, packages: packages, project: project)
+            return JSONGenerator(outputURL: outputURL, packages: packages)
         case .plist:
-            return PropertyListGenerator(outputURL: outputURL, packages: packages, project: project)
+            return PropertyListGenerator(outputURL: outputURL, packages: packages)
         case .settingsBundle:
-            return SettingsBundleGenerator(outputURL: outputURL, packages: packages, project: project)
+            return SettingsBundleGenerator(outputURL: outputURL, packages: packages)
         case .pdf:
             return PDFGenerator(outputURL: outputURL, packages: packages, project: project)
         }

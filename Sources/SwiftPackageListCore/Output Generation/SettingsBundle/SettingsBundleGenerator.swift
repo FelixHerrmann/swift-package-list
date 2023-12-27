@@ -9,9 +9,8 @@ import Foundation
 import SwiftPackageList
 
 struct SettingsBundleGenerator: OutputGenerator {
-    private let outputURL: URL
-    private let packagesURL: URL
-    private let packages: [Package]
+   let outputURL: URL
+   let packages: [Package]
     
     private let fileManager: FileManager = .default
     private let encoder: PropertyListEncoder = {
@@ -20,10 +19,8 @@ struct SettingsBundleGenerator: OutputGenerator {
         return encoder
     }()
     
-    init(outputURL: URL, packages: [Package], project: any Project) {
-        self.outputURL = outputURL
-        self.packagesURL = outputURL.appendingPathComponent("Packages")
-        self.packages = packages
+    private var packagesURL: URL {
+        return outputURL.appendingPathComponent("Packages")
     }
     
     func generateOutput() throws {

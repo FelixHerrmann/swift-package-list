@@ -9,15 +9,15 @@ import AppKit
 import SwiftPackageList
 
 struct PDFGenerator: OutputGenerator {
-    private let outputURL: URL
-    private let packages: [Package]
-    private let project: any Project
-    private let organizationName: String?
+    let outputURL: URL
+    let packages: [Package]
+    let projectName: String
+    let organizationName: String?
     
     init(outputURL: URL, packages: [Package], project: any Project) {
         self.outputURL = outputURL
         self.packages = packages
-        self.project = project
+        self.projectName = project.fileURL.deletingPathExtension().lastPathComponent
         
         if let organizationName = project.projectPbxproj?.organizationName {
             self.organizationName = organizationName
@@ -60,7 +60,6 @@ struct PDFGenerator: OutputGenerator {
     }
     
     private func createAuxiliaryInfo() -> CFDictionary {
-        let projectName = project.fileURL.deletingPathExtension().lastPathComponent
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM.dd.yyyy"
         let creationDate = dateFormatter.string(from: Date())
