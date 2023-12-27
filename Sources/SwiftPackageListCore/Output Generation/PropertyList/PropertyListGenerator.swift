@@ -22,6 +22,6 @@ struct PropertyListGenerator: OutputGenerator {
         let propertyListData = try propertyListEncoder.encode(packages)
         try propertyListData.write(to: outputURL)
         
-        print("Generated \(outputURL)")
+        print("Generated \(outputURL.path)")
     }
 }

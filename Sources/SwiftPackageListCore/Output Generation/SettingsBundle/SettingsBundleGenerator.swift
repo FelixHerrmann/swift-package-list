@@ -37,7 +37,7 @@ struct SettingsBundleGenerator: OutputGenerator {
             try createStringsFile(for: language)
         }
         
-        print("Generated \(outputURL)")
+        print("Generated \(outputURL.path)")
     }
     
     private func createRootPlist() throws {

@@ -22,6 +22,6 @@ struct JSONGenerator: OutputGenerator {
         let jsonData = try jsonEncoder.encode(packages)
         try jsonData.write(to: outputURL)
         
-        print("Generated \(outputURL)")
+        print("Generated \(outputURL.path)")
     }
 }

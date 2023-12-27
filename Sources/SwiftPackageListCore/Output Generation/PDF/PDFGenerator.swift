@@ -56,7 +56,7 @@ struct PDFGenerator: OutputGenerator {
         
         context.closePDF()
         
-        print("Generated \(outputURL)")
+        print("Generated \(outputURL.path)")
     }
     
     private func createAuxiliaryInfo() -> CFDictionary {
