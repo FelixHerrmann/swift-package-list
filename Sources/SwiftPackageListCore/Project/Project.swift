@@ -38,7 +38,8 @@ extension Project {
             guard let buildDirectory = try derivedData.buildDirectory(projectFileURL: fileURL) else {
                 throw RuntimeError("No build directory found in \(derivedData.url) for project \(fileURL)")
             }
-            sourcePackages = SourcePackages(url: buildDirectory)
+            let sourcePackagesDirectory = buildDirectory.appendingPathComponent("SourcePackages")
+            sourcePackages = SourcePackages(url: sourcePackagesDirectory)
         }
         
         return try packageResolved.packages(in: sourcePackages)
