@@ -55,7 +55,6 @@ extension SwiftPackageList {
             let outputURL = fileType.outputURL(at: outputPath, customFileName: customFileName)
             let outputGenerator = fileType.outputGenerator(outputURL: outputURL, packages: packages, project: project)
             try outputGenerator.generateOutput()
-            throw CleanExit.message("Generated \(outputURL.path)")
         }
     }
 }

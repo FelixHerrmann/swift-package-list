@@ -26,5 +26,7 @@ struct JSONGenerator: OutputGenerator {
     func generateOutput() throws {
         let jsonData = try jsonEncoder.encode(packages)
         try jsonData.write(to: outputURL)
+        
+        print("Generated \(outputURL)")
     }
 }
