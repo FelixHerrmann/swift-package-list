@@ -7,6 +7,7 @@
 
 import Foundation
 import ArgumentParser
+import SwiftPackageList
 import SwiftPackageListCore
 
 extension SwiftPackageList {
@@ -15,45 +16,27 @@ extension SwiftPackageList {
             return CommandConfiguration(abstract: "Generate the specified output for all packages.")
         }
         
-        @OptionGroup var options: Options
-        
-        @Option(name: .shortAndLong, help: "The path where the package-list file will be stored.")
-        var outputPath = "\(NSHomeDirectory())/Desktop"
-        
-        // swiftlint:disable:next line_length
-        @Option(name: .shortAndLong, help: "The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf.")
-        var fileType: OutputType = .json
-        
-        @Option(name: .shortAndLong, help: "A custom filename to be used instead of the default ones.")
-        var customFileName: String?
+        @OptionGroup var inputOptions: InputOptions
+        @OptionGroup var outputOptions: OutputOptions
         
         mutating func run() throws {
-            guard let project = Project(path: options.projectPath) else {
-                throw ValidationError("The project file is not an Xcode Project or Workspace")
-            }
+            let projectFileURL = URL(fileURLWithPath: inputOptions.projectPath)
+            let projectType = try ProjectType(fileURL: projectFileURL)
+            let project = projectType.project(fileURL: projectFileURL, options: inputOptions.projectOptions)
             
-            guard FileManager.default.fileExists(atPath: project.packageResolvedFileURL.path) else {
-                throw CleanExit.message("This project has no Swift-Package dependencies")
-            }
-            
-            let sourcePackagesDirectory: URL
-            if let sourcePackagesPath = options.sourcePackagesPath {
-                sourcePackagesDirectory = URL(fileURLWithPath: sourcePackagesPath)
+            let packages: [Package]
+            if outputOptions.requiresLicense {
+                packages = try project.packages().filter(\.hasLicense)
             } else {
-                guard let buildDirectory = try project.buildDirectory(in: options.derivedDataPath) else {
-                    throw RuntimeError("No build-directory found in your DerivedData-folder")
-                }
-                sourcePackagesDirectory = buildDirectory.appendingPathComponent("SourcePackages")
-            }
-            guard FileManager.default.fileExists(atPath: sourcePackagesDirectory.path) else {
-                throw RuntimeError("No SourcePackages-directory found")
+                packages = try project.packages()
             }
             
-            let packageResolved = try PackageResolved(fileURL: project.packageResolvedFileURL)
-            let packages = try packageResolved.packages(in: sourcePackagesDirectory, requiresLicense: options.requiresLicense)
-            
-            let outputURL = fileType.outputURL(at: outputPath, customFileName: customFileName)
-            let outputGenerator = fileType.outputGenerator(outputURL: outputURL, packages: packages, project: project)
+            let outputType = outputOptions.outputType
+            let outputGenerator = try outputType.outputGenerator(
+                packages: packages,
+                project: project,
+                options: outputOptions.outputGeneratorOptions
+            )
             try outputGenerator.generateOutput()
         }
     }

@@ -7,6 +7,7 @@
 
 import Foundation
 import ArgumentParser
+import SwiftPackageList
 import SwiftPackageListCore
 
 extension SwiftPackageList {
@@ -15,32 +16,20 @@ extension SwiftPackageList {
             return CommandConfiguration(abstract: "Print all packages as JSON to the console.")
         }
         
-        @OptionGroup var options: Options
+        @OptionGroup var inputOptions: InputOptions
+        @OptionGroup var outputOptions: OutputOptions
         
         mutating func run() throws {
-            guard let project = Project(path: options.projectPath) else {
-                throw ValidationError("The project file is not an Xcode Project or Workspace")
-            }
+            let projectFileURL = URL(fileURLWithPath: inputOptions.projectPath)
+            let projectType = try ProjectType(fileURL: projectFileURL)
+            let project = projectType.project(fileURL: projectFileURL, options: inputOptions.projectOptions)
             
-            guard FileManager.default.fileExists(atPath: project.packageResolvedFileURL.path) else {
-                throw CleanExit.message("This project has no Swift-Package dependencies")
-            }
-            
-            let sourcePackagesDirectory: URL
-            if let sourcePackagesPath = options.sourcePackagesPath {
-                sourcePackagesDirectory = URL(fileURLWithPath: sourcePackagesPath)
+            let packages: [Package]
+            if outputOptions.requiresLicense {
+                packages = try project.packages().filter(\.hasLicense)
             } else {
-                guard let buildDirectory = try project.buildDirectory(in: options.derivedDataPath) else {
-                    throw RuntimeError("No build-directory found in your DerivedData-folder")
-                }
-                sourcePackagesDirectory = buildDirectory.appendingPathComponent("SourcePackages")
+                packages = try project.packages()
             }
-            guard FileManager.default.fileExists(atPath: sourcePackagesDirectory.path) else {
-                throw RuntimeError("No SourcePackages-directory found")
-            }
-            
-            let packageResolved = try PackageResolved(fileURL: project.packageResolvedFileURL)
-            let packages = try packageResolved.packages(in: sourcePackagesDirectory, requiresLicense: options.requiresLicense)
             
             let jsonEncoder = JSONEncoder()
             jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
