@@ -21,7 +21,11 @@ final class OutputTypeTests: XCTestCase {
         let plistGenerator = try XCTUnwrap(anyPlistGenerator as? PropertyListGenerator)
         XCTAssertEqual(plistGenerator.outputURL.path, "/User/test/Desktop/package-list.plist")
         
-        let anySettingsBundleGenerator = try OutputType.settingsBundle.outputGenerator(packages: [], project: project, options: options)
+        let anySettingsBundleGenerator = try OutputType.settingsBundle.outputGenerator(
+            packages: [],
+            project: project,
+            options: options
+        )
         let settingsBundleGenerator = try XCTUnwrap(anySettingsBundleGenerator as? SettingsBundleGenerator)
         XCTAssertEqual(settingsBundleGenerator.outputURL.path, "/User/test/Desktop/Settings.bundle")
         
@@ -42,7 +46,11 @@ final class OutputTypeTests: XCTestCase {
         let plistGenerator = try XCTUnwrap(anyPlistGenerator as? PropertyListGenerator)
         XCTAssertEqual(plistGenerator.outputURL.path, "/User/test/Desktop/test.plist")
         
-        let anySettingsBundleGenerator = try OutputType.settingsBundle.outputGenerator(packages: [], project: project, options: options)
+        let anySettingsBundleGenerator = try OutputType.settingsBundle.outputGenerator(
+            packages: [],
+            project: project,
+            options: options
+        )
         let settingsBundleGenerator = try XCTUnwrap(anySettingsBundleGenerator as? SettingsBundleGenerator)
         XCTAssertEqual(settingsBundleGenerator.outputURL.path, "/User/test/Desktop/test.bundle")
         
