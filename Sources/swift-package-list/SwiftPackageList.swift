@@ -14,7 +14,7 @@ struct SwiftPackageList: ParsableCommand {
         return CommandConfiguration(
             discussion: "A command-line tool to get all used SPM-dependencies of an Xcode project or workspace.",
             version: "3.1.0",
-            subcommands: [Scan.self, Generate.self]
+            subcommands: [Generate.self]
         )
     }
 }
