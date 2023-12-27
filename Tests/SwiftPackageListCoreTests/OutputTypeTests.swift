@@ -9,46 +9,45 @@ import XCTest
 @testable import SwiftPackageListCore
 
 final class OutputTypeTests: XCTestCase {
-    func testOutputURL() {
-        let jsonURL = OutputType.json.outputURL(at: "/User/test/Desktop", customFileName: nil)
-        XCTAssertEqual(jsonURL.path, "/User/test/Desktop/package-list.json")
+    func testOutputURL() throws {
+        let project = XcodeProject(fileURL: URL(fileURLWithPath: ""), options: ProjectOptions())
+        let options = OutputGeneratorOptions(outputURL: URL(fileURLWithPath: "/User/test/Desktop"))
         
-        let plistURL = OutputType.plist.outputURL(at: "/User/test/Desktop", customFileName: nil)
-        XCTAssertEqual(plistURL.path, "/User/test/Desktop/package-list.plist")
+        let anyJSONGenerator = try OutputType.json.outputGenerator(packages: [], project: project, options: options)
+        let jsonGenerator = try XCTUnwrap(anyJSONGenerator as? JSONGenerator)
+        XCTAssertEqual(jsonGenerator.outputURL.path, "/User/test/Desktop/package-list.json")
         
-        let settingsBundleURL = OutputType.settingsBundle.outputURL(at: "/User/test/Desktop", customFileName: nil)
-        XCTAssertEqual(settingsBundleURL.path, "/User/test/Desktop/Settings.bundle")
+        let anyPlistGenerator = try OutputType.plist.outputGenerator(packages: [], project: project, options: options)
+        let plistGenerator = try XCTUnwrap(anyPlistGenerator as? PropertyListGenerator)
+        XCTAssertEqual(plistGenerator.outputURL.path, "/User/test/Desktop/package-list.plist")
         
-        let pdfURL = OutputType.pdf.outputURL(at: "/User/test/Desktop", customFileName: nil)
-        XCTAssertEqual(pdfURL.path, "/User/test/Desktop/Acknowledgements.pdf")
+        let anySettingsBundleGenerator = try OutputType.settingsBundle.outputGenerator(packages: [], project: project, options: options)
+        let settingsBundleGenerator = try XCTUnwrap(anySettingsBundleGenerator as? SettingsBundleGenerator)
+        XCTAssertEqual(settingsBundleGenerator.outputURL.path, "/User/test/Desktop/Settings.bundle")
         
-        let jsonCustomURL = OutputType.json.outputURL(at: "/User/test/Desktop", customFileName: "test")
-        XCTAssertEqual(jsonCustomURL.path, "/User/test/Desktop/test.json")
-        
-        let plistCustomURL = OutputType.plist.outputURL(at: "/User/test/Desktop", customFileName: "test")
-        XCTAssertEqual(plistCustomURL.path, "/User/test/Desktop/test.plist")
-        
-        let settingsBundleCustomURL = OutputType.settingsBundle.outputURL(at: "/User/test/Desktop", customFileName: "Test")
-        XCTAssertEqual(settingsBundleCustomURL.path, "/User/test/Desktop/Test.bundle")
-        
-        let pdfCustomURL = OutputType.pdf.outputURL(at: "/User/test/Desktop", customFileName: "Test")
-        XCTAssertEqual(pdfCustomURL.path, "/User/test/Desktop/Test.pdf")
+        let anyPDFGenerator = try OutputType.pdf.outputGenerator(packages: [], project: project, options: options)
+        let pdfGenerator = try XCTUnwrap(anyPDFGenerator as? PDFGenerator)
+        XCTAssertEqual(pdfGenerator.outputURL.path, "/User/test/Desktop/Acknowledgements.pdf")
     }
     
-    func testOutputGenerator() {
-        let outputURL = URL(fileURLWithPath: "")
+    func testCustomOutputURL() throws {
         let project = XcodeProject(fileURL: URL(fileURLWithPath: ""), options: ProjectOptions())
+        let options = OutputGeneratorOptions(outputURL: URL(fileURLWithPath: "/User/test/Desktop"), customFileName: "test")
         
-        let jsonGenerator = OutputType.json.outputGenerator(outputURL: outputURL, packages: [], project: project)
-        XCTAssertTrue(jsonGenerator is JSONGenerator)
+        let anyJSONGenerator = try OutputType.json.outputGenerator(packages: [], project: project, options: options)
+        let jsonGenerator = try XCTUnwrap(anyJSONGenerator as? JSONGenerator)
+        XCTAssertEqual(jsonGenerator.outputURL.path, "/User/test/Desktop/test.json")
         
-        let plistGenerator = OutputType.plist.outputGenerator(outputURL: outputURL, packages: [], project: project)
-        XCTAssertTrue(plistGenerator is PropertyListGenerator)
+        let anyPlistGenerator = try OutputType.plist.outputGenerator(packages: [], project: project, options: options)
+        let plistGenerator = try XCTUnwrap(anyPlistGenerator as? PropertyListGenerator)
+        XCTAssertEqual(plistGenerator.outputURL.path, "/User/test/Desktop/test.plist")
         
-        let bundleGenerator = OutputType.settingsBundle.outputGenerator(outputURL: outputURL, packages: [], project: project)
-        XCTAssertTrue(bundleGenerator is SettingsBundleGenerator)
+        let anySettingsBundleGenerator = try OutputType.settingsBundle.outputGenerator(packages: [], project: project, options: options)
+        let settingsBundleGenerator = try XCTUnwrap(anySettingsBundleGenerator as? SettingsBundleGenerator)
+        XCTAssertEqual(settingsBundleGenerator.outputURL.path, "/User/test/Desktop/test.bundle")
         
-        let pdfGenerator = OutputType.pdf.outputGenerator(outputURL: outputURL, packages: [], project: project)
-        XCTAssertTrue(pdfGenerator is PDFGenerator)
+        let anyPDFGenerator = try OutputType.pdf.outputGenerator(packages: [], project: project, options: options)
+        let pdfGenerator = try XCTUnwrap(anyPDFGenerator as? PDFGenerator)
+        XCTAssertEqual(pdfGenerator.outputURL.path, "/User/test/Desktop/test.pdf")
     }
 }
