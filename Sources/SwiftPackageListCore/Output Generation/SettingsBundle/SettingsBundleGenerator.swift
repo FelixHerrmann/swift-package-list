@@ -9,8 +9,8 @@ import Foundation
 import SwiftPackageList
 
 struct SettingsBundleGenerator: OutputGenerator {
-   let outputURL: URL
-   let packages: [Package]
+    let outputURL: URL
+    let packages: [Package]
     
     private let fileManager: FileManager = .default
     private let encoder: PropertyListEncoder = {

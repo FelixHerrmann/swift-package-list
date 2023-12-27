@@ -11,7 +11,6 @@ import SwiftPackageListCore
 
 extension SwiftPackageList {
     struct OutputOptions: ParsableArguments {
-        // swiftlint:disable:next line_length
         @Option(help: "The type of output for the package-list. Available options are json, plist, settings-bundle and pdf.")
         var outputType: OutputType = .json
         
