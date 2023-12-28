@@ -34,36 +34,20 @@ Clone or download this repository and run `make install`, `make update` or `make
 
 ### Usage
 
-#### Scan Command
-
-Open the terminal and run `swift-package-list scan <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to get the JSON output from.
+Open the terminal and run `swift-package-list <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to generate the list from.
 
 In addition to that you can specify the following options:
 
-| Option                                              | Description                                                                                                                   |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\>       | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
-| -s, --source-packages-path \<source-packages-path\> | The path to a custom SourcePackages-folder.                                                                                   |
-| --requires-license                                  | Will skip the packages without a license-file.                                                                                |
-| --version                                           | Show the version.                                                                                                             |
-| -h, --help                                          | Show help information.                                                                                                        |
-
-#### Generate Command
-
-Open the terminal and run `swift-package-list generate <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to generate the list from.
-
-In addition to that you can specify the following options:
-
-| Option                                              | Description                                                                                                                   |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\>       | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
-| -s, --source-packages-path \<source-packages-path\> | The path to a custom SourcePackages-folder.                                                                                   |
-| -o, --output-path \<output-path\>                   | The path where the package-list file will be stored. (default: ~/Desktop)                                                     |
-| -f, --file-type \<file-type\>                       | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
-| -c, --custom-file-name \<custom-file-name\>         | A custom filename to be used instead of the default ones.                                                                     |
-| --requires-license                                  | Will skip the packages without a license-file.                                                                                |
-| --version                                           | Show the version.                                                                                                             |
-| -h, --help                                          | Show help information.                                                                                                        |
+| Option                                                        | Description                                                                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| --custom-derived-data-path \<custom-derived-data-path\>       | A custom path to your DerivedData-folder.                                                                           |
+| --custom-source-packages-path \<custom-source-packages-path\> | A custom path to the SourcePackages-folder.                                                                         |
+| --output-type \<output-type\>                                 | The type of output for the package-list. (values: stdout, json, plist, settings-bundle, pdf; default: stdout)       |
+| --output-path \<output-path\>                                 | The path where the package-list file will be stored. (Not required for stdout output-type)                          |
+| --custom-file-name \<custom-file-name\>                       | A custom filename to be used instead of the default ones.                                                           |
+| --requires-license                                            | Will skip the packages without a license-file.                                                                      |
+| --version                                                     | Show the version.                                                                                                   |
+| -h, --help                                                    | Show help information.                                                                                              |
 
 ### Build Tool Plugins
 
@@ -87,7 +71,7 @@ You can easily set up a Run Script Phase in your target of your Xcode project to
 ```shell
 if command -v swift-package-list &> /dev/null; then
     OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
-    swift-package-list generate "$PROJECT_FILE_PATH" --output-path "$OUTPUT_PATH" --requires-license
+    swift-package-list "$PROJECT_FILE_PATH" --output-type json --output-path "$OUTPUT_PATH" --requires-license
 else
     echo "warning: swift-package-list not installed"
 fi
@@ -109,7 +93,7 @@ you just need a slightly modified script for the Run Script Phase:
 if command -v swift-package-list &> /dev/null; then
     OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
     WORKSPACE_FILE_PATH=${PROJECT_FILE_PATH%.xcodeproj}.xcworkspace
-    swift-package-list generate "$WORKSPACE_FILE_PATH" --output-path "$OUTPUT_PATH" --requires-license
+    swift-package-list "$WORKSPACE_FILE_PATH" --output-type json --output-path "$OUTPUT_PATH" --requires-license
 else
     echo "warning: swift-package-list not installed"
 fi
@@ -137,7 +121,7 @@ There are 2 easy ways to fix this issue:
 
 You can also generate a `Settings.bundle` file to show the acknowledgements in the Settings app. This works slightly different
 than the other file types, because a Settings Bundle is a collection of several files and might already exist in your app. 
-Just specify `--file-type settings-bundle` on the command execution.
+Just specify `--output-type settings-bundle` on the command execution.
 
 **Important:** The `Root.plist` and `Root.strings` files will (unlike the other files) only be created if they not already exists,
 otherwise it would remove existing configurations. Make sure you set up the `Acknowledgements.plist` correctly as a Child Pane as shown below:
@@ -158,7 +142,7 @@ For more information on how to set up and use a Settings Bundle, take a look at 
 ### PDF
 
 On macOS it is more common to show a `Acknowledgments.pdf` file. Therefore you have the option to generate a PDF with all licenses.
-Just specify `--file-type pdf` on the command execution.
+Just specify `--output-type pdf` on the command execution.
 
 It uses the project's file name (without extension) as the product name and, if present, the organization-name from the project file.
 You can set that in your project's file inspector as shown [here](https://stackoverflow.com/a/38395030/11342085).

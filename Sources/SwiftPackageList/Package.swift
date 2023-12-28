@@ -57,3 +57,10 @@ public struct Package: Hashable, Codable {
         self.license = license
     }
 }
+
+extension Package {
+    /// A boolean indicating if the package has a license.
+    public var hasLicense: Bool {
+        return license != nil
+    }
+}

@@ -9,9 +9,8 @@ import Foundation
 import SwiftPackageList
 
 struct PropertyListGenerator: OutputGenerator {
-    
-    private let outputURL: URL
-    private let packages: [Package]
+    let outputURL: URL
+    let packages: [Package]
     
     private let propertyListEncoder: PropertyListEncoder = {
         let encoder = PropertyListEncoder()
@@ -19,13 +18,10 @@ struct PropertyListGenerator: OutputGenerator {
         return encoder
     }()
     
-    init(outputURL: URL, packages: [Package], project: Project) {
-        self.outputURL = outputURL
-        self.packages = packages
-    }
-    
     func generateOutput() throws {
         let propertyListData = try propertyListEncoder.encode(packages)
         try propertyListData.write(to: outputURL)
+        
+        print("Generated \(outputURL.path)")
     }
 }

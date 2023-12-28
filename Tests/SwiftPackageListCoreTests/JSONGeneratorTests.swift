@@ -16,8 +16,6 @@ final class JSONGeneratorTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
-        let project = try XCTUnwrap(Project(path: url.path))
         let package = Package(
             identity: "test",
             name: "test",
@@ -28,7 +26,7 @@ final class JSONGeneratorTests: XCTestCase {
             license: "MIT"
         )
         
-        let jsonGenerator = JSONGenerator(outputURL: outputURL, packages: [package], project: project)
+        let jsonGenerator = JSONGenerator(outputURL: outputURL, packages: [package])
         try jsonGenerator.generateOutput()
     }
     

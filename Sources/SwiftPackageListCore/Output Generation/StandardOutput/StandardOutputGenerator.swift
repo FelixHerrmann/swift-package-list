@@ -1,15 +1,14 @@
 //
-//  JSONGenerator.swift
+//  StandardOutputGenerator.swift
 //  SwiftPackageListCore
 //
-//  Created by Felix Herrmann on 15.05.22.
+//  Created by Felix Herrmann on 27.12.23.
 //
 
 import Foundation
 import SwiftPackageList
 
-struct JSONGenerator: OutputGenerator {
-    let outputURL: URL
+struct StandardOutputGenerator: OutputGenerator {
     let packages: [Package]
     
     private let jsonEncoder: JSONEncoder = {
@@ -20,8 +19,7 @@ struct JSONGenerator: OutputGenerator {
     
     func generateOutput() throws {
         let jsonData = try jsonEncoder.encode(packages)
-        try jsonData.write(to: outputURL)
-        
-        print("Generated \(outputURL.path)")
+        let jsonString = String(decoding: jsonData, as: UTF8.self)
+        print(jsonString)
     }
 }
