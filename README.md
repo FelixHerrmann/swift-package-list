@@ -222,7 +222,7 @@ navigationController.pushViewController(acknowledgmentsViewController, animated:
 import SwiftPackageListUI
 
 var body: some View {
-    NavigationView {
+    NavigationStack {
         AcknowledgmentsList()
     }
 }

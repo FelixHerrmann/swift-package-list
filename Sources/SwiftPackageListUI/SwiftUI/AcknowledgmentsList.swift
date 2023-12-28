@@ -11,19 +11,19 @@ import SwiftUI
 
 /// A `List` that shows all licenses from the package-list file.
 ///
-/// It can be used as the root view in a `NavigationView`:
+/// It can be used as the root view in a `NavigationStack`:
 /// ```swift
 /// var body: some View {
-///     NavigationView {
+///     NavigationStack {
 ///         AcknowledgmentsList()
 ///     }
 /// }
 /// ```
 ///
-/// It also can be used within a `NavigationLink` to be pushed on the `NavigationView`:
+/// It also can be used within a `NavigationLink` to be pushed on the `NavigationStack`:
 /// ```swift
 /// var body: some View {
-///     NavigationView {
+///     NavigationStack {
 ///         List {
 ///             NavigationLink("Acknowledgments") {
 ///                 AcknowledgmentsList()
@@ -34,7 +34,7 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// - Important: This view must be used inside a `NavigationView` to function properly.
+/// - Important: This view must be used inside a `NavigationStack` to function properly.
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct AcknowledgmentsList: View {
     
