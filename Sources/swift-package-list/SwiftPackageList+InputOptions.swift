@@ -14,19 +14,19 @@ extension SwiftPackageList {
         @Argument(help: "The path to your .xcodeproj or .xcworkspace file.")
         var projectPath: String
         
-        @Option(help: "The path to your DerivedData-folder.")
-        var derivedDataPath: String?
+        @Option(help: "A custom path to your DerivedData-folder.")
+        var customDerivedDataPath: String?
         
-        @Option(help: "The path to a custom SourcePackages-folder.")
-        var sourcePackagesPath: String?
+        @Option(help: "A custom path to the SourcePackages-folder.")
+        var customSourcePackagesPath: String?
     }
 }
 
 extension SwiftPackageList.InputOptions {
     var projectOptions: ProjectOptions {
         return ProjectOptions(
-            customDerivedDataPath: derivedDataPath,
-            customSourcePackagesPath: sourcePackagesPath
+            customDerivedDataPath: customDerivedDataPath,
+            customSourcePackagesPath: customSourcePackagesPath
         )
     }
 }
