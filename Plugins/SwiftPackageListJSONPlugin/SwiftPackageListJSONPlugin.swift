@@ -18,7 +18,7 @@ struct SwiftPackageListJSONPlugin: BuildToolPlugin {
         let sourcePackagesPath = try context.sourcePackagesDirectory()
         return [
             .buildCommand(
-                displayName: "SwiftPackageListPlugin",
+                displayName: "SwiftPackageListJSONPlugin",
                 executable: executable,
                 arguments: [
                     projectPath,
@@ -60,7 +60,7 @@ extension SwiftPackageListJSONPlugin: XcodeBuildToolPlugin {
         let sourcePackagesPath = try context.sourcePackagesDirectory()
         return [
             .buildCommand(
-                displayName: "SwiftPackageListPlugin",
+                displayName: "SwiftPackageListJSONPlugin",
                 executable: executable,
                 arguments: [
                     projectPath,

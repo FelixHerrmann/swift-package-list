@@ -18,7 +18,7 @@ struct SwiftPackageListSettingsBundlePlugin: BuildToolPlugin {
         let sourcePackagesPath = try context.sourcePackagesDirectory()
         return [
             .buildCommand(
-                displayName: "SwiftPackageListPlugin",
+                displayName: "SwiftPackageListSettingsBundlePlugin",
                 executable: executable,
                 arguments: [
                     projectPath,
@@ -60,7 +60,7 @@ extension SwiftPackageListSettingsBundlePlugin: XcodeBuildToolPlugin {
         let sourcePackagesPath = try context.sourcePackagesDirectory()
         return [
             .buildCommand(
-                displayName: "SwiftPackageListPlugin",
+                displayName: "SwiftPackageListSettingsBundlePlugin",
                 executable: executable,
                 arguments: [
                     projectPath,
