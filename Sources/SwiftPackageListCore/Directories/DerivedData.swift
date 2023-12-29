@@ -46,7 +46,7 @@ extension DerivedData {
             guard let infoPlistFile = buildFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
             let infoPlistData = try Data(contentsOf: infoPlistFile)
             let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
-            if infoPlist.workspacePath == project.fileURL.path {
+            if infoPlist.workspacePath == project.workspaceURL.path {
                 return buildDirectory
             }
         }

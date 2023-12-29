@@ -11,6 +11,7 @@ import SwiftPackageList
 public protocol Project {
     var fileURL: URL { get }
     var options: ProjectOptions { get }
+    var workspaceURL: URL { get }
     var packageResolvedFileURL: URL { get }
     var projectPbxprojFileURL: URL? { get }
     
@@ -20,6 +21,10 @@ public protocol Project {
 // MARK: - Default Implementations
 
 extension Project {
+    public var workspaceURL: URL {
+        return fileURL
+    }
+    
     public func packages() throws -> [Package] {
         let packageResolved = try PackageResolved(url: packageResolvedFileURL)
         

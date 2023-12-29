@@ -17,7 +17,7 @@ struct PDFGenerator: OutputGenerator {
     init(outputURL: URL, packages: [Package], project: some Project) {
         self.outputURL = outputURL
         self.packages = packages
-        self.projectName = project.fileURL.deletingPathExtension().lastPathComponent
+        self.projectName = project.workspaceURL.deletingPathExtension().lastPathComponent
         
         if let organizationName = project.projectPbxproj?.organizationName {
             self.organizationName = organizationName
