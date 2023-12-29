@@ -3,7 +3,7 @@
 [![Xcode Build](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml/badge.svg)](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml)
 [![SwiftLint](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/swiftlint.yml)
 
-A command-line tool to get all used SPM-dependencies of an Xcode project or workspace.
+A command-line tool to get all used Swift Package dependencies.
 
 The output includes all the `Package.resolved` informations and the license from the checkouts.
 You can also generate a JSON, PLIST, Settings.bundle or PDF file.
@@ -34,7 +34,7 @@ Clone or download this repository and run `make install`, `make update` or `make
 
 ### Usage
 
-Open the terminal and run `swift-package-list <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to generate the list from.
+Open the terminal and run `swift-package-list <project-path>` with the path to the `.xcodeproj`, `.xcworkspace` or `Package.swift` file you want to generate the list from.
 
 In addition to that you can specify the following options:
 

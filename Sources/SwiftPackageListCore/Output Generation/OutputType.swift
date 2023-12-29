@@ -34,7 +34,7 @@ extension OutputType {
     
     public func outputGenerator(
         packages: [Package],
-        project: any Project,
+        project: some Project,
         options: OutputGeneratorOptions = OutputGeneratorOptions()
     ) throws -> any OutputGenerator {
         switch self {

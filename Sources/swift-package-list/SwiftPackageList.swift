@@ -14,7 +14,7 @@ import SwiftPackageListCore
 struct SwiftPackageList: ParsableCommand {
     static var configuration: CommandConfiguration {
         return CommandConfiguration(
-            discussion: "A command-line tool to get all used SPM-dependencies of an Xcode project or workspace.",
+            discussion: "A command-line tool to get all used Swift Package dependencies.",
             version: "3.1.0"
         )
     }

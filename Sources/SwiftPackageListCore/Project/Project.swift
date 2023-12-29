@@ -11,6 +11,7 @@ import SwiftPackageList
 public protocol Project {
     var fileURL: URL { get }
     var options: ProjectOptions { get }
+    var workspaceURL: URL { get }
     var packageResolvedFileURL: URL { get }
     var projectPbxprojFileURL: URL? { get }
     
@@ -20,6 +21,10 @@ public protocol Project {
 // MARK: - Default Implementations
 
 extension Project {
+    public var workspaceURL: URL {
+        return fileURL
+    }
+    
     public func packages() throws -> [Package] {
         let packageResolved = try PackageResolved(url: packageResolvedFileURL)
         
@@ -35,8 +40,8 @@ extension Project {
                 derivedDataDirectory = DerivedData.defaultDirectory
             }
             let derivedData = DerivedData(url: derivedDataDirectory)
-            guard let buildDirectory = try derivedData.buildDirectory(projectFileURL: fileURL) else {
-                throw RuntimeError("No build directory found in \(derivedData.url) for project \(fileURL)")
+            guard let buildDirectory = try derivedData.buildDirectory(project: self) else {
+                throw RuntimeError("No build directory found in \(derivedData.url.path) for project \(fileURL.path)")
             }
             let sourcePackagesDirectory = buildDirectory.appendingPathComponent("SourcePackages")
             sourcePackages = SourcePackages(url: sourcePackagesDirectory)
