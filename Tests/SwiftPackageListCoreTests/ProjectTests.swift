@@ -13,8 +13,12 @@ final class ProjectTests: XCTestCase {
         // Note: The project and workspace files in the Resources directory get's hidden by Xcode
         let url = Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources")
         let unwrappedURL = try XCTUnwrap(url)
+        
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
+        XCTAssertEqual(projectType, .xcodeProject)
+        
         let project = projectType.project(fileURL: unwrappedURL)
+        XCTAssertTrue(project is XcodeProject)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
         XCTAssertEqual(project.packageResolvedFileURL.path, expectedPackageResolvedFileURL)
@@ -25,8 +29,12 @@ final class ProjectTests: XCTestCase {
         // Note: The project and workspace files in the Resources directory get's hidden by Xcode
         let url = Bundle.module.url(forResource: "Workspace", withExtension: "xcworkspace", subdirectory: "Resources")
         let unwrappedURL = try XCTUnwrap(url)
+        
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
+        XCTAssertEqual(projectType, .xcodeWorkspace)
+        
         let project = projectType.project(fileURL: unwrappedURL)
+        XCTAssertTrue(project is XcodeWorkspace)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/xcshareddata/swiftpm/Package.resolved"
         XCTAssertEqual(project.packageResolvedFileURL.path, expectedPackageResolvedFileURL)
