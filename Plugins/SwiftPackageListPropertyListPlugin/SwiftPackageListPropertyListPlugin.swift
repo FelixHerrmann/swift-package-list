@@ -11,7 +11,40 @@ import PackagePlugin
 @main
 struct SwiftPackageListPropertyListPlugin: BuildToolPlugin {
     func createBuildCommands(context: PluginContext, target: Target) async throws -> [Command] {
-        return []
+        let projectPath = context.package.directory.appending("Package.swift")
+        let executable = try context.tool(named: "swift-package-list").path
+        let outputPath = context.pluginWorkDirectory
+        let outputType = "plist"
+        let sourcePackagesPath = try context.sourcePackagesDirectory()
+        return [
+            .buildCommand(
+                displayName: "SwiftPackageListPlugin",
+                executable: executable,
+                arguments: [
+                    projectPath,
+                    "--custom-source-packages-path", sourcePackagesPath,
+                    "--output-type", outputType,
+                    "--output-path", outputPath,
+                    "--requires-license",
+                ],
+                outputFiles: [outputPath.appending("package-list.plist")]
+            )
+        ]
+    }
+}
+
+struct SourcePackagesNotFoundError: Error { }
+
+extension PluginContext {
+    func sourcePackagesDirectory() throws -> Path {
+        var path = pluginWorkDirectory
+        while path.lastComponent != "SourcePackages" {
+            guard path.string != "/" else {
+                throw SourcePackagesNotFoundError()
+            }
+            path = path.removingLastComponent()
+        }
+        return path
     }
 }
 
@@ -41,8 +74,6 @@ extension SwiftPackageListPropertyListPlugin: XcodeBuildToolPlugin {
         ]
     }
 }
-
-struct SourcePackagesNotFoundError: Error { }
 
 extension XcodePluginContext {
     func sourcePackagesDirectory() throws -> Path {
