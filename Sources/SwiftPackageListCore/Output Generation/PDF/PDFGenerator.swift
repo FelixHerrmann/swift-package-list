@@ -14,7 +14,7 @@ struct PDFGenerator: OutputGenerator {
     let projectName: String
     let organizationName: String?
     
-    init(outputURL: URL, packages: [Package], project: any Project) {
+    init(outputURL: URL, packages: [Package], project: some Project) {
         self.outputURL = outputURL
         self.packages = packages
         self.projectName = project.fileURL.deletingPathExtension().lastPathComponent
