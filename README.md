@@ -78,7 +78,7 @@ fi
 ```
 3. move the Phase above the `Copy Bundle Resources`-phase
 4. optionally you can rename the Phase by double-clicking on the title
-5. build your project (cmd + b)
+5. build your project (<kbd>cmd</kbd> + <kbd>b</kbd>)
 6. right-click on the targets-folder in the sidebar and select *Add Files to "\<project-name\>"*
 7. select `package-list.json` in the Finder-window
 
