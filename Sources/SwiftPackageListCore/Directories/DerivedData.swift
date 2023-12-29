@@ -30,7 +30,7 @@ extension DerivedData {
         }
     }
     
-    func buildDirectory(projectFileURL: URL) throws -> URL? {
+    func buildDirectory(project: some Project) throws -> URL? {
         let buildDirectories = try FileManager.default.contentsOfDirectory(
             at: url,
             includingPropertiesForKeys: [.isDirectoryKey],
@@ -46,7 +46,7 @@ extension DerivedData {
             guard let infoPlistFile = buildFiles.first(where: { $0.lastPathComponent == "info.plist" }) else { continue }
             let infoPlistData = try Data(contentsOf: infoPlistFile)
             let infoPlist = try PropertyListDecoder().decode(InfoPlist.self, from: infoPlistData)
-            if infoPlist.workspacePath == projectFileURL.path {
+            if infoPlist.workspacePath == project.fileURL.path {
                 return buildDirectory
             }
         }

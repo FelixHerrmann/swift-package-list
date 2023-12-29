@@ -35,7 +35,7 @@ extension Project {
                 derivedDataDirectory = DerivedData.defaultDirectory
             }
             let derivedData = DerivedData(url: derivedDataDirectory)
-            guard let buildDirectory = try derivedData.buildDirectory(projectFileURL: fileURL) else {
+            guard let buildDirectory = try derivedData.buildDirectory(project: self) else {
                 throw RuntimeError("No build directory found in \(derivedData.url) for project \(fileURL)")
             }
             let sourcePackagesDirectory = buildDirectory.appendingPathComponent("SourcePackages")
