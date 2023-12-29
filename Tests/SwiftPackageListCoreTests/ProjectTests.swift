@@ -40,4 +40,18 @@ final class ProjectTests: XCTestCase {
         XCTAssertEqual(project.packageResolvedFileURL.path, expectedPackageResolvedFileURL)
         XCTAssertEqual(project.projectPbxproj?.organizationName, "SwiftPackageList")
     }
+    
+    func testSwiftPackage() throws {
+        let url = Bundle.module.url(forResource: "Package", withExtension: "swift", subdirectory: "Resources")
+        let unwrappedURL = try XCTUnwrap(url)
+        
+        let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
+        XCTAssertEqual(projectType, .swiftPackage)
+        
+        let project = projectType.project(fileURL: unwrappedURL)
+        XCTAssertTrue(project is SwiftPackage)
+        
+        let expectedPackageResolvedFileURL = "\(unwrappedURL.deletingLastPathComponent().path)/Package.resolved"
+        XCTAssertEqual(project.packageResolvedFileURL.path, expectedPackageResolvedFileURL)
+    }
 }
