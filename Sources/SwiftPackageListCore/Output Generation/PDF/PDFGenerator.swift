@@ -17,9 +17,9 @@ struct PDFGenerator: OutputGenerator {
     init(outputURL: URL, packages: [Package], project: some Project) {
         self.outputURL = outputURL
         self.packages = packages
-        self.projectName = project.workspaceURL.deletingPathExtension().lastPathComponent
+        self.projectName = project.name
         
-        if let organizationName = project.projectPbxproj?.organizationName {
+        if let organizationName = project.organizationName {
             self.organizationName = organizationName
         } else {
             print("Warning: Could not find the organization name in your project")

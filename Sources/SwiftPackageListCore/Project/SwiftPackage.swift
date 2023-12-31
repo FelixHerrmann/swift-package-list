@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SwiftPackage: Project {
+struct SwiftPackage: NativeProject {
     let fileURL: URL
     let options: ProjectOptions
     
@@ -15,11 +15,14 @@ struct SwiftPackage: Project {
         return fileURL.deletingLastPathComponent()
     }
     
-    var packageResolvedFileURL: URL {
-        return workspaceURL.appendingPathComponent("Package.resolved")
+    var packageResolved: PackageResolved {
+        get throws {
+            let url = workspaceURL.appendingPathComponent("Package.resolved")
+            return try PackageResolved(url: url)
+        }
     }
     
-    var projectPbxprojFileURL: URL? {
+    var projectPbxproj: ProjectPbxproj? {
         return nil
     }
 }

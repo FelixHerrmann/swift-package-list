@@ -7,18 +7,21 @@
 
 import Foundation
 
-struct XcodeWorkspace: Project {
+struct XcodeWorkspace: NativeProject {
     let fileURL: URL
     let options: ProjectOptions
     
-    var packageResolvedFileURL: URL {
-        return fileURL
-            .appendingPathComponent("xcshareddata")
-            .appendingPathComponent("swiftpm")
-            .appendingPathComponent("Package.resolved")
+    var packageResolved: PackageResolved {
+        get throws {
+            let url = fileURL
+                .appendingPathComponent("xcshareddata")
+                .appendingPathComponent("swiftpm")
+                .appendingPathComponent("Package.resolved")
+            return try PackageResolved(url: url)
+        }
     }
     
-    var projectPbxprojFileURL: URL? {
+    var projectPbxproj: ProjectPbxproj? {
         let contentsURL = fileURL.appendingPathComponent("contents.xcworkspacedata")
         let locations: [String]
         do {
@@ -31,9 +34,11 @@ struct XcodeWorkspace: Project {
         guard let firstNonPodsLocation = locations.first(where: { !$0.contains("Pods.xcodeproj") }) else {
             return nil
         }
-        return fileURL
+        let url = fileURL
             .deletingLastPathComponent()
             .appendingPathComponent(firstNonPodsLocation)
             .appendingPathComponent("project.pbxproj")
+        
+        return ProjectPbxproj(url: url)
     }
 }

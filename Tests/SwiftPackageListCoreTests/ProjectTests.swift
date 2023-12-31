@@ -18,11 +18,11 @@ final class ProjectTests: XCTestCase {
         XCTAssertEqual(projectType, .xcodeProject)
         
         let project = projectType.project(fileURL: unwrappedURL)
-        XCTAssertTrue(project is XcodeProject)
+        let xcodeProject = try XCTUnwrap(project as? XcodeProject)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
-        XCTAssertEqual(project.packageResolvedFileURL.path, expectedPackageResolvedFileURL)
-        XCTAssertEqual(project.projectPbxproj?.organizationName, "SwiftPackageList")
+        XCTAssertEqual(try xcodeProject.packageResolved.url.path, expectedPackageResolvedFileURL)
+        XCTAssertEqual(xcodeProject.organizationName, "SwiftPackageList")
     }
     
     func testXcodeWorkspace() throws {
@@ -34,11 +34,11 @@ final class ProjectTests: XCTestCase {
         XCTAssertEqual(projectType, .xcodeWorkspace)
         
         let project = projectType.project(fileURL: unwrappedURL)
-        XCTAssertTrue(project is XcodeWorkspace)
+        let xcodeWorkspace = try XCTUnwrap(project as? XcodeWorkspace)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/xcshareddata/swiftpm/Package.resolved"
-        XCTAssertEqual(project.packageResolvedFileURL.path, expectedPackageResolvedFileURL)
-        XCTAssertEqual(project.projectPbxproj?.organizationName, "SwiftPackageList")
+        XCTAssertEqual(try xcodeWorkspace.packageResolved.url.path, expectedPackageResolvedFileURL)
+        XCTAssertEqual(xcodeWorkspace.organizationName, "SwiftPackageList")
     }
     
     func testSwiftPackage() throws {
@@ -49,9 +49,9 @@ final class ProjectTests: XCTestCase {
         XCTAssertEqual(projectType, .swiftPackage)
         
         let project = projectType.project(fileURL: unwrappedURL)
-        XCTAssertTrue(project is SwiftPackage)
+        let swiftPackage = try XCTUnwrap(project as? SwiftPackage)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.deletingLastPathComponent().path)/Package.resolved"
-        XCTAssertEqual(project.packageResolvedFileURL.path, expectedPackageResolvedFileURL)
+        XCTAssertEqual(try swiftPackage.packageResolved.url.path, expectedPackageResolvedFileURL)
     }
 }

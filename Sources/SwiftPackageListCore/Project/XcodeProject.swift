@@ -7,19 +7,23 @@
 
 import Foundation
 
-struct XcodeProject: Project {
+struct XcodeProject: NativeProject {
     let fileURL: URL
     let options: ProjectOptions
     
-    var packageResolvedFileURL: URL {
-        return fileURL
-            .appendingPathComponent("project.xcworkspace")
-            .appendingPathComponent("xcshareddata")
-            .appendingPathComponent("swiftpm")
-            .appendingPathComponent("Package.resolved")
+    var packageResolved: PackageResolved {
+        get throws {
+            let url = fileURL
+                .appendingPathComponent("project.xcworkspace")
+                .appendingPathComponent("xcshareddata")
+                .appendingPathComponent("swiftpm")
+                .appendingPathComponent("Package.resolved")
+            return try PackageResolved(url: url)
+        }
     }
     
-    var projectPbxprojFileURL: URL? {
-        return fileURL.appendingPathComponent("project.pbxproj")
+    var projectPbxproj: ProjectPbxproj? {
+        let url = fileURL.appendingPathComponent("project.pbxproj")
+        return ProjectPbxproj(url: url)
     }
 }
