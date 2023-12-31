@@ -25,7 +25,7 @@ final class PDFGeneratorTests: XCTestCase {
             )
         )
         let projectType = try XCTUnwrap(ProjectType(fileURL: url))
-        let project = projectType.project(fileURL: url)
+        let project = try projectType.project(fileURL: url)
         let package = Package(
             identity: "test",
             name: "test",

@@ -17,7 +17,7 @@ final class ProjectTests: XCTestCase {
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
         XCTAssertEqual(projectType, .xcodeProject)
         
-        let project = projectType.project(fileURL: unwrappedURL)
+        let project = try projectType.project(fileURL: unwrappedURL)
         let xcodeProject = try XCTUnwrap(project as? XcodeProject)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
@@ -37,7 +37,7 @@ final class ProjectTests: XCTestCase {
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
         XCTAssertEqual(projectType, .xcodeWorkspace)
         
-        let project = projectType.project(fileURL: unwrappedURL)
+        let project = try projectType.project(fileURL: unwrappedURL)
         let xcodeWorkspace = try XCTUnwrap(project as? XcodeWorkspace)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/xcshareddata/swiftpm/Package.resolved"
@@ -52,7 +52,7 @@ final class ProjectTests: XCTestCase {
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
         XCTAssertEqual(projectType, .swiftPackage)
         
-        let project = projectType.project(fileURL: unwrappedURL)
+        let project = try projectType.project(fileURL: unwrappedURL)
         let swiftPackage = try XCTUnwrap(project as? SwiftPackage)
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.deletingLastPathComponent().path)/Package.resolved"

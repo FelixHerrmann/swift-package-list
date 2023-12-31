@@ -11,6 +11,7 @@ public enum ProjectType {
     case xcodeProject
     case xcodeWorkspace
     case swiftPackage
+    case tuist
 }
 
 extension ProjectType {
@@ -22,6 +23,8 @@ extension ProjectType {
             self = .xcodeWorkspace
         case ("Package", "swift"):
             self = .swiftPackage
+        case ("Project", "swift"):
+            self = .tuist
         default:
             throw RuntimeError("\(fileURL.lastPathComponent) is not supported")
         }
@@ -29,7 +32,7 @@ extension ProjectType {
 }
 
 extension ProjectType {
-    public func project(fileURL: URL, options: ProjectOptions = ProjectOptions()) -> any Project {
+    public func project(fileURL: URL, options: ProjectOptions = ProjectOptions()) throws -> any Project {
         switch self {
         case .xcodeProject:
             return XcodeProject(fileURL: fileURL, options: options)
@@ -37,6 +40,8 @@ extension ProjectType {
             return XcodeWorkspace(fileURL: fileURL, options: options)
         case .swiftPackage:
             return SwiftPackage(fileURL: fileURL, options: options)
+        case .tuist:
+            return try Tuist(fileURL: fileURL, options: options)
         }
     }
 }

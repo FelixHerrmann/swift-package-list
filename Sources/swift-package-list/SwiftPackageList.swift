@@ -25,7 +25,7 @@ struct SwiftPackageList: ParsableCommand {
     mutating func run() throws {
         let projectFileURL = URL(fileURLWithPath: inputOptions.projectPath)
         let projectType = try ProjectType(fileURL: projectFileURL)
-        let project = projectType.project(fileURL: projectFileURL, options: inputOptions.projectOptions)
+        let project = try projectType.project(fileURL: projectFileURL, options: inputOptions.projectOptions)
         
         let packages: [Package]
         if outputOptions.requiresLicense {
