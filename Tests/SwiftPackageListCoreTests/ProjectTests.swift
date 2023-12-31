@@ -11,7 +11,7 @@ import XCTest
 final class ProjectTests: XCTestCase {
     func testXcodeProject() throws {
         // Note: The project and workspace files in the Resources directory get's hidden by Xcode
-        let url = Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources")
+        let url = Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources/XcodeProject")
         let unwrappedURL = try XCTUnwrap(url)
         
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
@@ -27,7 +27,11 @@ final class ProjectTests: XCTestCase {
     
     func testXcodeWorkspace() throws {
         // Note: The project and workspace files in the Resources directory get's hidden by Xcode
-        let url = Bundle.module.url(forResource: "Workspace", withExtension: "xcworkspace", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "Workspace",
+            withExtension: "xcworkspace",
+            subdirectory: "Resources/XcodeWorkspace"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
@@ -42,7 +46,7 @@ final class ProjectTests: XCTestCase {
     }
     
     func testSwiftPackage() throws {
-        let url = Bundle.module.url(forResource: "Package", withExtension: "swift", subdirectory: "Resources")
+        let url = Bundle.module.url(forResource: "Package", withExtension: "swift", subdirectory: "Resources/SwiftPackage")
         let unwrappedURL = try XCTUnwrap(url)
         
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
