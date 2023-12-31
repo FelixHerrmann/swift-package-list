@@ -7,18 +7,18 @@
 
 import Foundation
 
-public struct XcodeWorkspace: Project {
-    public let fileURL: URL
-    public let options: ProjectOptions
+struct XcodeWorkspace: Project {
+    let fileURL: URL
+    let options: ProjectOptions
     
-    public var packageResolvedFileURL: URL {
+    var packageResolvedFileURL: URL {
         return fileURL
             .appendingPathComponent("xcshareddata")
             .appendingPathComponent("swiftpm")
             .appendingPathComponent("Package.resolved")
     }
     
-    public var projectPbxprojFileURL: URL? {
+    var projectPbxprojFileURL: URL? {
         let contentsURL = fileURL.appendingPathComponent("contents.xcworkspacedata")
         let locations: [String]
         do {

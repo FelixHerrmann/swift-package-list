@@ -7,19 +7,19 @@
 
 import Foundation
 
-public struct SwiftPackage: Project {
-    public let fileURL: URL
-    public let options: ProjectOptions
+struct SwiftPackage: Project {
+    let fileURL: URL
+    let options: ProjectOptions
     
-    public var workspaceURL: URL {
+    var workspaceURL: URL {
         return fileURL.deletingLastPathComponent()
     }
     
-    public var packageResolvedFileURL: URL {
+    var packageResolvedFileURL: URL {
         return workspaceURL.appendingPathComponent("Package.resolved")
     }
     
-    public var projectPbxprojFileURL: URL? {
+    var projectPbxprojFileURL: URL? {
         return nil
     }
 }

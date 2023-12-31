@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct XcodeProject: Project {
-    public let fileURL: URL
-    public let options: ProjectOptions
+struct XcodeProject: Project {
+    let fileURL: URL
+    let options: ProjectOptions
     
-    public var packageResolvedFileURL: URL {
+    var packageResolvedFileURL: URL {
         return fileURL
             .appendingPathComponent("project.xcworkspace")
             .appendingPathComponent("xcshareddata")
@@ -19,7 +19,7 @@ public struct XcodeProject: Project {
             .appendingPathComponent("Package.resolved")
     }
     
-    public var projectPbxprojFileURL: URL? {
+    var projectPbxprojFileURL: URL? {
         return fileURL.appendingPathComponent("project.pbxproj")
     }
 }
