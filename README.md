@@ -34,7 +34,12 @@ Clone or download this repository and run `make install`, `make update` or `make
 
 ### Usage
 
-Open the terminal and run `swift-package-list <project-path>` with the path to the `.xcodeproj`, `.xcworkspace`, `Package.swift` or `Project.swift` file you want to generate the list from.
+Open the terminal and run `swift-package-list <project-path>` with the path to the project file you want to generate the list from.
+Currently supported are:
+- `*.xcodeproj` for Xcode projects
+- `*.xcworkspace` for Xcode workspaces
+- `Package.swift` for Swift packages
+- `Project.swift` for Tuist projects
 
 In addition to that you can specify the following options:
 
