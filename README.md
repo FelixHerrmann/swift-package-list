@@ -172,6 +172,7 @@ Load `package-list.json` or `package-list.plist` from the bundle with a single f
 - iOS 13.0
 - tvOS 13.0
 - watchOS 6.0
+- visionOS 1.0
 
 ### Usage
 
