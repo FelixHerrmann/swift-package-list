@@ -11,7 +11,7 @@ import SwiftPackageListCore
 
 extension SwiftPackageList {
     struct InputOptions: ParsableArguments {
-        @Argument(help: "The path to your .xcodeproj, .xcworkspace or Package.swift file.")
+        @Argument(help: "The path to your .xcodeproj, .xcworkspace, Package.swift or Project.swift file.")
         var projectPath: String
         
         @Option(help: "A custom path to your DerivedData-folder.")

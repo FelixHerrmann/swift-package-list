@@ -34,7 +34,7 @@ Clone or download this repository and run `make install`, `make update` or `make
 
 ### Usage
 
-Open the terminal and run `swift-package-list <project-path>` with the path to the `.xcodeproj`, `.xcworkspace` or `Package.swift` file you want to generate the list from.
+Open the terminal and run `swift-package-list <project-path>` with the path to the `.xcodeproj`, `.xcworkspace`, `Package.swift` or `Project.swift` file you want to generate the list from.
 
 In addition to that you can specify the following options:
 
