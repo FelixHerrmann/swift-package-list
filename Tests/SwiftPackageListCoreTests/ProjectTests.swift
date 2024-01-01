@@ -20,8 +20,13 @@ final class ProjectTests: XCTestCase {
         let project = try projectType.project(fileURL: unwrappedURL)
         let xcodeProject = try XCTUnwrap(project as? XcodeProject)
         
-        let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
-        XCTAssertEqual(try xcodeProject.packageResolved.url.path, expectedPackageResolvedFileURL)
+        let expectedPackageResolvedFileURL = unwrappedURL
+            .appendingPathComponent("project.xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("Package.resolved")
+        XCTAssertEqual(try xcodeProject.packageResolved.url, expectedPackageResolvedFileURL)
+        
         XCTAssertEqual(xcodeProject.name, "Project")
         XCTAssertEqual(xcodeProject.organizationName, "SwiftPackageList")
     }
@@ -41,8 +46,12 @@ final class ProjectTests: XCTestCase {
         let project = try projectType.project(fileURL: unwrappedURL)
         let xcodeWorkspace = try XCTUnwrap(project as? XcodeWorkspace)
         
-        let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/xcshareddata/swiftpm/Package.resolved"
-        XCTAssertEqual(try xcodeWorkspace.packageResolved.url.path, expectedPackageResolvedFileURL)
+        let expectedPackageResolvedFileURL = unwrappedURL
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("Package.resolved")
+        XCTAssertEqual(try xcodeWorkspace.packageResolved.url, expectedPackageResolvedFileURL)
+        
         XCTAssertEqual(xcodeWorkspace.name, "Workspace")
         XCTAssertEqual(xcodeWorkspace.organizationName, "SwiftPackageList")
     }
@@ -57,8 +66,11 @@ final class ProjectTests: XCTestCase {
         let project = try projectType.project(fileURL: unwrappedURL)
         let swiftPackage = try XCTUnwrap(project as? SwiftPackage)
         
-        let expectedPackageResolvedFileURL = "\(unwrappedURL.deletingLastPathComponent().path)/Package.resolved"
-        XCTAssertEqual(try swiftPackage.packageResolved.url.path, expectedPackageResolvedFileURL)
+        let expectedPackageResolvedFileURL = unwrappedURL
+            .deletingLastPathComponent()
+            .appendingPathComponent("Package.resolved")
+        XCTAssertEqual(try swiftPackage.packageResolved.url, expectedPackageResolvedFileURL)
+        
         XCTAssertEqual(swiftPackage.name, "SwiftPackage")
         XCTAssertNil(swiftPackage.organizationName)
     }
