@@ -21,6 +21,18 @@ struct Tuist: Project {
         return dump.organizationName
     }
     
+    var packageResolved: PackageResolved {
+        get throws {
+            let packageResolvedURL = fileURL
+                .deletingLastPathComponent()
+                .appendingPathComponent("Tuist")
+                .appendingPathComponent("Dependencies")
+                .appendingPathComponent("Lockfiles")
+                .appendingPathComponent("Package.resolved")
+            return try PackageResolved(url: packageResolvedURL)
+        }
+    }
+    
     init(fileURL: URL, options: ProjectOptions) throws {
         self.fileURL = fileURL
         self.options = options
@@ -28,13 +40,7 @@ struct Tuist: Project {
     }
     
     func packages() throws -> [Package] {
-        let packageResolvedURL = fileURL
-            .deletingLastPathComponent()
-            .appendingPathComponent("Tuist")
-            .appendingPathComponent("Dependencies")
-            .appendingPathComponent("Lockfiles")
-            .appendingPathComponent("Package.resolved")
-        let packageResolved = try PackageResolved(url: packageResolvedURL)
+        let packageResolved = try packageResolved
         
         let sourcePackages: SourcePackages
         if let sourcePackagesPath = options.customSourcePackagesPath {
