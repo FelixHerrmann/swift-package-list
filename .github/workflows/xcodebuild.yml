@@ -45,6 +45,8 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
+      - name: Install Tuist
+        run: curl -Ls https://install.tuist.io | bash
       - name: Run tests
         run: |
           xcodebuild \
