@@ -10,7 +10,11 @@ import XCTest
 
 final class WorkspaceStateTests: XCTestCase {
     func testVersion6() throws {
-        let url = Bundle.module.url(forResource: "workspace-state_v6", withExtension: "json", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "workspace-state_v6",
+            withExtension: "json",
+            subdirectory: "Resources/WorkspaceState"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         let workspaceState = try WorkspaceState(url: unwrappedURL)
         
@@ -27,7 +31,11 @@ final class WorkspaceStateTests: XCTestCase {
     }
     
     func testUnsupportedVersion() throws {
-        let url = Bundle.module.url(forResource: "workspace-state_v999", withExtension: "json", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "workspace-state_v999",
+            withExtension: "json",
+            subdirectory: "Resources/WorkspaceState"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         
         XCTAssertThrowsError(try WorkspaceState(url: unwrappedURL)) { error in

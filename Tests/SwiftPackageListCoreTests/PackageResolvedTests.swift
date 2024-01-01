@@ -10,7 +10,11 @@ import XCTest
 
 final class PackageResolvedTests: XCTestCase {
     func testVersion1() throws {
-        let url = Bundle.module.url(forResource: "Package_v1", withExtension: "resolved", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "Package_v1",
+            withExtension: "resolved",
+            subdirectory: "Resources/PackageResolved"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         let packageResolved = try PackageResolved(url: unwrappedURL)
         
@@ -28,7 +32,11 @@ final class PackageResolvedTests: XCTestCase {
     }
     
     func testVersion2() throws {
-        let url = Bundle.module.url(forResource: "Package_v2", withExtension: "resolved", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "Package_v2",
+            withExtension: "resolved",
+            subdirectory: "Resources/PackageResolved"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         let packageResolved = try PackageResolved(url: unwrappedURL)
         
@@ -47,7 +55,11 @@ final class PackageResolvedTests: XCTestCase {
     }
     
     func testUnsupportedVersion() throws {
-        let url = Bundle.module.url(forResource: "Package_v999", withExtension: "resolved", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "Package_v999",
+            withExtension: "resolved",
+            subdirectory: "Resources/PackageResolved"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         
         XCTAssertThrowsError(try PackageResolved(url: unwrappedURL)) { error in

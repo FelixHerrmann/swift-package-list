@@ -45,6 +45,8 @@ jobs:
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
+      - name: Install Tuist
+        run: brew install tuist
       - name: Run tests
         run: |
           xcodebuild \

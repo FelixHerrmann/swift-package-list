@@ -81,6 +81,9 @@ opt_in_rules:
     - weak_delegate
     - yoda_condition
 
+excluded:
+    - Tests/SwiftPackageListCoreTests/Resources
+
 analyzer_rules:
     - unused_declaration
     - unused_import
