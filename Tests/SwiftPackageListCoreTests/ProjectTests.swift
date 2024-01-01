@@ -22,6 +22,7 @@ final class ProjectTests: XCTestCase {
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
         XCTAssertEqual(try xcodeProject.packageResolved.url.path, expectedPackageResolvedFileURL)
+        XCTAssertEqual(xcodeProject.name, "Project")
         XCTAssertEqual(xcodeProject.organizationName, "SwiftPackageList")
     }
     
@@ -42,6 +43,7 @@ final class ProjectTests: XCTestCase {
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.path)/xcshareddata/swiftpm/Package.resolved"
         XCTAssertEqual(try xcodeWorkspace.packageResolved.url.path, expectedPackageResolvedFileURL)
+        XCTAssertEqual(xcodeWorkspace.name, "Workspace")
         XCTAssertEqual(xcodeWorkspace.organizationName, "SwiftPackageList")
     }
     
@@ -57,5 +59,7 @@ final class ProjectTests: XCTestCase {
         
         let expectedPackageResolvedFileURL = "\(unwrappedURL.deletingLastPathComponent().path)/Package.resolved"
         XCTAssertEqual(try swiftPackage.packageResolved.url.path, expectedPackageResolvedFileURL)
+        XCTAssertEqual(swiftPackage.name, "SwiftPackage")
+        XCTAssertNil(swiftPackage.organizationName)
     }
 }
