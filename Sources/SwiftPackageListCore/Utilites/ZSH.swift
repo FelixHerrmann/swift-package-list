@@ -8,7 +8,7 @@
 import Foundation
 
 @discardableResult
-func zsh(_ command: String) throws -> Data {
+func zsh(_ command: String) throws -> (exitCode: Int32, output: Data) {
     let task = Process()
     let pipe = Pipe()
     
@@ -21,5 +21,7 @@ func zsh(_ command: String) throws -> Data {
     try task.run()
     task.waitUntilExit()
     
-    return pipe.fileHandleForReading.readDataToEndOfFile()
+    let exitCode = task.terminationStatus
+    let output = pipe.fileHandleForReading.readDataToEndOfFile()
+    return (exitCode, output)
 }

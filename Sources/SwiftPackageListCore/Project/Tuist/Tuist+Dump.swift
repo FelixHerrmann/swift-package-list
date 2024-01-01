@@ -19,7 +19,7 @@ extension Tuist {
         let data: Data
         do {
             let path = fileURL.deletingLastPathComponent().path
-            data = try zsh("tuist dump --path \(path)")
+            data = try zsh("tuist dump --path \(path)").output
         } catch {
             throw RuntimeError("Executing 'tuist dump' failed: \(String(describing: error))")
         }
