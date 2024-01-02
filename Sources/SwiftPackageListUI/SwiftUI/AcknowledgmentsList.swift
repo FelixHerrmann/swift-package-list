@@ -35,9 +35,7 @@ import SwiftUI
 /// ```
 ///
 /// - Important: This view must be used inside a `NavigationStack` to function properly.
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public struct AcknowledgmentsList: View {
-    
     @ObservedObject private var _viewModel: _AcknowledgmentsListViewModel
     
     /// Creates a ``AcknowledgmentsList`` for a package-list file.

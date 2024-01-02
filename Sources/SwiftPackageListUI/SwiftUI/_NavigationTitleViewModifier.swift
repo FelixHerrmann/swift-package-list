@@ -9,9 +9,8 @@
 
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 internal struct _NavigationTitleViewModifier: ViewModifier {
-    
     internal var _title: Text
     
     internal func body(content: Content) -> some View {
@@ -39,8 +38,8 @@ internal struct _NavigationTitleViewModifier: ViewModifier {
 @available(macOS, introduced: 10.15, deprecated: 11.0, message: "Use _NavigationTitleViewModifier instead")
 @available(tvOS, introduced: 13.0, deprecated: 14.0, message: "Use _NavigationTitleViewModifier instead")
 @available(watchOS, introduced: 6.0, deprecated: 7.0, message: "Use _NavigationTitleViewModifier instead")
+@available(visionOS, deprecated, message: "Use _NavigationTitleViewModifier instead")
 internal struct _NavigationBarTitleViewModifier: ViewModifier {
-    
     internal var _title: Text
     
     internal func body(content: Content) -> some View {
@@ -53,12 +52,10 @@ internal struct _NavigationBarTitleViewModifier: ViewModifier {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
-    
     @ViewBuilder
     internal func _navigationTitle(_ title: Text) -> some View {
-        if #available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *) {
+        if #available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *) {
             modifier(_NavigationTitleViewModifier(_title: title))
         } else {
             modifier(_NavigationBarTitleViewModifier(_title: title))

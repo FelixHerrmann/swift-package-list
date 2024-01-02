@@ -9,9 +9,7 @@ import Foundation
 import os.log
 import SwiftPackageList
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 internal final class _AcknowledgmentsListViewModel: ObservableObject {
-    
     @Published internal var _packages: [Package] = []
     
     internal init(packageListBundle: Bundle, packageListFileName: String) {
@@ -20,7 +18,7 @@ internal final class _AcknowledgmentsListViewModel: ObservableObject {
         } catch {
             os_log(
                 "Error: %@",
-                log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "SPLAcknowledgmentsTableViewController"),
+                log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "AcknowledgmentsList"),
                 type: .error,
                 String(describing: error)
             )

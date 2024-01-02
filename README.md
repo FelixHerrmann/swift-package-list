@@ -168,10 +168,11 @@ Load `package-list.json` or `package-list.plist` from the bundle with a single f
 
 ### Requirements
 
-- macOS 10.10+
-- iOS 9.0+
-- tvOS 9.0+
-- watchOS 2.0+
+- macOS 10.15
+- iOS 13.0
+- tvOS 13.0
+- watchOS 6.0
+- visionOS 1.0
 
 ### Usage
 

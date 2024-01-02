@@ -14,8 +14,8 @@ import SwiftUI
 @available(iOS, unavailable)
 @available(macOS, unavailable)
 @available(watchOS, unavailable)
+@available(visionOS, unavailable)
 internal struct _TVOSTextView: UIViewRepresentable {
-    
     internal var _text: String
     
     internal func makeUIView(context: Context) -> UITextView {
