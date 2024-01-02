@@ -4,6 +4,3 @@
 
 // Section title for the license list
 "acknowledgments.section-title" = "许可证";
-
-// Opens the repository in a browser window, only shown on iOS 12 and lower
-"license-text.repository-button-text" = "存储库";

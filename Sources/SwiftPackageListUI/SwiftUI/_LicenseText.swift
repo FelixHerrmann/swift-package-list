@@ -10,9 +10,7 @@
 import SwiftUI
 import SwiftPackageList
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 internal struct _LicenseText: View {
-    
     internal var _package: Package
     
     internal var body: some View {

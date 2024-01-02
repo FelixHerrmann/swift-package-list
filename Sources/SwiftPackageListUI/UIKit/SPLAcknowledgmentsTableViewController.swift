@@ -44,15 +44,9 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
     
     // MARK: - Initializers
     
-    /// Initializes a table-view controller with the default style for a license list.
-    ///
-    /// It is `UITableView.Style.insetGrouped` on iOS 13+ and `UITableView.Style.grouped` for older OS versions.
+    /// Initializes a table-view controller with the inset-grouped style for a license list.
     public convenience init() {
-        if #available(iOS 13.0, *) {
-            self.init(style: .insetGrouped)
-        } else {
-            self.init(style: .grouped)
-        }
+        self.init(style: .insetGrouped)
     }
     
     // MARK: - ViewController
@@ -66,19 +60,15 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         do {
             _packages = try packageList(bundle: packageListBundle, fileName: packageListFileName)
         } catch {
-            if #available(iOS 10.0, *) {
-                os_log(
-                    "Error: %@",
-                    log: OSLog(
-                        subsystem: "com.felixherrmann.swift-package-list",
-                        category: "SPLAcknowledgmentsTableViewController"
-                    ),
-                    type: .error,
-                    String(describing: error)
-                )
-            } else {
-                NSLog("Error: %@", String(describing: error))
-            }
+            os_log(
+                "Error: %@",
+                log: OSLog(
+                    subsystem: "com.felixherrmann.swift-package-list",
+                    category: "SPLAcknowledgmentsTableViewController"
+                ),
+                type: .error,
+                String(describing: error)
+            )
         }
     }
     
