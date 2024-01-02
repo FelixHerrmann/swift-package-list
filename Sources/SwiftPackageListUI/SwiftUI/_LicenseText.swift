@@ -31,7 +31,10 @@ internal struct _LicenseText: View {
             }
 #endif
         }
-        ._navigationTitle(Text(_package.name))
+        .backport.navigationTitle(Text(_package.name))
+#if os(iOS) || os(watchOS) || os(visionOS)
+        .backport.navigationBarTitleDisplayMode(.inline)
+#endif
     }
 }
 
