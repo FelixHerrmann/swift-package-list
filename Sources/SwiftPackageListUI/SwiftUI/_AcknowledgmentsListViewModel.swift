@@ -18,7 +18,7 @@ internal final class _AcknowledgmentsListViewModel: ObservableObject {
         } catch {
             os_log(
                 "Error: %@",
-                log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "SPLAcknowledgmentsTableViewController"),
+                log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "AcknowledgmentsList"),
                 type: .error,
                 String(describing: error)
             )
