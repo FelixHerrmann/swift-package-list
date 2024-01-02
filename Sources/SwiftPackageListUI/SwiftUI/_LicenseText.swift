@@ -11,18 +11,17 @@ import SwiftUI
 import SwiftPackageList
 
 internal struct _LicenseText: View {
-    internal var _package: Package
+    internal let _package: Package
     
     internal var body: some View {
         ZStack {
-            #if os(iOS)
+#if os(iOS)
             Color(.systemGroupedBackground)
                 .edgesIgnoringSafeArea(.all)
-            #endif
-            
-            #if os(tvOS)
+#endif
+#if os(tvOS)
             _TVOSTextView(_text: _package.license ?? "")
-            #else
+#else
             ScrollView {
                 Text(_package.license ?? "")
                     .font(.caption)
@@ -30,7 +29,7 @@ internal struct _LicenseText: View {
                     .padding()
                     .frame(maxWidth: .infinity)
             }
-            #endif
+#endif
         }
         ._navigationTitle(Text(_package.name))
     }
