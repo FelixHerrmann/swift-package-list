@@ -58,11 +58,18 @@ public struct AcknowledgmentsList: View {
                 }
             }
         }
+#if os(visionOS)
+        .navigationTitle(
+            Text("acknowledgments.title", bundle: .module, comment: "Navigation bar title of the license list")
+        )
+        .navigationBarTitleDisplayMode(.inline)
+#else
         .backport.navigationTitle(
             Text("acknowledgments.title", bundle: .module, comment: "Navigation bar title of the license list")
         )
-#if os(iOS) || os(watchOS) || os(visionOS)
+#if os(iOS) || os(watchOS)
         .backport.navigationBarTitleDisplayMode(.inline)
+#endif
 #endif
     }
 }
