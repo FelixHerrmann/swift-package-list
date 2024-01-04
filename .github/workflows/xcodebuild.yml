@@ -22,7 +22,6 @@ jobs:
       matrix:
         scheme:
           - SwiftPackageList
-          - SwiftPackageListObjc
           - SwiftPackageListUI
         destination:
           - platform=macOS
