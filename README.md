@@ -8,7 +8,7 @@ A command-line tool to get all used Swift Package dependencies.
 The output includes all the `Package.resolved` informations and the license from the checkouts.
 You can also generate a JSON, PLIST, Settings.bundle or PDF file.
 
-Additionally there is a Swift Package to read the generated package-list file from the application's bundle with a top-level function or pre-build UI.
+Additionally there is a Swift Package to read the generated package-list file from the application's bundle or to use pre-build UI for SwiftUI and UIKit.
 
 
 ## Command-Line Tool
@@ -164,7 +164,7 @@ You can then use [QuickLook](https://developer.apple.com/documentation/quicklook
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFelixHerrmann%2Fswift-package-list%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/FelixHerrmann/swift-package-list)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFelixHerrmann%2Fswift-package-list%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/FelixHerrmann/swift-package-list)
 
-Load `package-list.json` or `package-list.plist` from the bundle with a single function call or use the pre-build UI components.
+Load the generated package-list file from the bundle or use some pre-build UI components.
 
 ### Requirements
 
@@ -186,11 +186,10 @@ and `SwiftPackageListUI` to get an iOS Settings-like user interface.
 ```swift
 import SwiftPackageList
 
+let packageProvider = JSONPackageProvider()
 do {
-    let packages = try packageList()
+    let packages = try packageProvider.packages()
     // use packages
-} catch PackageListError.noPackageList {
-    print("There is no package-list file")
 } catch {
     print(error)
 }

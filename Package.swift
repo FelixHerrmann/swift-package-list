@@ -57,29 +57,29 @@ let package = Package(
         ),
         .target(
             name: "SwiftPackageListCore",
-            dependencies: ["SwiftPackageList"]
+            dependencies: [.target(name: "SwiftPackageList")]
         ),
         .target(name: "SwiftPackageList"),
         .target(name: "SwiftPackageListObjc"),
         .target(
             name: "SwiftPackageListUI",
-            dependencies: ["SwiftPackageList"],
+            dependencies: [.target(name: "SwiftPackageList")],
             resources: [.process("Resources")]
         ),
         .testTarget(name: "swift-package-list-tests"),
         .testTarget(
             name: "SwiftPackageListCoreTests",
-            dependencies: ["SwiftPackageListCore"],
+            dependencies: [.target(name: "SwiftPackageListCore")],
             resources: [.copy("Resources")]
         ),
         .testTarget(
             name: "SwiftPackageListTests",
-            dependencies: ["SwiftPackageList"],
+            dependencies: [.target(name: "SwiftPackageList")],
             resources: [.process("Resources")]
         ),
         .testTarget(
             name: "SwiftPackageListObjcTests",
-            dependencies: ["SwiftPackageListObjc"],
+            dependencies: [.target(name: "SwiftPackageListObjc")],
             resources: [.process("Resources")]
         ),
     ]

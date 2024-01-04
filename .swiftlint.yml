@@ -95,6 +95,9 @@ identifier_name:
         - x
         - y
 
+indentation_width:
+    include_compiler_directives: false
+
 line_length:
     warning: 130
     error: 200

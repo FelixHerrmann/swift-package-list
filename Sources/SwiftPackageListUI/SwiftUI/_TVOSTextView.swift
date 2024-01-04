@@ -11,10 +11,6 @@ import SwiftUI
 
 /// Text in ScrollView is not working on tvOS due to the focus system.
 @available(tvOS 13.0, *)
-@available(iOS, unavailable)
-@available(macOS, unavailable)
-@available(watchOS, unavailable)
-@available(visionOS, unavailable)
 internal struct _TVOSTextView: UIViewRepresentable {
     internal var _text: String
     
