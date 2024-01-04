@@ -77,10 +77,5 @@ let package = Package(
             dependencies: [.target(name: "SwiftPackageList")],
             resources: [.process("Resources")]
         ),
-        .testTarget(
-            name: "SwiftPackageListObjcTests",
-            dependencies: [.target(name: "SwiftPackageListObjc")],
-            resources: [.process("Resources")]
-        ),
     ]
 )

@@ -112,20 +112,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageList_SwiftPackageListObjcTests"
-               BuildableName = "SwiftPackageList_SwiftPackageListObjcTests"
-               BlueprintName = "SwiftPackageList_SwiftPackageListObjcTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "SwiftPackageList_SwiftPackageListCoreTests"
                BuildableName = "SwiftPackageList_SwiftPackageListCoreTests"
                BlueprintName = "SwiftPackageList_SwiftPackageListCoreTests"
@@ -203,16 +189,6 @@
                BlueprintIdentifier = "SwiftPackageListCoreTests"
                BuildableName = "SwiftPackageListCoreTests"
                BlueprintName = "SwiftPackageListCoreTests"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftPackageListObjcTests"
-               BuildableName = "SwiftPackageListObjcTests"
-               BlueprintName = "SwiftPackageListObjcTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
