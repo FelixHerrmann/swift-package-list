@@ -37,14 +37,14 @@ import SwiftPackageList
 /// ```
 ///
 /// - Important: This view must be used inside a `NavigationStack` to function properly.
-public struct AcknowledgmentsList<T: PackageProvider>: View {
-    private let _packageProvider: T
+public struct AcknowledgmentsList<Provider: PackageProvider>: View {
+    private let _packageProvider: Provider
     @State private var _packages: [Package] = []
     
     /// Creates a ``AcknowledgmentsList`` for a package provider.
     /// - Parameters:
     ///   - packageProvider: The package provider object used as the source of data.
-    public init(packageProvider: T = .json()) {
+    public init(packageProvider: Provider = .json()) {
         self._packageProvider = packageProvider
     }
     

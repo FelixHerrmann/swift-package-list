@@ -17,12 +17,12 @@ import SwiftPackageList
 /// data-source methods should not be touched.
 ///
 /// - Important: This view controller must be used inside a `UINavigationController` to function properly.
-open class SPLAcknowledgmentsTableViewController<T: PackageProvider>: UITableViewController {
+open class SPLAcknowledgmentsTableViewController<Provider: PackageProvider>: UITableViewController {
     
     // MARK: - Properties
     
     /// The package provider object used as the source of data.
-    open var packageProvider: T
+    open var packageProvider: Provider
     
     /// A boolean value indicating if a bar button item to open the repository is shown.
     ///
@@ -40,7 +40,7 @@ open class SPLAcknowledgmentsTableViewController<T: PackageProvider>: UITableVie
     /// Initializes a table-view controller with the inset-grouped style for a package provider.
     /// - Parameters:
     ///   - packageProvider: The package provider object used as the source of data.
-    public init(packageProvider: T = .json()) {
+    public init(packageProvider: Provider = .json()) {
         self.packageProvider = packageProvider
         super.init(style: .insetGrouped)
     }
