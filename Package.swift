@@ -21,7 +21,6 @@ let package = Package(
         .plugin(name: "SwiftPackageListSettingsBundlePlugin", targets: ["SwiftPackageListSettingsBundlePlugin"]),
         .plugin(name: "SwiftPackageListPDFPlugin", targets: ["SwiftPackageListPDFPlugin"]),
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
-        .library(name: "SwiftPackageListObjc", type: .dynamic, targets: ["SwiftPackageListObjc"]),
         .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
     ],
     dependencies: [
@@ -60,7 +59,6 @@ let package = Package(
             dependencies: [.target(name: "SwiftPackageList")]
         ),
         .target(name: "SwiftPackageList"),
-        .target(name: "SwiftPackageListObjc"),
         .target(
             name: "SwiftPackageListUI",
             dependencies: [.target(name: "SwiftPackageList")],
