@@ -178,8 +178,7 @@ Load the generated package-list file from the bundle or use some pre-build UI co
 
 Add the package to your project as shown [here](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app).
 
-It contains 3 libraries; `SwiftPackageList`/`SwiftPackageListObjc` for loading the Data in Swift and Objective-C 
-and `SwiftPackageListUI` to get an iOS Settings-like user interface.
+It contains 2 libraries; `SwiftPackageList` for loading the Data and `SwiftPackageListUI` to get an iOS Settings-like user interface.
 
 #### SwiftPackageList
 
@@ -192,24 +191,6 @@ do {
     // use packages
 } catch {
     print(error)
-}
-```
-
-#### SwiftPackageListObjc
-
-```objc
-@import SwiftPackageListObjc;
-
-NSError *error;
-NSArray<SPLPackage *> *packages = SPLPackageList(&error);
-if (packages) {
-    // use packages
-} else {
-    if (error.code == SPLErrorNoPackageList) {
-        NSLog(@"There is no package-list file");
-    } else {
-        NSLog(@"%@", error);
-    }
 }
 ```
 
