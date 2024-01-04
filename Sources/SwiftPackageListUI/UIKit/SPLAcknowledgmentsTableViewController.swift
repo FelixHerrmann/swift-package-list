@@ -17,24 +17,17 @@ import SwiftPackageList
 /// data-source methods should not be touched.
 ///
 /// - Important: This view controller must be used inside a `UINavigationController` to function properly.
-open class SPLAcknowledgmentsTableViewController: UITableViewController {
+open class SPLAcknowledgmentsTableViewController<T: PackageProvider>: UITableViewController {
     
     // MARK: - Properties
+    
+    /// The package provider object used as the source of data.
+    open var packageProvider: T
     
     /// A boolean value indicating if a bar button item to open the repository is shown.
     ///
     /// Default value of this property is `false`.
-    @objc open var canOpenRepositoryLink = false
-    
-    /// The bundle where the package-list file is stored.
-    ///
-    /// Default value of this property is `Bundle.main`.
-    @objc open var packageListBundle: Bundle = .main
-    
-    /// The name of the package-list file.
-    ///
-    /// Default value of this property is `package-list`.
-    @objc open var packageListFileName: String = "package-list"
+    open var canOpenRepositoryLink = false
     
     private var _packages: [Package] = [] {
         didSet {
@@ -44,9 +37,17 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
     
     // MARK: - Initializers
     
-    /// Initializes a table-view controller with the inset-grouped style for a license list.
-    public convenience init() {
-        self.init(style: .insetGrouped)
+    /// Initializes a table-view controller with the inset-grouped style for a package provider.
+    /// - Parameters:
+    ///   - packageProvider: The package provider object used as the source of data.
+    public init(packageProvider: T = .json()) {
+        self.packageProvider = packageProvider
+        super.init(style: .insetGrouped)
+    }
+    
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - ViewController
@@ -58,7 +59,7 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         _setupTableView()
         
         do {
-            _packages = try packageList(bundle: packageListBundle, fileName: packageListFileName)
+            _packages = try packageProvider.packages()
         } catch {
             os_log(
                 "Error: %@",
@@ -88,11 +89,9 @@ open class SPLAcknowledgmentsTableViewController: UITableViewController {
         tableView.cellLayoutMarginsFollowReadableWidth = true
         tableView.register(_SPLLicenseTableViewCell.self, forCellReuseIdentifier: "licenseCell")
     }
-}
-
-// MARK: - UITableViewDataSource
-
-extension SPLAcknowledgmentsTableViewController {
+    
+    // MARK: - UITableViewDataSource
+    
     override open func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -115,11 +114,9 @@ extension SPLAcknowledgmentsTableViewController {
         cell.textLabel?.text = _packages[indexPath.row].name
         return cell
     }
-}
-
-// MARK: - UITableViewDelegate
-
-extension SPLAcknowledgmentsTableViewController {
+    
+    // MARK: - UITableViewDelegate
+    
     override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let package = _packages[indexPath.row]
         let licenseTextViewController = _SPLLicenseTextViewController(
