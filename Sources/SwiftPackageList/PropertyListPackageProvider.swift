@@ -13,12 +13,12 @@ public struct PropertyListPackageProvider: PackageProvider {
     /// The bundle to read the Property List file from.
     ///
     /// Default value is `Bundle.main`.
-    public var bundle: Bundle = .main
+    public var bundle: Bundle
     
     /// The name of the Property List file, usually specified with the `--custom-file-name` option.
     ///
     ///  Default value is `"package-list"`.
-    public var fileName = "package-list"
+    public var fileName: String
     
     /// Creates a Property List package provider.
     /// - Parameters:

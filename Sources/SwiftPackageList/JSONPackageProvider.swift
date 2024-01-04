@@ -13,12 +13,12 @@ public struct JSONPackageProvider: PackageProvider {
     /// The bundle to read the JSON file from.
     ///
     /// Default value is `Bundle.main`.
-    public var bundle: Bundle = .main
+    public var bundle: Bundle
     
     /// The name of the JSON file, usually specified with the `--custom-file-name` option.
     ///
     ///  Default value is `"package-list"`.
-    public var fileName: String = "package-list"
+    public var fileName: String
     
     /// Creates a JSON package provider.
     /// - Parameters:
