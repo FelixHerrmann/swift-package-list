@@ -61,9 +61,8 @@ internal final class _SPLLicenseTextViewController: UIViewController {
         navigationItem.title = _package.name
         
         if _canOpenRepositoryLink {
-            let repositoryBarButtonItem: UIBarButtonItem
             let image = UIImage(systemName: "safari")
-            repositoryBarButtonItem = UIBarButtonItem(
+            let repositoryBarButtonItem = UIBarButtonItem(
                 image: image,
                 style: .plain,
                 target: self,
