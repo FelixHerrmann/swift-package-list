@@ -16,3 +16,9 @@ public protocol Project {
     
     func packages() throws -> [Package]
 }
+
+extension Project {
+    var organizationName: String? {
+        return nil
+    }
+}

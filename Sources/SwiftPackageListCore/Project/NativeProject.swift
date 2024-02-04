@@ -11,22 +11,9 @@ import SwiftPackageList
 protocol NativeProject: Project {
     var workspaceURL: URL { get }
     var packageResolved: PackageResolved { get throws }
-    var projectPbxproj: ProjectPbxproj? { get }
 }
 
 extension NativeProject {
-    var name: String {
-        return workspaceURL.deletingPathExtension().lastPathComponent
-    }
-    
-    var organizationName: String? {
-        return projectPbxproj?.organizationName
-    }
-    
-    var workspaceURL: URL {
-        return fileURL
-    }
-    
     func packages() throws -> [Package] {
         let packageResolved = try packageResolved
         
