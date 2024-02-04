@@ -90,10 +90,7 @@ final class ProjectTests: XCTestCase {
         
         let expectedPackageResolvedFileURL = unwrappedURL
             .deletingLastPathComponent()
-            .appendingPathComponent("Tuist")
-            .appendingPathComponent("Dependencies")
-            .appendingPathComponent("Lockfiles")
-            .appendingPathComponent("Package.resolved")
+            .appendingPathComponent(".package.resolved")
         XCTAssertEqual(try tuist.packageResolved.url, expectedPackageResolvedFileURL)
         
         XCTAssertEqual(tuist.name, "Tuist")
