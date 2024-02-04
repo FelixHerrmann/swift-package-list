@@ -96,4 +96,28 @@ final class ProjectTests: XCTestCase {
         XCTAssertEqual(tuist.name, "Tuist")
         XCTAssertEqual(tuist.organizationName, "Test Inc.")
     }
+    
+    func testTuistDependencies() throws {
+        let (exitCode, _) = try zsh("which tuist")
+        try XCTSkipIf(exitCode != 0)
+        
+        let url = Bundle.module.url(forResource: "Dependencies", withExtension: "swift", subdirectory: "Resources/TuistDependencies/Tuist")
+        let unwrappedURL = try XCTUnwrap(url)
+        
+        let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
+        XCTAssertEqual(projectType, .tuistDependencies)
+        
+        let project = try projectType.project(fileURL: unwrappedURL)
+        let tuistDependencies = try XCTUnwrap(project as? TuistDependencies)
+        
+        let expectedPackageResolvedFileURL = unwrappedURL
+            .deletingLastPathComponent()
+            .appendingPathComponent("Dependencies")
+            .appendingPathComponent("Lockfiles")
+            .appendingPathComponent("Package.resolved")
+        XCTAssertEqual(try tuistDependencies.packageResolved.url, expectedPackageResolvedFileURL)
+        
+        XCTAssertEqual(tuistDependencies.name, "TuistDependencies")
+        XCTAssertEqual(tuistDependencies.organizationName, "Test Inc.")
+    }
 }
