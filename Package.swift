@@ -16,6 +16,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "swift-package-list", targets: ["swift-package-list"]),
+        .plugin(name: "SwiftPackageListPlugin", targets: ["SwiftPackageListPlugin"]),
         .plugin(name: "SwiftPackageListJSONPlugin", targets: ["SwiftPackageListJSONPlugin"]),
         .plugin(name: "SwiftPackageListPropertyListPlugin", targets: ["SwiftPackageListPropertyListPlugin"]),
         .plugin(name: "SwiftPackageListSettingsBundlePlugin", targets: ["SwiftPackageListSettingsBundlePlugin"]),
@@ -33,6 +34,11 @@ let package = Package(
                 .target(name: "SwiftPackageListCore"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
+        ),
+        .plugin(
+            name: "SwiftPackageListPlugin",
+            capability: .buildTool(),
+            dependencies: [.target(name: "swift-package-list")]
         ),
         .plugin(
             name: "SwiftPackageListJSONPlugin",
