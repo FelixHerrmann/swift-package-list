@@ -101,7 +101,11 @@ final class ProjectTests: XCTestCase {
         let (exitCode, _) = try zsh("which tuist")
         try XCTSkipIf(exitCode != 0)
         
-        let url = Bundle.module.url(forResource: "Dependencies", withExtension: "swift", subdirectory: "Resources/TuistDependencies/Tuist")
+        let url = Bundle.module.url(
+            forResource: "Dependencies",
+            withExtension: "swift",
+            subdirectory: "Resources/TuistDependencies/Tuist"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         
         let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
