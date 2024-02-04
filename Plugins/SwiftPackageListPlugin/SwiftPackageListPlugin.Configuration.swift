@@ -12,14 +12,14 @@ extension SwiftPackageListPlugin {
     struct Configuration: Decodable {
         let projectPath: String?
         let project: TargetConfiguration?
-        let targets: [String: TargetConfiguration]?
+        let targets: [String: TargetConfiguration]? // swiftlint:disable:this discouraged_optional_collection
     }
 }
 
 extension SwiftPackageListPlugin.Configuration {
     struct TargetConfiguration: Decodable {
         let outputType: OutputType?
-        let requiresLicense: Bool?
+        let requiresLicense: Bool? // swiftlint:disable:this discouraged_optional_boolean
     }
 }
 
