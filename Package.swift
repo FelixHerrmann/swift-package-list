@@ -16,10 +16,7 @@ let package = Package(
     ],
     products: [
         .executable(name: "swift-package-list", targets: ["swift-package-list"]),
-        .plugin(name: "SwiftPackageListJSONPlugin", targets: ["SwiftPackageListJSONPlugin"]),
-        .plugin(name: "SwiftPackageListPropertyListPlugin", targets: ["SwiftPackageListPropertyListPlugin"]),
-        .plugin(name: "SwiftPackageListSettingsBundlePlugin", targets: ["SwiftPackageListSettingsBundlePlugin"]),
-        .plugin(name: "SwiftPackageListPDFPlugin", targets: ["SwiftPackageListPDFPlugin"]),
+        .plugin(name: "SwiftPackageListPlugin", targets: ["SwiftPackageListPlugin"]),
         .library(name: "SwiftPackageList", targets: ["SwiftPackageList"]),
         .library(name: "SwiftPackageListUI", targets: ["SwiftPackageListUI"]),
     ],
@@ -35,22 +32,7 @@ let package = Package(
             ]
         ),
         .plugin(
-            name: "SwiftPackageListJSONPlugin",
-            capability: .buildTool(),
-            dependencies: [.target(name: "swift-package-list")]
-        ),
-        .plugin(
-            name: "SwiftPackageListPropertyListPlugin",
-            capability: .buildTool(),
-            dependencies: [.target(name: "swift-package-list")]
-        ),
-        .plugin(
-            name: "SwiftPackageListSettingsBundlePlugin",
-            capability: .buildTool(),
-            dependencies: [.target(name: "swift-package-list")]
-        ),
-        .plugin(
-            name: "SwiftPackageListPDFPlugin",
+            name: "SwiftPackageListPlugin",
             capability: .buildTool(),
             dependencies: [.target(name: "swift-package-list")]
         ),

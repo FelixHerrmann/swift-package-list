@@ -57,7 +57,6 @@ opt_in_rules:
     - operator_usage_whitespace
     - optional_enum_case_matching
     - overridden_super_call
-    - pattern_matching_keywords
     - prefer_self_type_over_type_of_self
     - prefer_zero_over_explicit_init
     - prohibited_super_call

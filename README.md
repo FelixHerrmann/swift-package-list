@@ -54,13 +54,34 @@ In addition to that you can specify the following options:
 | --version                                                     | Show the version.                                                                                                   |
 | -h, --help                                                    | Show help information.                                                                                              |
 
-### Build Tool Plugins
+### Build Tool Plugin
 
-For each file type there is a dedicated plugin available which you can add to your targets.
+The easiest way to add this tool to your project is using the provided build-tool plugin, available for both Xcode projects and Swift packages.
 
-Simply add them under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies.
+For Xcode projects simply add it under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies; for Swift packages configure it in the `Package.swift` manifest, as described [here](https://github.com/apple/swift-package-manager/blob/main/Documentation/Plugins.md#using-a-package-plugin).
 
-Once added the file(s) will get generated during every build process and are available in the App's bundle.
+By default this will use the JSON output with `--requires-license` but you can create a `swift-package-list-config.json` in your project's root to configure that behavior, both project and target specific (target configs have precedence over the project one). Everything in the configuration is optional and has the following format:
+```json
+{
+    "projectPath" : "Project.xcworkspace",
+    "project" : {
+        "outputType" : "plist",
+        "requiresLicense" : false
+    },
+    "targets" : {
+        "Target 1" : {
+            "outputType" : "settings-bundle",
+            "requiresLicense" : true
+        },
+        "Target 2" : {
+            "outputType" : "json",
+            "requiresLicense" : true
+        }
+    }
+}
+```
+
+Once added and configured the file(s) will get generated during every build process and are available in the App's bundle.
 You can then open them manually or use the various options in the included [Swift Package](#swift-package).
 
 > [!NOTE]  
