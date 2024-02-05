@@ -29,6 +29,7 @@ jobs:
           - generic/platform=iOS
           - generic/platform=tvOS
           - generic/platform=watchOS
+          - generic/platform=visionOS
     runs-on: macos-14
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
