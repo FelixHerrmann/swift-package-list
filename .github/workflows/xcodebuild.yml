@@ -24,11 +24,12 @@ jobs:
           - SwiftPackageList
           - SwiftPackageListUI
         destination:
-          - platform=macOS
-          - platform=macOS,arch=x86_64,variant=Mac Catalyst
-          - name=iPhone 14
-          - name=Apple TV
-          - name=Apple Watch Series 6 (44mm)
+          - generic/platform=macOS
+          - generic/platform=macOS,variant=Mac Catalyst
+          - generic/platform=iOS
+          - generic/platform=tvOS
+          - generic/platform=watchOS
+          - generic/platform=visionOS
     runs-on: macos-14
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
