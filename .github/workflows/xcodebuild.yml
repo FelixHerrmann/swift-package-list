@@ -57,7 +57,7 @@ jobs:
         run: |
           xcodebuild \
           -scheme SwiftPackageList-Package \
-          -destination 'generic/platform=macOS' \
+          -destination 'platform=macOS' \
           -resultBundlePath TestResults \
           test
       - uses: kishikawakatsumi/xcresulttool@v1
