@@ -11,17 +11,13 @@ struct XcodeWorkspace: NativeProject {
     let fileURL: URL
     let options: ProjectOptions
     
-    var packageResolved: PackageResolved {
-        get throws {
-            let url = fileURL
-                .appendingPathComponent("xcshareddata")
-                .appendingPathComponent("swiftpm")
-                .appendingPathComponent("Package.resolved")
-            return try PackageResolved(url: url)
-        }
+    var name: String {
+        return fileURL
+            .deletingPathExtension()
+            .lastPathComponent
     }
     
-    var projectPbxproj: ProjectPbxproj? {
+    var organizationName: String? {
         let contentsURL = fileURL.appendingPathComponent("contents.xcworkspacedata")
         let locations: [String]
         do {
@@ -38,7 +34,22 @@ struct XcodeWorkspace: NativeProject {
             .deletingLastPathComponent()
             .appendingPathComponent(firstNonPodsLocation)
             .appendingPathComponent("project.pbxproj")
+        let projectPbxproj = ProjectPbxproj(url: url)
         
-        return ProjectPbxproj(url: url)
+        return projectPbxproj.organizationName
+    }
+    
+    var workspaceURL: URL {
+        return fileURL
+    }
+    
+    var packageResolved: PackageResolved {
+        get throws {
+            let url = fileURL
+                .appendingPathComponent("xcshareddata")
+                .appendingPathComponent("swiftpm")
+                .appendingPathComponent("Package.resolved")
+            return try PackageResolved(url: url)
+        }
     }
 }

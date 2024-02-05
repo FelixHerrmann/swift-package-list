@@ -8,7 +8,7 @@
 import Foundation
 import SwiftPackageList
 
-struct Tuist: Project {
+struct Tuist: NativeProject {
     let fileURL: URL
     let options: ProjectOptions
     private let dump: Dump
@@ -21,14 +21,17 @@ struct Tuist: Project {
         return dump.organizationName
     }
     
+    var workspaceURL: URL {
+        return fileURL
+            .deletingLastPathComponent()
+            .appendingPathComponent("\(name).xcworkspace")
+    }
+    
     var packageResolved: PackageResolved {
         get throws {
             let packageResolvedURL = fileURL
                 .deletingLastPathComponent()
-                .appendingPathComponent("Tuist")
-                .appendingPathComponent("Dependencies")
-                .appendingPathComponent("Lockfiles")
-                .appendingPathComponent("Package.resolved")
+                .appendingPathComponent(".package.resolved")
             return try PackageResolved(url: packageResolvedURL)
         }
     }
@@ -36,26 +39,6 @@ struct Tuist: Project {
     init(fileURL: URL, options: ProjectOptions) throws {
         self.fileURL = fileURL
         self.options = options
-        self.dump = try Self.createDump(fileURL: fileURL)
-    }
-    
-    func packages() throws -> [Package] {
-        let packageResolved = try packageResolved
-        
-        let sourcePackages: SourcePackages
-        if let sourcePackagesPath = options.customSourcePackagesPath {
-            let sourcePackagesDirectory = URL(fileURLWithPath: sourcePackagesPath)
-            sourcePackages = SourcePackages(url: sourcePackagesDirectory)
-        } else {
-            let sourcePackagesDirectory = fileURL
-                .deletingLastPathComponent()
-                .appendingPathComponent("Tuist")
-                .appendingPathComponent("Dependencies")
-                .appendingPathComponent("SwiftPackageManager")
-                .appendingPathComponent(".build")
-            sourcePackages = SourcePackages(url: sourcePackagesDirectory)
-        }
-        
-        return try packageResolved.packages(in: sourcePackages)
+        self.dump = try Tuist.createDump(fileURL: fileURL)
     }
 }
