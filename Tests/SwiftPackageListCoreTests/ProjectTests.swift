@@ -75,6 +75,32 @@ final class ProjectTests: XCTestCase {
         XCTAssertNil(swiftPackage.organizationName)
     }
     
+    func testTuist4() throws {
+        let (exitCode, _) = try zsh("which tuist")
+        try XCTSkipIf(exitCode != 0, "Tuist not installed")
+        
+        let (_, data) = try zsh("tuist version")
+        let tuistVersion = String(decoding: data, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
+        try XCTSkipUnless(tuistVersion.hasPrefix("4."), "Installed Tuist version is not 4.*.* (actual: \(tuistVersion))")
+        
+        let url = Bundle.module.url(forResource: "Project", withExtension: "swift", subdirectory: "Resources/Tuist4")
+        let unwrappedURL = try XCTUnwrap(url)
+        
+        let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
+        XCTAssertEqual(projectType, .tuist)
+        
+        let project = try projectType.project(fileURL: unwrappedURL)
+        let tuist = try XCTUnwrap(project as? Tuist)
+        
+        let expectedPackageResolvedFileURL = unwrappedURL
+            .deletingLastPathComponent()
+            .appendingPathComponent(".package.resolved")
+        XCTAssertEqual(try tuist.packageResolved.url, expectedPackageResolvedFileURL)
+        
+        XCTAssertEqual(tuist.name, "Tuist")
+        XCTAssertEqual(tuist.organizationName, "Test Inc.")
+    }
+    
     func testTuist3() throws {
         let (exitCode, _) = try zsh("which tuist")
         try XCTSkipIf(exitCode != 0, "Tuist not installed")
