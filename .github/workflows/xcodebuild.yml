@@ -7,12 +7,14 @@ on:
       - 'release/**'
     paths-ignore:
       - 'README.md'
+      - 'Documentation/**'
   pull_request:
     branches: 
       - master
       - 'release/**'
     paths-ignore:
       - 'README.md'
+      - 'Documentation/**'
   workflow_dispatch:
 
 jobs:
