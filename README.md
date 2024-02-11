@@ -176,7 +176,9 @@ You can set that in your project's file inspector as shown [here](https://stacko
 
 Once created and added to the project, it can be easily accessed from the application's bundle like the following:
 ```swift
-let url = Bundle.main.url(forResource: "Acknowledgements", withExtension: "pdf")
+import SwiftPackageList
+
+let url = Bundle.main.acknowledgementsURL
 ```
 You can then use [QuickLook](https://developer.apple.com/documentation/quicklook), [NSWorkspace.open(\_:)](https://developer.apple.com/documentation/appkit/nsworkspace/1533463-open) or any other method to display the PDF.
 
