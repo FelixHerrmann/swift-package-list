@@ -85,7 +85,7 @@ By default this will use the JSON output with `--requires-license` but you can c
 Once added and configured the file(s) will get generated during every build process and are available in the App's bundle.
 You can then open them manually or use the various options in the included [Swift Package](#swift-package).
 
-> [!NOTE]  
+> [!NOTE]
 > When using Xcode Cloud add `defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES`
 > to `ci_post_clone.sh` which disables the plugin validation.
 
