@@ -9,9 +9,8 @@ import Foundation
 import SwiftPackageList
 
 struct JSONGenerator: OutputGenerator {
-    
-    private let outputURL: URL
-    private let packages: [Package]
+    let outputURL: URL
+    let packages: [Package]
     
     private let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
@@ -19,13 +18,10 @@ struct JSONGenerator: OutputGenerator {
         return encoder
     }()
     
-    init(outputURL: URL, packages: [Package], project: Project) {
-        self.outputURL = outputURL
-        self.packages = packages
-    }
-    
     func generateOutput() throws {
         let jsonData = try jsonEncoder.encode(packages)
         try jsonData.write(to: outputURL)
+        
+        print("Generated \(outputURL.path)")
     }
 }

@@ -9,17 +9,22 @@ import AppKit
 import SwiftPackageList
 
 struct PDFGenerator: OutputGenerator {
+    let outputURL: URL
+    let packages: [Package]
+    let projectName: String
+    let organizationName: String?
     
-    private let outputURL: URL
-    private let packages: [Package]
-    private let project: Project
-    private let organizationName: String?
-    
-    init(outputURL: URL, packages: [Package], project: Project) {
+    init(outputURL: URL, packages: [Package], project: some Project) {
         self.outputURL = outputURL
         self.packages = packages
-        self.project = project
-        self.organizationName = project.findOrganizationName()
+        self.projectName = project.name
+        
+        if let organizationName = project.organizationName {
+            self.organizationName = organizationName
+        } else {
+            print("Warning: Could not find the organization name in your project")
+            self.organizationName = nil
+        }
     }
     
     func generateOutput() throws {
@@ -50,10 +55,11 @@ struct PDFGenerator: OutputGenerator {
         }
         
         context.closePDF()
+        
+        print("Generated \(outputURL.path)")
     }
     
     private func createAuxiliaryInfo() -> CFDictionary {
-        let projectName = project.fileURL.deletingPathExtension().lastPathComponent
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM.dd.yyyy"
         let creationDate = dateFormatter.string(from: Date())

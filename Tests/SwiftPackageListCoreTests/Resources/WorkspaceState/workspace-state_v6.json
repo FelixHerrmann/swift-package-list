@@ -1,0 +1,242 @@
+{
+  "object" : {
+    "artifacts" : [
+      {
+        "kind" : "xcframework",
+        "packageRef" : {
+          "identity" : "intercom-ios-sp",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/intercom/intercom-ios-sp",
+          "name" : "Intercom"
+        },
+        "path" : "/Users/test/Library/Developer/Xcode/DerivedData/TestPackageDisplayName-ghaeujyfkjbeiucvknkaqsydceyn/SourcePackages/artifacts/intercom-ios-sp/Intercom/Intercom.xcframework",
+        "source" : {
+          "checksum" : "427bedf9d6a34ac84c69dbdfa59204f60e3edf4ff4e65752b72aa1892721f34b",
+          "type" : "remote",
+          "url" : "https://github.com/intercom/intercom-ios/releases/download/16.3.1/Intercom.xcframework.zip"
+        },
+        "targetName" : "Intercom"
+      },
+      {
+        "kind" : "artifactsArchive",
+        "packageRef" : {
+          "identity" : "swiftlint",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/realm/SwiftLint",
+          "name" : "SwiftLint"
+        },
+        "path" : "/Users/test/Library/Developer/Xcode/DerivedData/TestPackageDisplayName-ghaeujyfkjbeiucvknkaqsydceyn/SourcePackages/artifacts/swiftlint/SwiftLintBinary/SwiftLintBinary.artifactbundle",
+        "source" : {
+          "checksum" : "963121d6babf2bf5fd66a21ac9297e86d855cbc9d28322790646b88dceca00f1",
+          "type" : "remote",
+          "url" : "https://github.com/realm/SwiftLint/releases/download/0.54.0/SwiftLintBinary-macos.artifactbundle.zip"
+        },
+        "targetName" : "SwiftLintBinary"
+      }
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "collectionconcurrencykit",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/JohnSundell/CollectionConcurrencyKit.git",
+          "name" : "CollectionConcurrencyKit"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "b4f23e24b5a1bff301efc5e70871083ca029ff95",
+            "version" : "0.2.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "CollectionConcurrencyKit"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "localpackage",
+          "kind" : "fileSystem",
+          "location" : "/Users/test/Desktop/LocalPackage",
+          "name" : "LocalPackage"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/test/Desktop/LocalPackage"
+        },
+        "subpath" : "localpackage"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "cryptoswift",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
+          "name" : "CryptoSwift"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "db51c407d3be4a051484a141bf0bff36c43d3b1e",
+            "version" : "1.8.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "CryptoSwift"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "intercom-ios-sp",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/intercom/intercom-ios-sp",
+          "name" : "Intercom"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "009180e8cd6e26df62e50d2811a2b8bfa97ba3ba",
+            "version" : "16.3.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "intercom-ios-sp"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "sourcekitten",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/jpsim/SourceKitten.git",
+          "name" : "SourceKitten"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "b6dc09ee51dfb0c66e042d2328c017483a1a5d56",
+            "version" : "0.34.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SourceKitten"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift-argument-parser",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/apple/swift-argument-parser",
+          "name" : "swift-argument-parser"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "8f4d2753f0e4778c76d5f05ad16c74f707390531",
+            "version" : "1.2.3"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "swift-argument-parser"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift-package-list",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/FelixHerrmann/swift-package-list",
+          "name" : "SwiftPackageList"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "cc8ed9e466a3d585d60b28296df581e5abece82a",
+            "version" : "3.0.10"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "swift-package-list"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift-syntax",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/apple/swift-syntax.git",
+          "name" : "swift-syntax"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "6ad4ea24b01559dde0773e3d091f1b9e36175036",
+            "version" : "509.0.2"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "swift-syntax"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swiftlint",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/realm/SwiftLint",
+          "name" : "SwiftLint"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "f17a4f9dfb6a6afb0408426354e4180daaf49cee",
+            "version" : "0.54.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SwiftLint"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swiftytexttable",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/scottrhoyt/SwiftyTextTable.git",
+          "name" : "SwiftyTextTable"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "c6df6cf533d120716bff38f8ff9885e1ce2a4ac3",
+            "version" : "0.9.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SwiftyTextTable"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swxmlhash",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/drmohundro/SWXMLHash.git",
+          "name" : "SWXMLHash"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "a853604c9e9a83ad9954c7e3d2a565273982471f",
+            "version" : "7.0.2"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SWXMLHash"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "yams",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/jpsim/Yams.git",
+          "name" : "Yams"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3",
+            "version" : "5.0.6"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "Yams"
+      }
+    ]
+  },
+  "version" : 6
+}

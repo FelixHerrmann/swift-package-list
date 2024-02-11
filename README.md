@@ -3,12 +3,12 @@
 [![Xcode Build](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml/badge.svg)](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/xcodebuild.yml)
 [![SwiftLint](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/swiftlint.yml/badge.svg)](https://github.com/FelixHerrmann/swift-package-list/actions/workflows/swiftlint.yml)
 
-A command-line tool to get all used SPM-dependencies of an Xcode project or workspace.
+A command-line tool to get all used Swift Package dependencies.
 
 The output includes all the `Package.resolved` informations and the license from the checkouts.
 You can also generate a JSON, PLIST, Settings.bundle or PDF file.
 
-Additionally there is a Swift Package to read the generated package-list file from the application's bundle with a top-level function or pre-build UI.
+Additionally there is a Swift Package to read the generated package-list file from the application's bundle or to use pre-build UI for SwiftUI and UIKit.
 
 
 ## Command-Line Tool
@@ -34,47 +34,58 @@ Clone or download this repository and run `make install`, `make update` or `make
 
 ### Usage
 
-#### Scan Command
-
-Open the terminal and run `swift-package-list scan <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to get the JSON output from.
-
-In addition to that you can specify the following options:
-
-| Option                                              | Description                                                                                                                   |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\>       | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
-| -s, --source-packages-path \<source-packages-path\> | The path to a custom SourcePackages-folder.                                                                                   |
-| --requires-license                                  | Will skip the packages without a license-file.                                                                                |
-| --version                                           | Show the version.                                                                                                             |
-| -h, --help                                          | Show help information.                                                                                                        |
-
-#### Generate Command
-
-Open the terminal and run `swift-package-list generate <project-path>` with the path to the `.xcodeproj` or `.xcworkspace` file you want to generate the list from.
+Open the terminal and run `swift-package-list <project-path>` with the path to the project file you want to generate the list from.
+Currently supported are:
+- `*.xcodeproj` for Xcode projects
+- `*.xcworkspace` for Xcode workspaces
+- `Package.swift` for Swift packages
+- `Project.swift` for Tuist projects
+- `Dependencies.swift` for Tuist projects with [external dependencies](https://docs.old.tuist.io/guides/third-party-dependencies)
 
 In addition to that you can specify the following options:
 
-| Option                                              | Description                                                                                                                   |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| -d, --derived-data-path \<derived-data-path\>       | The path to your DerivedData-folder. (default: ~/Library/Developer/Xcode/DerivedData)                                         |
-| -s, --source-packages-path \<source-packages-path\> | The path to a custom SourcePackages-folder.                                                                                   |
-| -o, --output-path \<output-path\>                   | The path where the package-list file will be stored. (default: ~/Desktop)                                                     |
-| -f, --file-type \<file-type\>                       | The file type of the generated package-list file. Available options are json, plist, settings-bundle and pdf. (default: json) |
-| -c, --custom-file-name \<custom-file-name\>         | A custom filename to be used instead of the default ones.                                                                     |
-| --requires-license                                  | Will skip the packages without a license-file.                                                                                |
-| --version                                           | Show the version.                                                                                                             |
-| -h, --help                                          | Show help information.                                                                                                        |
+| Option                                                        | Description                                                                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| --custom-derived-data-path \<custom-derived-data-path\>       | A custom path to your DerivedData-folder.                                                                           |
+| --custom-source-packages-path \<custom-source-packages-path\> | A custom path to the SourcePackages-folder.                                                                         |
+| --output-type \<output-type\>                                 | The type of output for the package-list. (values: stdout, json, plist, settings-bundle, pdf; default: stdout)       |
+| --output-path \<output-path\>                                 | The path where the package-list file will be stored. (Not required for stdout output-type)                          |
+| --custom-file-name \<custom-file-name\>                       | A custom filename to be used instead of the default ones.                                                           |
+| --requires-license                                            | Will skip the packages without a license-file.                                                                      |
+| --version                                                     | Show the version.                                                                                                   |
+| -h, --help                                                    | Show help information.                                                                                              |
 
-### Build Tool Plugins
+### Build Tool Plugin
 
-For each file type there is a dedicated plugin available which you can add to your targets.
+The easiest way to add this tool to your project is using the provided build-tool plugin, available for both Xcode projects and Swift packages.
 
-Simply add them under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies.
+For Xcode projects simply add it under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies; for Swift packages configure it in the `Package.swift` manifest, as described [here](https://github.com/apple/swift-package-manager/blob/main/Documentation/Plugins.md#using-a-package-plugin).
 
-Once added the file(s) will get generated during every build process and are available in the App's bundle.
+By default this will use the JSON output with `--requires-license` but you can create a `swift-package-list-config.json` in your project's root to configure that behavior, both project and target specific (target configs have precedence over the project one). Everything in the configuration is optional and has the following format:
+```json
+{
+    "projectPath" : "Project.xcworkspace",
+    "project" : {
+        "outputType" : "plist",
+        "requiresLicense" : false
+    },
+    "targets" : {
+        "Target 1" : {
+            "outputType" : "settings-bundle",
+            "requiresLicense" : true
+        },
+        "Target 2" : {
+            "outputType" : "json",
+            "requiresLicense" : true
+        }
+    }
+}
+```
+
+Once added and configured the file(s) will get generated during every build process and are available in the App's bundle.
 You can then open them manually or use the various options in the included [Swift Package](#swift-package).
 
-> [!NOTE]  
+> [!NOTE]
 > When using Xcode Cloud add `defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES`
 > to `ci_post_clone.sh` which disables the plugin validation.
 
@@ -87,14 +98,14 @@ You can easily set up a Run Script Phase in your target of your Xcode project to
 ```shell
 if command -v swift-package-list &> /dev/null; then
     OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
-    swift-package-list generate "$PROJECT_FILE_PATH" --output-path "$OUTPUT_PATH" --requires-license
+    swift-package-list "$PROJECT_FILE_PATH" --output-type json --output-path "$OUTPUT_PATH" --requires-license
 else
     echo "warning: swift-package-list not installed"
 fi
 ```
 3. move the Phase above the `Copy Bundle Resources`-phase
 4. optionally you can rename the Phase by double-clicking on the title
-5. build your project (cmd + b)
+5. build your project (<kbd>cmd</kbd> + <kbd>b</kbd>)
 6. right-click on the targets-folder in the sidebar and select *Add Files to "\<project-name\>"*
 7. select `package-list.json` in the Finder-window
 
@@ -109,7 +120,7 @@ you just need a slightly modified script for the Run Script Phase:
 if command -v swift-package-list &> /dev/null; then
     OUTPUT_PATH=$SOURCE_ROOT/$TARGETNAME
     WORKSPACE_FILE_PATH=${PROJECT_FILE_PATH%.xcodeproj}.xcworkspace
-    swift-package-list generate "$WORKSPACE_FILE_PATH" --output-path "$OUTPUT_PATH" --requires-license
+    swift-package-list "$WORKSPACE_FILE_PATH" --output-type json --output-path "$OUTPUT_PATH" --requires-license
 else
     echo "warning: swift-package-list not installed"
 fi
@@ -137,7 +148,7 @@ There are 2 easy ways to fix this issue:
 
 You can also generate a `Settings.bundle` file to show the acknowledgements in the Settings app. This works slightly different
 than the other file types, because a Settings Bundle is a collection of several files and might already exist in your app. 
-Just specify `--file-type settings-bundle` on the command execution.
+Just specify `--output-type settings-bundle` on the command execution.
 
 **Important:** The `Root.plist` and `Root.strings` files will (unlike the other files) only be created if they not already exists,
 otherwise it would remove existing configurations. Make sure you set up the `Acknowledgements.plist` correctly as a Child Pane as shown below:
@@ -158,14 +169,16 @@ For more information on how to set up and use a Settings Bundle, take a look at 
 ### PDF
 
 On macOS it is more common to show a `Acknowledgments.pdf` file. Therefore you have the option to generate a PDF with all licenses.
-Just specify `--file-type pdf` on the command execution.
+Just specify `--output-type pdf` on the command execution.
 
 It uses the project's file name (without extension) as the product name and, if present, the organization-name from the project file.
 You can set that in your project's file inspector as shown [here](https://stackoverflow.com/a/38395030/11342085).
 
 Once created and added to the project, it can be easily accessed from the application's bundle like the following:
 ```swift
-let url = Bundle.main.url(forResource: "Acknowledgements", withExtension: "pdf")
+import SwiftPackageList
+
+let url = Bundle.main.acknowledgementsURL
 ```
 You can then use [QuickLook](https://developer.apple.com/documentation/quicklook), [NSWorkspace.open(\_:)](https://developer.apple.com/documentation/appkit/nsworkspace/1533463-open) or any other method to display the PDF.
 
@@ -175,52 +188,33 @@ You can then use [QuickLook](https://developer.apple.com/documentation/quicklook
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFelixHerrmann%2Fswift-package-list%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/FelixHerrmann/swift-package-list)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FFelixHerrmann%2Fswift-package-list%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/FelixHerrmann/swift-package-list)
 
-Load `package-list.json` or `package-list.plist` from the bundle with a single function call or use the pre-build UI components.
+Load the generated package-list file from the bundle or use some pre-build UI components.
 
 ### Requirements
 
-- macOS 10.10+
-- iOS 9.0+
-- tvOS 9.0+
-- watchOS 2.0+
+- macOS 10.15
+- iOS 13.0
+- tvOS 13.0
+- watchOS 6.0
+- visionOS 1.0
 
 ### Usage
 
 Add the package to your project as shown [here](https://developer.apple.com/documentation/swift_packages/adding_package_dependencies_to_your_app).
 
-It contains 3 libraries; `SwiftPackageList`/`SwiftPackageListObjc` for loading the Data in Swift and Objective-C 
-and `SwiftPackageListUI` to get an iOS Settings-like user interface.
+It contains 2 libraries; `SwiftPackageList` for loading the Data and `SwiftPackageListUI` to get an iOS Settings-like user interface.
 
 #### SwiftPackageList
 
 ```swift
 import SwiftPackageList
 
+let packageProvider = JSONPackageProvider()
 do {
-    let packages = try packageList()
+    let packages = try packageProvider.packages()
     // use packages
-} catch PackageListError.noPackageList {
-    print("There is no package-list file")
 } catch {
     print(error)
-}
-```
-
-#### SwiftPackageListObjc
-
-```objc
-@import SwiftPackageListObjc;
-
-NSError *error;
-NSArray<SPLPackage *> *packages = SPLPackageList(&error);
-if (packages) {
-    // use packages
-} else {
-    if (error.code == SPLErrorNoPackageList) {
-        NSLog(@"There is no package-list file");
-    } else {
-        NSLog(@"%@", error);
-    }
 }
 ```
 
@@ -238,7 +232,7 @@ navigationController.pushViewController(acknowledgmentsViewController, animated:
 import SwiftPackageListUI
 
 var body: some View {
-    NavigationView {
+    NavigationStack {
         AcknowledgmentsList()
     }
 }

@@ -17,9 +17,17 @@ final class PDFGeneratorTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        let url = try XCTUnwrap(Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources"))
-        let project = try XCTUnwrap(Project(path: url.path))
+        let url = try XCTUnwrap(
+            Bundle.module.url(
+                forResource: "Project",
+                withExtension: "xcodeproj",
+                subdirectory: "Resources/XcodeProject"
+            )
+        )
+        let projectType = try XCTUnwrap(ProjectType(fileURL: url))
+        let project = try projectType.project(fileURL: url)
         let package = Package(
+            identity: "test",
             name: "test",
             version: "1.0.0",
             branch: nil,

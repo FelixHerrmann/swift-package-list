@@ -8,22 +8,24 @@
 #if canImport(SwiftUI)
 
 import SwiftUI
+import OSLog
+import SwiftPackageList
 
 /// A `List` that shows all licenses from the package-list file.
 ///
-/// It can be used as the root view in a `NavigationView`:
+/// It can be used as the root view in a `NavigationStack`:
 /// ```swift
 /// var body: some View {
-///     NavigationView {
+///     NavigationStack {
 ///         AcknowledgmentsList()
 ///     }
 /// }
 /// ```
 ///
-/// It also can be used within a `NavigationLink` to be pushed on the `NavigationView`:
+/// It also can be used within a `NavigationLink` to be pushed on the `NavigationStack`:
 /// ```swift
 /// var body: some View {
-///     NavigationView {
+///     NavigationStack {
 ///         List {
 ///             NavigationLink("Acknowledgments") {
 ///                 AcknowledgmentsList()
@@ -34,18 +36,16 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// - Important: This view must be used inside a `NavigationView` to function properly.
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
-public struct AcknowledgmentsList: View {
+/// - Important: This view must be used inside a `NavigationStack` to function properly.
+public struct AcknowledgmentsList<Provider: PackageProvider>: View {
+    private let _packageProvider: Provider
+    @State private var _packages: [Package] = []
     
-    @ObservedObject private var _viewModel: _AcknowledgmentsListViewModel
-    
-    /// Creates a ``AcknowledgmentsList`` for a package-list file.
+    /// Creates a ``AcknowledgmentsList`` for a package provider.
     /// - Parameters:
-    ///   - packageListBundle: The bundle where the package-list file is stored. Default's to `Bundle.main`.
-    ///   - packageListFileName: The name of the package-list file. Default's to `package-list`.
-    public init(packageListBundle: Bundle = .main, packageListFileName: String = "package-list") {
-        _viewModel = _AcknowledgmentsListViewModel(packageListBundle: packageListBundle, packageListFileName: packageListFileName)
+    ///   - packageProvider: The package provider object used as the source of data.
+    public init(packageProvider: Provider = .json()) {
+        self._packageProvider = packageProvider
     }
     
     public var body: some View {
@@ -53,14 +53,45 @@ public struct AcknowledgmentsList: View {
             Section(
                 header: Text("acknowledgments.section-title", bundle: .module, comment: "Section title for the license list")
             ) {
-                ForEach(_viewModel._packages, id: \.self) { package in
+                ForEach(_packages, id: \.self) { package in
                     NavigationLink(package.name) {
                         _LicenseText(_package: package)
                     }
                 }
             }
         }
-        ._navigationTitle(Text("acknowledgments.title", bundle: .module, comment: "Navigation bar title of the license list"))
+#if os(visionOS)
+        .navigationTitle(
+            Text("acknowledgments.title", bundle: .module, comment: "Navigation bar title of the license list")
+        )
+        .navigationBarTitleDisplayMode(.inline)
+        .task {
+            _loadPackages()
+        }
+#else
+        .backport.navigationTitle(
+            Text("acknowledgments.title", bundle: .module, comment: "Navigation bar title of the license list")
+        )
+#if os(iOS) || os(watchOS)
+        .backport.navigationBarTitleDisplayMode(.inline)
+#endif
+        .backport.task {
+            _loadPackages()
+        }
+#endif
+    }
+    
+    private func _loadPackages() {
+        do {
+            _packages = try _packageProvider.packages()
+        } catch {
+            os_log(
+                "Error: %@",
+                log: OSLog(subsystem: "com.felixherrmann.swift-package-list", category: "AcknowledgmentsList"),
+                type: .error,
+                String(describing: error)
+            )
+        }
     }
 }
 

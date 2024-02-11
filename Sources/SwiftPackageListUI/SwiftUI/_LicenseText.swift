@@ -10,21 +10,18 @@
 import SwiftUI
 import SwiftPackageList
 
-@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 internal struct _LicenseText: View {
-    
-    internal var _package: Package
+    internal let _package: Package
     
     internal var body: some View {
         ZStack {
-            #if os(iOS)
+#if os(iOS)
             Color(.systemGroupedBackground)
                 .edgesIgnoringSafeArea(.all)
-            #endif
-            
-            #if os(tvOS)
+#endif
+#if os(tvOS)
             _TVOSTextView(_text: _package.license ?? "")
-            #else
+#else
             ScrollView {
                 Text(_package.license ?? "")
                     .font(.caption)
@@ -32,9 +29,17 @@ internal struct _LicenseText: View {
                     .padding()
                     .frame(maxWidth: .infinity)
             }
-            #endif
+#endif
         }
-        ._navigationTitle(Text(_package.name))
+#if os(visionOS)
+        .navigationTitle(Text(_package.name))
+        .navigationBarTitleDisplayMode(.inline)
+#else
+        .backport.navigationTitle(Text(_package.name))
+#if os(iOS) || os(watchOS) || os(visionOS)
+        .backport.navigationBarTitleDisplayMode(.inline)
+#endif
+#endif
     }
 }
 

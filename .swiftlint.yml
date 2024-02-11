@@ -57,7 +57,6 @@ opt_in_rules:
     - operator_usage_whitespace
     - optional_enum_case_matching
     - overridden_super_call
-    - pattern_matching_keywords
     - prefer_self_type_over_type_of_self
     - prefer_zero_over_explicit_init
     - prohibited_super_call
@@ -81,6 +80,9 @@ opt_in_rules:
     - weak_delegate
     - yoda_condition
 
+excluded:
+    - Tests/SwiftPackageListCoreTests/Resources
+
 analyzer_rules:
     - unused_declaration
     - unused_import
@@ -91,6 +93,9 @@ identifier_name:
     excluded:
         - x
         - y
+
+indentation_width:
+    include_compiler_directives: false
 
 line_length:
     warning: 130

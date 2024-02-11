@@ -10,6 +10,9 @@ import Foundation
 /// A package object in the package-list file.
 public struct Package: Hashable, Codable {
     
+    /// The package identity based on it's source location.
+    public let identity: String
+    
     /// The name of the package.
     public let name: String
     
@@ -36,12 +39,28 @@ public struct Package: Hashable, Codable {
     /// This is always present if the `--requires-license` flag is parsed on command execution.
     public let license: String?
     
-    public init(name: String, version: String?, branch: String?, revision: String, repositoryURL: URL, license: String?) {
+    public init(
+        identity: String,
+        name: String,
+        version: String?,
+        branch: String?,
+        revision: String,
+        repositoryURL: URL,
+        license: String?
+    ) {
+        self.identity = identity
         self.name = name
         self.version = version
         self.branch = branch
         self.revision = revision
         self.repositoryURL = repositoryURL
         self.license = license
+    }
+}
+
+extension Package {
+    /// A boolean indicating if the package has a license.
+    public var hasLicense: Bool {
+        return license != nil
     }
 }

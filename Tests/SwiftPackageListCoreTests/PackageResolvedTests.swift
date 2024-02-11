@@ -9,13 +9,16 @@ import XCTest
 @testable import SwiftPackageListCore
 
 final class PackageResolvedTests: XCTestCase {
-    
     func testVersion1() throws {
-        let url = Bundle.module.url(forResource: "Package_v1", withExtension: "resolved", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "Package_v1",
+            withExtension: "resolved",
+            subdirectory: "Resources/PackageResolved"
+        )
         let unwrappedURL = try XCTUnwrap(url)
-        let packageResolved = try PackageResolved(at: unwrappedURL)
+        let packageResolved = try PackageResolved(url: unwrappedURL)
         
-        switch packageResolved {
+        switch packageResolved.storage {
         case .v1(let packageResolved_V1):
             XCTAssertEqual(packageResolved_V1.version, 1)
             XCTAssertEqual(packageResolved_V1.object.pins[0].package, "SwiftPackageList")
@@ -29,11 +32,15 @@ final class PackageResolvedTests: XCTestCase {
     }
     
     func testVersion2() throws {
-        let url = Bundle.module.url(forResource: "Package_v2", withExtension: "resolved", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "Package_v2",
+            withExtension: "resolved",
+            subdirectory: "Resources/PackageResolved"
+        )
         let unwrappedURL = try XCTUnwrap(url)
-        let packageResolved = try PackageResolved(at: unwrappedURL)
+        let packageResolved = try PackageResolved(url: unwrappedURL)
         
-        switch packageResolved {
+        switch packageResolved.storage {
         case .v2(let packageResolved_V2):
             XCTAssertEqual(packageResolved_V2.version, 2)
             XCTAssertEqual(packageResolved_V2.pins[0].identity, "swift-package-list")
@@ -48,12 +55,32 @@ final class PackageResolvedTests: XCTestCase {
     }
     
     func testUnsupportedVersion() throws {
-        let url = Bundle.module.url(forResource: "Package_v999", withExtension: "resolved", subdirectory: "Resources")
+        let url = Bundle.module.url(
+            forResource: "Package_v999",
+            withExtension: "resolved",
+            subdirectory: "Resources/PackageResolved"
+        )
         let unwrappedURL = try XCTUnwrap(url)
         
-        XCTAssertThrowsError(try PackageResolved(at: unwrappedURL)) { error in
+        XCTAssertThrowsError(try PackageResolved(url: unwrappedURL)) { error in
             XCTAssertTrue(error is RuntimeError)
             XCTAssertEqual((error as? RuntimeError)?.description, "Version 999 of Package.resolved is not supported")
         }
+    }
+    
+    func testVersion1IdentityConstruction() {
+        let remotePin = PackageResolved.Storage.V1.Object.Pin(
+            package: "",
+            repositoryURL: "https://github.com/test/TestRemote.git",
+            state: PackageResolved.Storage.V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
+        let localPin = PackageResolved.Storage.V1.Object.Pin(
+            package: "",
+            repositoryURL: "/Users/test/Desktop/TestLocal/",
+            state: PackageResolved.Storage.V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
+        
+        XCTAssertEqual(remotePin.identity, "testremote")
+        XCTAssertEqual(localPin.identity, "testlocal")
     }
 }
