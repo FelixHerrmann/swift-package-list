@@ -95,7 +95,7 @@ extension PackageResolved.Storage.V1.Object.Pin {
         } else {
             url = URL(fileURLWithPath: repositoryURL)
         }
-        return url.deletingPathExtension().lastPathComponent.lowercased()
+        return url.packageIdentity.lowercased()
     }
 }
 
