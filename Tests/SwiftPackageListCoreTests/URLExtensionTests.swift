@@ -10,16 +10,22 @@ import XCTest
 
 final class URLExtensionTests: XCTestCase {
     func testPackageIdentity() throws {
-        let a = try XCTUnwrap(URL(string: "https://github.com/test/test"))
-        XCTAssertEqual(a.packageIdentity, "test")
+        let plain = try XCTUnwrap(URL(string: "https://github.com/test/test"))
+        XCTAssertEqual(plain.packageIdentity, "test")
         
-        let b = try XCTUnwrap(URL(string: "https://github.com/test/swift-test"))
-        XCTAssertEqual(b.packageIdentity, "swift-test")
+        let plainExtension = try XCTUnwrap(URL(string: "https://github.com/test/test.git"))
+        XCTAssertEqual(plainExtension.packageIdentity, "test")
         
-        let c = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift"))
-        XCTAssertEqual(c.packageIdentity, "Test.swift")
+        let prefix = try XCTUnwrap(URL(string: "https://github.com/test/swift-test"))
+        XCTAssertEqual(prefix.packageIdentity, "swift-test")
         
-        let d = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift.git"))
-        XCTAssertEqual(d.packageIdentity, "Test.swift")
+        let prefixExtension = try XCTUnwrap(URL(string: "https://github.com/test/swift-test.git"))
+        XCTAssertEqual(prefixExtension.packageIdentity, "swift-test")
+        
+        let `extension` = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift"))
+        XCTAssertEqual(`extension`.packageIdentity, "Test.swift")
+        
+        let extensionExtension = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift.git"))
+        XCTAssertEqual(extensionExtension.packageIdentity, "Test.swift")
     }
 }
