@@ -22,7 +22,7 @@ extension Checkouts {
         )
         let licenseFileURL = packageFiles.first { packageFile in
             let fileName = packageFile.deletingPathExtension().lastPathComponent.lowercased()
-            let allowedFileNames = ["license", "licence"]
+            let allowedFileNames = ["license", "licence", "copying"]
             return allowedFileNames.contains(fileName)
         }
         guard let licenseFileURL else { return nil }
