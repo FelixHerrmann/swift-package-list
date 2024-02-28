@@ -20,6 +20,7 @@ extension SettingsBundleGenerator {
         case pl
         case pt
         case ru
+        case tr
         case uk
         case zhHans = "zh-hans"
         case zhHant = "zh-hant"
@@ -73,6 +74,10 @@ extension SettingsBundleGenerator.Language {
         case .ru:
             return [
                 .acknowledgements: "Благодарности",
+            ]
+        case .tr:
+            return [
+                .acknowledgements: "Teşekkürler",
             ]
         case .uk:
             return [
@@ -136,6 +141,10 @@ extension SettingsBundleGenerator.Language {
         case .ru:
             return [
                 .licenses: "Лицензии",
+            ]
+        case .tr:
+            return [
+                .licenses: "Lisanslar",
             ]
         case .uk:
             return [
