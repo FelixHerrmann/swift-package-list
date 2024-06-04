@@ -64,7 +64,7 @@ extension SettingsBundleGenerator.Language {
             return [
                 .acknowledgements: "Ringraziamenti",
             ]
-            case .ja:
+        case .ja:
             return [
                 .acknowledgements: "謝辞"
             ]
