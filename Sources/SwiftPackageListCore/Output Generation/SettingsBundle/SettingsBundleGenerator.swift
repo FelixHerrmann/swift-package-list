@@ -28,6 +28,7 @@ struct SettingsBundleGenerator: OutputGenerator {
         try createRootPlist()
         try createAcknowledgementsPlist()
         
+        try? fileManager.removeItem(at: packagesURL)
         try fileManager.createDirectory(at: packagesURL, withIntermediateDirectories: true)
         for package in packages {
             try createPackagePlist(for: package)
