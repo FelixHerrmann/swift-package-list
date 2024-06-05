@@ -27,9 +27,8 @@ struct SettingsBundleGenerator: OutputGenerator {
         try fileManager.createDirectory(at: outputURL, withIntermediateDirectories: true)
         try createRootPlist()
         try createAcknowledgementsPlist()
+        try createPackagesDirectory()
         
-        try? fileManager.removeItem(at: packagesURL)
-        try fileManager.createDirectory(at: packagesURL, withIntermediateDirectories: true)
         for package in packages {
             try createPackagePlist(for: package)
         }
@@ -57,6 +56,11 @@ struct SettingsBundleGenerator: OutputGenerator {
         let encodedAcknowledgements = try encoder.encode(acknowledgementsPlist)
         let acknowledgementsURL = outputURL.appendingPathComponent("Acknowledgements.plist")
         try encodedAcknowledgements.write(to: acknowledgementsURL)
+    }
+    
+    private func createPackagesDirectory() throws {
+        try? fileManager.removeItem(at: packagesURL)
+        try fileManager.createDirectory(at: packagesURL, withIntermediateDirectories: true)
     }
     
     private func createPackagePlist(for package: Package) throws {
