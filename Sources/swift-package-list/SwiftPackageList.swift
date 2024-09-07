@@ -15,7 +15,7 @@ struct SwiftPackageList: ParsableCommand {
     static var configuration: CommandConfiguration {
         return CommandConfiguration(
             discussion: "A command-line tool to get all used Swift Package dependencies.",
-            version: "4.2.0"
+            version: "4.3.0"
         )
     }
     
