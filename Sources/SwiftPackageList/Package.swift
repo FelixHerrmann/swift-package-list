@@ -8,7 +8,7 @@
 import Foundation
 
 /// A package object in the package-list file.
-public struct Package: Hashable, Codable {
+public struct Package: Sendable, Hashable, Codable {
     
     /// The package identity based on it's source location.
     public let identity: String
