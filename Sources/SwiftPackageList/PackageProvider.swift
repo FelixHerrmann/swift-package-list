@@ -6,7 +6,7 @@
 //
 
 /// A type that provides ``Package``s from some arbitrary source.
-public protocol PackageProvider {
+public protocol PackageProvider: Sendable {
     
     /// Provides the array of packages.
     /// - Returns: An array of ``Package`` objects.
