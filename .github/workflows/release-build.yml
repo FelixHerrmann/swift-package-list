@@ -54,7 +54,7 @@ jobs:
           sed -i "s|download\/.*\/swift-package-list|download\/$TAG\/swift-package-list|g" Formula/swift-package-list.rb
           sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" Formula/swift-package-list.rb
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
           branch: swift-package-list/${{ env.TAG }}
