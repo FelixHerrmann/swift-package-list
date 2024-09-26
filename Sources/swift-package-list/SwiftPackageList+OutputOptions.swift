@@ -23,8 +23,8 @@ extension SwiftPackageList {
         @Flag(help: "Will skip the packages without a license-file.")
         var requiresLicense = false
         
-        @Option(parsing: .singleValue, help: "Skip packages from repositories that match the provided base URL. (This option may be repeated multiple times)")
-        var ignoreBaseURL: [String]
+        @Option(parsing: .singleValue, help: "Will skip a package with the specified identity. (This option may be repeated multiple times)")
+        var ignorePackage: [String] = []
     }
 }
 

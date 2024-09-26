@@ -40,11 +40,11 @@ struct SwiftPackageList: ParsableCommand {
 }
 
 extension SwiftPackageList.OutputOptions {
-    func filter(_ isIncluded: Package) -> Bool {
-        if requiresLicense, !isIncluded.hasLicense {
+    func filter(_ package: Package) -> Bool {
+        if requiresLicense, !package.hasLicense {
             return false
         }
-        for baseURL in ignoreBaseURL where isIncluded.repositoryURL.absoluteString.hasPrefix(baseURL) {
+        for ignored in ignorePackage where package.identity == ignored {
             return false
         }
         return true
