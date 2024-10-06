@@ -62,8 +62,8 @@ final class PDFGeneratorTests: XCTestCase {
         if #available(macOS 15.0, *) {
             expectedOutput = """
             Acknowledgements
-            Portions of this SwiftPackageList Software may utilize the following \
-            copyrighted material, the use of which is hereby acknowledged.
+            Portions of this SwiftPackageList Software may utilize the following copyrighted
+            material, the use of which is hereby acknowledged.
             test
             MIT
             """
