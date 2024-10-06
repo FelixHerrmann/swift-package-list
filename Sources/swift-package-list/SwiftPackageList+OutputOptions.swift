@@ -15,7 +15,10 @@ extension SwiftPackageList {
         @Option(help: "The type of output for the package-list.")
         var outputType: OutputType = .stdout
         
-        @Option(help: "The path where the package-list file will be stored. (Not required for stdout output-type)")
+        @Option(
+            help: "The path where the package-list file will be stored. (Not required for stdout output-type)",
+            completion: .directory
+        )
         var outputPath: String?
         
         @Option(help: "A custom filename to be used instead of the default ones.")

@@ -11,13 +11,16 @@ import SwiftPackageListCore
 
 extension SwiftPackageList {
     struct InputOptions: ParsableArguments {
-        @Argument(help: "The path to your *.xcodeproj, *.xcworkspace, Package.swift, Project.swift or Dependencies.swift file.")
+        @Argument(
+            help: "The path to your *.xcodeproj, *.xcworkspace, Package.swift, Project.swift or Dependencies.swift file.",
+            completion: .file(extensions: ["xcodeproj", "xcworkspace", "swift"])
+        )
         var projectPath: String
         
-        @Option(help: "A custom path to your DerivedData-folder.")
+        @Option(help: "A custom path to your DerivedData-folder.", completion: .directory)
         var customDerivedDataPath: String?
         
-        @Option(help: "A custom path to the SourcePackages-folder.")
+        @Option(help: "A custom path to the SourcePackages-folder.", completion: .directory)
         var customSourcePackagesPath: String?
     }
 }
