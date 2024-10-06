@@ -77,7 +77,11 @@ By default this will use the JSON output with `--requires-license` but you can c
         },
         "Target 2" : {
             "outputType" : "json",
-            "requiresLicense" : true
+            "requiresLicense" : true,
+            "ignorePackages" : [
+                "swift-package-list",
+                "swift-argument-parser",
+            ]
         }
     }
 }
