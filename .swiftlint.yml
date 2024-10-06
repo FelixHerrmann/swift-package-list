@@ -1,6 +1,7 @@
 disabled_rules:
     - nesting
     - trailing_comma
+    - optional_data_string_conversion
 opt_in_rules:
     - anonymous_argument_in_multiline_closure
     - array_init
