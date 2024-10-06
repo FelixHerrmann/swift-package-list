@@ -20,6 +20,7 @@ extension SwiftPackageListPlugin.Configuration {
     struct TargetConfiguration: Decodable {
         let outputType: OutputType?
         let requiresLicense: Bool? // swiftlint:disable:this discouraged_optional_boolean
+        let ignorePackages: [String]? // swiftlint:disable:this discouraged_optional_collection
     }
 }
 

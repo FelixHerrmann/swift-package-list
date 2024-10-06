@@ -7,6 +7,7 @@
 
 import Foundation
 import ArgumentParser
+import SwiftPackageList
 import SwiftPackageListCore
 
 extension SwiftPackageList {
@@ -22,6 +23,15 @@ extension SwiftPackageList {
         
         @Flag(help: "Will skip the packages without a license-file.")
         var requiresLicense = false
+        
+        @Option(
+            name: .customLong("ignore-package"),
+            help: ArgumentHelp(
+                "Will skip a package with the specified identity. (This option may be repeated multiple times)",
+                valueName: "package-identity"
+            )
+        )
+        var ignoredPackageIdentities: [String] = []
     }
 }
 
@@ -29,5 +39,12 @@ extension SwiftPackageList.OutputOptions {
     var outputGeneratorOptions: OutputGeneratorOptions {
         let outputURL = outputPath.map { URL(fileURLWithPath: $0) }
         return OutputGeneratorOptions(outputURL: outputURL, customFileName: customFileName)
+    }
+}
+
+extension SwiftPackageList.OutputOptions {
+    func filter(package: Package) -> Bool {
+        if requiresLicense && !package.hasLicense { return false }
+        return !ignoredPackageIdentities.contains(package.identity)
     }
 }
