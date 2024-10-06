@@ -58,14 +58,25 @@ final class PDFGeneratorTests: XCTestCase {
         XCTAssertEqual(attributes["Title"] as? String, "Project_Acks_File_\(creationDate)")
         XCTAssertEqual(attributes["Creator"] as? String, "swift-package-list")
         
-        let expectedOutput = """
-        Acknowledgements
-        Portions of this SwiftPackageList Software may utilize the following \
-        copyrighted material, the use of which is hereby acknowledged.
-        test
-        MIT
-        
-        """
+        let expectedOutput: String
+        if #available(macOS 15.0, *) {
+            expectedOutput = """
+            Acknowledgements
+            Portions of this SwiftPackageList Software may utilize the following \
+            copyrighted material, the use of which is hereby acknowledged.
+            test
+            MIT
+            """
+        } else {
+            expectedOutput = """
+            Acknowledgements
+            Portions of this SwiftPackageList Software may utilize the following \
+            copyrighted material, the use of which is hereby acknowledged.
+            test
+            MIT
+            
+            """
+        }
         XCTAssertEqual(output.string, expectedOutput)
     }
 }
