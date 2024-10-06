@@ -26,7 +26,10 @@ extension SwiftPackageList {
         
         @Option(
             name: .customLong("ignore-package"),
-            help: "Will skip a package with the specified identity. (This option may be repeated multiple times)")
+            help: ArgumentHelp(
+                "Will skip a package with the specified identity. (This option may be repeated multiple times)",
+                valueName: "package-identity"
+            )
         )
         var ignoredPackageIdentities: [String] = []
     }
