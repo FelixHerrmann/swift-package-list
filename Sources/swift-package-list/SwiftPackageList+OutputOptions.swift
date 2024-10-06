@@ -7,6 +7,7 @@
 
 import Foundation
 import ArgumentParser
+import SwiftPackageList
 import SwiftPackageListCore
 
 extension SwiftPackageList {
@@ -32,5 +33,12 @@ extension SwiftPackageList.OutputOptions {
     var outputGeneratorOptions: OutputGeneratorOptions {
         let outputURL = outputPath.map { URL(fileURLWithPath: $0) }
         return OutputGeneratorOptions(outputURL: outputURL, customFileName: customFileName)
+    }
+}
+
+extension SwiftPackageList.OutputOptions {
+    func filter(package: Package) -> Bool {
+        if requiresLicense && !package.hasLicense { return false }
+        return !ignorePackage.contains(package.identity)
     }
 }

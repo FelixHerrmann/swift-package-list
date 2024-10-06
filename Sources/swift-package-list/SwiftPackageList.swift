@@ -26,8 +26,7 @@ struct SwiftPackageList: ParsableCommand {
         let projectFileURL = URL(fileURLWithPath: inputOptions.projectPath)
         let projectType = try ProjectType(fileURL: projectFileURL)
         let project = try projectType.project(fileURL: projectFileURL, options: inputOptions.projectOptions)
-        
-        let packages = try project.packages().filter(outputOptions.filter)
+        let packages = try project.packages().filter(outputOptions.filter(package:))
         
         let outputType = outputOptions.outputType
         let outputGenerator = try outputType.outputGenerator(
@@ -36,17 +35,5 @@ struct SwiftPackageList: ParsableCommand {
             options: outputOptions.outputGeneratorOptions
         )
         try outputGenerator.generateOutput()
-    }
-}
-
-extension SwiftPackageList.OutputOptions {
-    func filter(_ package: Package) -> Bool {
-        if requiresLicense, !package.hasLicense {
-            return false
-        }
-        for ignored in ignorePackage where package.identity == ignored {
-            return false
-        }
-        return true
     }
 }
