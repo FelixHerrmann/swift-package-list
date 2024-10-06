@@ -60,9 +60,4 @@ jobs:
           xcodebuild \
           -scheme SwiftPackageList-Package \
           -destination 'platform=macOS' \
-          -resultBundlePath TestResults \
           test
-      - uses: kishikawakatsumi/xcresulttool@v1
-        with:
-          path: TestResults.xcresult
-        if: success() || failure()
