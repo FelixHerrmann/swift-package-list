@@ -52,7 +52,7 @@ In addition to that you can specify the following options:
 | --output-path \<output-path\>                                 | The path where the package-list file will be stored. (Not required for stdout output-type)                          |
 | --custom-file-name \<custom-file-name\>                       | A custom filename to be used instead of the default ones.                                                           |
 | --requires-license                                            | Will skip the packages without a license-file.                                                                      |
-| --ignore-package \<package-identity\>                         | Will skip a package with the specified identity. (may be repeated multiple times)                                   |
+| --ignore-package \<package-identity\>                         | Will skip a package with the specified identity. (This option may be repeated multiple times)                       |
 | --version                                                     | Show the version.                                                                                                   |
 | -h, --help                                                    | Show help information.                                                                                              |
 
