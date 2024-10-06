@@ -24,8 +24,11 @@ extension SwiftPackageList {
         @Flag(help: "Will skip the packages without a license-file.")
         var requiresLicense = false
         
-        @Option(parsing: .singleValue, help: "Will skip a package with the specified identity. (This option may be repeated multiple times)")
-        var ignorePackage: [String] = []
+        @Option(
+            name: .customLong("ignore-package"),
+            help: "Will skip a package with the specified identity. (This option may be repeated multiple times)")
+        )
+        var ignoredPackageIdentities: [String] = []
     }
 }
 
@@ -39,6 +42,6 @@ extension SwiftPackageList.OutputOptions {
 extension SwiftPackageList.OutputOptions {
     func filter(package: Package) -> Bool {
         if requiresLicense && !package.hasLicense { return false }
-        return !ignorePackage.contains(package.identity)
+        return !ignoredPackageIdentities.contains(package.identity)
     }
 }
