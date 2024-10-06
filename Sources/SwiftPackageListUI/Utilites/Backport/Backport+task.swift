@@ -20,7 +20,9 @@ internal struct TaskModifier: ViewModifier {
     
     internal func body(content: Content) -> some View {
         if #available(iOS 15.0, macOS 12.0, tvOS 15.0, watchOS 8.0, visionOS 1.0, *) {
-            content.task(priority: priority, action)
+            content.task(priority: priority) {
+                await action()
+            }
         } else {
             content
                 .onAppear {
