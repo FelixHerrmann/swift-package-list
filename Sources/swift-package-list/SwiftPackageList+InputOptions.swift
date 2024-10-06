@@ -17,10 +17,10 @@ extension SwiftPackageList {
         )
         var projectPath: String
         
-        @Option(help: "A custom path to your DerivedData-folder.")
+        @Option(help: "A custom path to your DerivedData-folder.", completion: .directory)
         var customDerivedDataPath: String?
         
-        @Option(help: "A custom path to the SourcePackages-folder.")
+        @Option(help: "A custom path to the SourcePackages-folder.", completion: .directory)
         var customSourcePackagesPath: String?
     }
 }
