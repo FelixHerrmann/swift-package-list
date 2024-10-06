@@ -7,7 +7,7 @@ on:
 jobs:
   release-build:
     name: Release Build
-    runs-on: macos-14
+    runs-on: macos-15
     outputs:
       sha: ${{ steps.sha256.outputs.sha256 }}
     env:

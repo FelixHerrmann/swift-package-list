@@ -47,7 +47,7 @@ jobs:
   test:
     name: Test
     needs: build-libraries
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -60,9 +60,4 @@ jobs:
           xcodebuild \
           -scheme SwiftPackageList-Package \
           -destination 'platform=macOS' \
-          -resultBundlePath TestResults \
           test
-      - uses: kishikawakatsumi/xcresulttool@v1
-        with:
-          path: TestResults.xcresult
-        if: success() || failure()
