@@ -38,7 +38,7 @@ extension SettingsBundleGenerator.Language {
         switch self {
         case .ar:
             return [
-                .acknowledgements: "مخزن",
+                .acknowledgements: "إقرارات",
             ]
         case .de:
             return [
