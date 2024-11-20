@@ -268,6 +268,10 @@ The Settings Bundle and the UI-components are currently localized in the followi
 
 > If a language has mistakes or is missing, feel free to create an issue or open a pull request.
 
+## Known limitations
+
+- SwiftPackageList won't include license files from packages that are located in a registry like Artifactory.
+
 
 ## License
 
