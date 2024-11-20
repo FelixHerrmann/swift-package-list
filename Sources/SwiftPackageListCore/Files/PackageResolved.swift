@@ -105,7 +105,7 @@ extension PackageResolved.Storage {
     struct V2: Decodable {
         struct Pin: Decodable {
             struct State: Decodable {
-                let revision: String
+                let revision: String?
                 let version: String?
                 let branch: String?
             }

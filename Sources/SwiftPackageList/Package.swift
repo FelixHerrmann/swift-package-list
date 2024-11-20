@@ -28,9 +28,9 @@ public struct Package: Sendable, Hashable, Codable {
     
     /// The exact revision/commit.
     ///
-    /// This is always present, regardless if the package's dependency-rule is version or branch.
-    public let revision: String
-    
+    /// Could be `nil` if the package is located in a registry.
+    public let revision: String?
+
     /// The URL to the git-repository.
     public let repositoryURL: URL
     
@@ -44,7 +44,7 @@ public struct Package: Sendable, Hashable, Codable {
         name: String,
         version: String?,
         branch: String?,
-        revision: String,
+        revision: String?,
         repositoryURL: URL,
         license: String?
     ) {
