@@ -22,3 +22,14 @@ extension Project {
         return nil
     }
 }
+
+// MARK: Custom Packages
+extension Project {
+    public func customPackages(_ filePath: String?) throws -> [Package] {
+        guard let filePath else {
+            return []
+        }
+        let data = try Data(contentsOf: URL(fileURLWithPath: filePath))
+        return try JSONDecoder().decode([Package].self, from: data)
+    }
+}
