@@ -23,8 +23,8 @@ extension SwiftPackageList {
         @Option(help: "A custom path to the SourcePackages-folder.", completion: .directory)
         var customSourcePackagesPath: String?
         
-        @Option(help: "A file containing custom licenses.", completion: .file(extensions: ["json"]))
-        var customLicenseFile: String?
+        @Option(help: "A file containing custom packages.", completion: .file(extensions: ["json"]))
+        var customPackagesFile: String?
     }
 }
 

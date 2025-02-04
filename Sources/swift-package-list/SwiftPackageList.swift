@@ -27,7 +27,7 @@ struct SwiftPackageList: ParsableCommand {
         let projectType = try ProjectType(fileURL: projectFileURL)
         let project = try projectType.project(fileURL: projectFileURL, options: inputOptions.projectOptions)
         let packages = try project.packages().filter(outputOptions.filter(package:))
-        let customPackages = try project.customPackages(inputOptions.customLicenseFile)
+        let customPackages = try project.customPackages(inputOptions.customPackagesFile)
         
         let outputType = outputOptions.outputType
         let outputGenerator = try outputType.outputGenerator(

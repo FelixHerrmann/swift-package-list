@@ -48,7 +48,7 @@ In addition to that you can specify the following options:
 | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | --custom-derived-data-path \<custom-derived-data-path\>       | A custom path to your DerivedData-folder.                                                                           |
 | --custom-source-packages-path \<custom-source-packages-path\> | A custom path to the SourcePackages-folder.                                                                         |
-| --custom-license-file \<custom-license-file\>                 | A custom path for a file containing custom packages in a JSON format.                                               |
+| --custom-packages-file \<custom-packages-file\>               | A custom path for a file containing custom packages in a JSON format.                                               |
 | --output-type \<output-type\>                                 | The type of output for the package-list. (values: stdout, json, plist, settings-bundle, pdf; default: stdout)       |
 | --output-path \<output-path\>                                 | The path where the package-list file will be stored. (Not required for stdout output-type)                          |
 | --custom-file-name \<custom-file-name\>                       | A custom filename to be used instead of the default ones.                                                           |
@@ -246,16 +246,16 @@ var body: some View {
 
 ## Custom Packages
 
-To include the custom packages/licenses in the generated package list file/view, you can use the `--custom-license-file` option and provide the file path to a JSON file using the following structure:
+To include the custom packages/licenses in the generated package list file/view, you can use the `--custom-packages-file` option and provide the file path to a JSON file using the following structure:
 
 ```
 [
   {
     "identity" : "custom-license",
-    "license" : "testlicensetext",
+    "license" : "Custom License Description",
     "name" : "custom-license",
-    "repositoryURL" : "https:\/\/github.com\/org\/repo",
-    "revision" : "abcdefghijl123456",
+    "repositoryURL" : "https://github.com/org/repo",
+    "revision" : "commit-hash",
     "version" : "1.0.0"
   }
 ]
