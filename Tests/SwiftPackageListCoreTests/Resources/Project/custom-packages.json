@@ -1,0 +1,10 @@
+[
+  {
+    "identity" : "custom-packages",
+    "license" : "Custom Package Description",
+    "name" : "custom-package",
+    "repositoryURL" : "https://github.com/org/repo",
+    "revision" : "commit-hash",
+    "version" : "1.0.0"
+  }
+]

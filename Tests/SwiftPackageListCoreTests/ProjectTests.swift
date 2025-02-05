@@ -158,4 +158,20 @@ final class ProjectTests: XCTestCase {
         XCTAssertEqual(tuistDependencies.name, "TuistDependencies")
         XCTAssertEqual(tuistDependencies.organizationName, "Test Inc.")
     }
+    
+    func testCustomPackages() throws {
+        let url = Bundle.module.url(forResource: "Project", withExtension: "xcodeproj", subdirectory: "Resources/XcodeProject")
+        let unwrappedURL = try XCTUnwrap(url)
+        
+        let projectType = try XCTUnwrap(ProjectType(fileURL: unwrappedURL))
+        XCTAssertEqual(projectType, .xcodeProject)
+        
+        let project = try projectType.project(fileURL: unwrappedURL)
+        let xcodeProject = try XCTUnwrap(project as? XcodeProject)
+        
+        let customPackagesURL = Bundle.module.url(forResource: "custom-packages", withExtension: "json", subdirectory: "Resources/Project")
+        let unwrappedcustomPackagesURL = try XCTUnwrap(customPackagesURL)
+        let customPackages = try xcodeProject.customPackages(unwrappedcustomPackagesURL.absoluteString.replacingOccurrences(of: "file://", with: ""))
+        XCTAssertNotNil(customPackages)
+    }
 }
