@@ -1,0 +1,11 @@
+[
+    {
+        "branch": "branch-test",
+        "identity" : "identity-test",
+        "license" : "license-test",
+        "location" : "location-tes",
+        "name" : "name-test",
+        "revision": "revision-test",
+        "version": "version-test"
+    }
+]
