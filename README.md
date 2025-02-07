@@ -251,9 +251,9 @@ To include the custom packages/licenses in the generated package list file/view,
 ```
 [
   {
-    "identity" : "custom-license",
-    "license" : "Custom License Description",
-    "name" : "custom-license",
+    "identity" : "custom-packages",
+    "license" : "Custom Package Description",
+    "name" : "custom-package",
     "repositoryURL" : "https://github.com/org/repo",
     "revision" : "commit-hash",
     "version" : "1.0.0"
