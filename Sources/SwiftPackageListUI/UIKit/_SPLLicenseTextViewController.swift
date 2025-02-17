@@ -62,7 +62,7 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     private func _setupNavigationBar() {
         navigationItem.title = _package.name
         
-        if _repositoryURL != nil, _canOpenRepositoryLink {
+        if ["http", "https"].contains(_repositoryURL?.scheme), _canOpenRepositoryLink {
             let image = UIImage(systemName: "safari")
             let repositoryBarButtonItem = UIBarButtonItem(
                 image: image,
