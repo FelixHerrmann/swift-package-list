@@ -48,13 +48,10 @@ final class PropertyListGeneratorTests: XCTestCase {
         		<string>test</string>
         		<key>license</key>
         		<string>MIT</string>
+        		<key>location</key>
+        		<string>https://github.com/test/test</string>
         		<key>name</key>
         		<string>test</string>
-        		<key>repositoryURL</key>
-        		<dict>
-        			<key>relative</key>
-        			<string>https://github.com/test/test</string>
-        		</dict>
         		<key>revision</key>
         		<string>xxxx</string>
         		<key>version</key>

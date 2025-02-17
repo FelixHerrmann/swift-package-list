@@ -43,8 +43,8 @@ final class JSONGeneratorTests: XCTestCase {
           {
             "identity" : "test",
             "license" : "MIT",
+            "location" : "https:\\/\\/github.com\\/test\\/test",
             "name" : "test",
-            "repositoryURL" : "https:\\/\\/github.com\\/test\\/test",
             "revision" : "xxxx",
             "version" : "1.0.0"
           }

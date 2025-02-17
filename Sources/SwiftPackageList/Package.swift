@@ -30,9 +30,11 @@ public struct Package: Sendable, Hashable, Codable {
     ///
     /// Could be `nil` if the package is located in a registry.
     public let revision: String?
-
-    /// The URL to the git-repository.
-    public let repositoryURL: URL
+    
+    /// The location of the package.
+    ///
+    /// It can be a local file-path, repository URL and also empty in case of a registry package.
+    public let location: String
     
     /// The license text.
     ///
@@ -45,7 +47,7 @@ public struct Package: Sendable, Hashable, Codable {
         version: String?,
         branch: String?,
         revision: String?,
-        repositoryURL: URL,
+        location: String,
         license: String?
     ) {
         self.identity = identity
@@ -53,7 +55,7 @@ public struct Package: Sendable, Hashable, Codable {
         self.version = version
         self.branch = branch
         self.revision = revision
-        self.repositoryURL = repositoryURL
+        self.location = location
         self.license = license
     }
 }
@@ -62,5 +64,37 @@ extension Package {
     /// A boolean indicating if the package has a license.
     public var hasLicense: Bool {
         return license != nil
+    }
+}
+
+// MARK: - Deprecations
+
+extension Package {
+    /// The URL to the git-repository.
+    @available(*, deprecated, renamed: "location", message: "The assumption that this is always a URL was wrong, it is not the case for registry packages; use location instead.") // swiftlint:disable:this line_length
+    public var repositoryURL: URL {
+        return URL(string: location) ?? URL(fileURLWithPath: "/")
+    }
+    
+    /// Create a package with the repositoryURL.
+    @available(*, deprecated, renamed: "location", message: "The assumption that repositoryURL is always a URL was wrong, it is not the case for registry packages; use the initializer with location instead.") // swiftlint:disable:this line_length
+    public init(
+        identity: String,
+        name: String,
+        version: String?,
+        branch: String?,
+        revision: String?,
+        repositoryURL: URL,
+        license: String?
+    ) {
+        self.init(
+            identity: identity,
+            name: name,
+            version: version,
+            branch: branch,
+            revision: revision,
+            location: repositoryURL.absoluteString,
+            license: license
+        )
     }
 }

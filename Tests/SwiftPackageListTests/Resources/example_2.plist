@@ -218,13 +218,10 @@
     you may redistribute such product without providing attribution as would
     otherwise be required by Sections 4(a), 4(b) and 4(d) of the License.
 </string>
+		<key>location</key>
+		<string>https://github.com/apple/swift-algorithms</string>
 		<key>name</key>
 		<string>swift-algorithms</string>
-		<key>repositoryURL</key>
-		<dict>
-			<key>relative</key>
-			<string>https://github.com/apple/swift-algorithms</string>
-		</dict>
 		<key>revision</key>
 		<string>b14b7f4c528c942f121c8b860b9410b2bf57825e</string>
 		<key>version</key>
@@ -446,13 +443,10 @@
     you may redistribute such product without providing attribution as would
     otherwise be required by Sections 4(a), 4(b) and 4(d) of the License.
 </string>
+		<key>location</key>
+		<string>https://github.com/apple/swift-argument-parser</string>
 		<key>name</key>
 		<string>swift-argument-parser</string>
-		<key>repositoryURL</key>
-		<dict>
-			<key>relative</key>
-			<string>https://github.com/apple/swift-argument-parser</string>
-		</dict>
 		<key>revision</key>
 		<string>060d52364cf2a3e06b7adf0b17dbb7c33c77e1d3</string>
 	</dict>
@@ -674,13 +668,10 @@
     you may redistribute such product without providing attribution as would
     otherwise be required by Sections 4(a), 4(b) and 4(d) of the License.
 </string>
+		<key>location</key>
+		<string>https://github.com/apple/swift-collections</string>
 		<key>name</key>
 		<string>swift-collections</string>
-		<key>repositoryURL</key>
-		<dict>
-			<key>relative</key>
-			<string>https://github.com/apple/swift-collections</string>
-		</dict>
 		<key>revision</key>
 		<string>108ac4fa4ef7f2622b97a1f5dd92a3e0c6857c60</string>
 	</dict>
@@ -900,13 +891,10 @@
     you may redistribute such product without providing attribution as would
     otherwise be required by Sections 4(a), 4(b) and 4(d) of the License.
 </string>
+		<key>location</key>
+		<string>https://github.com/apple/swift-numerics</string>
 		<key>name</key>
 		<string>swift-numerics</string>
-		<key>repositoryURL</key>
-		<dict>
-			<key>relative</key>
-			<string>https://github.com/apple/swift-numerics</string>
-		</dict>
 		<key>revision</key>
 		<string>0a5bc04095a675662cf24757cc0640aa2204253b</string>
 		<key>version</key>
