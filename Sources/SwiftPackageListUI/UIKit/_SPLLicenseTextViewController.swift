@@ -16,6 +16,7 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     // MARK: - Properties
     
     private let _package: Package
+    private let _repositoryURL: URL?
     private let _backgroundColor: UIColor
     private let _canOpenRepositoryLink: Bool
     
@@ -25,6 +26,7 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     
     internal init(package: Package, backgroundColor: UIColor, canOpenRepositoryLink: Bool) {
         self._package = package
+        self._repositoryURL = URL(string: package.location)
         self._backgroundColor = backgroundColor
         self._canOpenRepositoryLink = canOpenRepositoryLink
         super.init(nibName: nil, bundle: nil)
@@ -60,7 +62,7 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     private func _setupNavigationBar() {
         navigationItem.title = _package.name
         
-        if _canOpenRepositoryLink {
+        if ["http", "https"].contains(_repositoryURL?.scheme), _canOpenRepositoryLink {
             let image = UIImage(systemName: "safari")
             let repositoryBarButtonItem = UIBarButtonItem(
                 image: image,
@@ -92,7 +94,8 @@ internal final class _SPLLicenseTextViewController: UIViewController {
     // MARK: - Methods
     
     private func _openRepositoryLink() {
-        let safariViewController = SFSafariViewController(url: _package.repositoryURL)
+        guard let url = _repositoryURL else { return }
+        let safariViewController = SFSafariViewController(url: url)
         present(safariViewController, animated: true)
     }
 }

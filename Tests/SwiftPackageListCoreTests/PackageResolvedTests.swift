@@ -67,7 +67,7 @@ final class PackageResolvedTests: XCTestCase {
             XCTAssertEqual((error as? RuntimeError)?.description, "Version 999 of Package.resolved is not supported")
         }
     }
-
+    
     func testPackagesFromRegistry() throws {
         let url = Bundle.module.url(
             forResource: "Package_registry",
@@ -76,7 +76,7 @@ final class PackageResolvedTests: XCTestCase {
         )
         let unwrappedURL = try XCTUnwrap(url)
         let packageResolved = try PackageResolved(url: unwrappedURL)
-
+        
         guard case .v2(let packageResolved) = packageResolved.storage else {
             XCTFail("\(unwrappedURL.path) was not recognized as v2")
             return
@@ -89,7 +89,7 @@ final class PackageResolvedTests: XCTestCase {
         XCTAssertNil(packageResolved.pins[0].state.revision)
         XCTAssertEqual(packageResolved.pins[0].state.version, "1.2.3")
     }
-
+    
     func testVersion1IdentityConstruction() {
         let remotePin = PackageResolved.Storage.V1.Object.Pin(
             package: "",

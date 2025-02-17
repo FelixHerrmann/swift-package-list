@@ -22,7 +22,7 @@ final class JSONGeneratorTests: XCTestCase {
             version: "1.0.0",
             branch: nil,
             revision: "xxxx",
-            repositoryURL: URL(string: "https://github.com/test/test")!, // swiftlint:disable:this force_unwrapping
+            location: "https://github.com/test/test",
             license: "MIT"
         )
         
@@ -43,8 +43,8 @@ final class JSONGeneratorTests: XCTestCase {
           {
             "identity" : "test",
             "license" : "MIT",
+            "location" : "https:\\/\\/github.com\\/test\\/test",
             "name" : "test",
-            "repositoryURL" : "https:\\/\\/github.com\\/test\\/test",
             "revision" : "xxxx",
             "version" : "1.0.0"
           }

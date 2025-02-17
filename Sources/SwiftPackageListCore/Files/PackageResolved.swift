@@ -83,10 +83,6 @@ extension PackageResolved.Storage {
 }
 
 extension PackageResolved.Storage.V1.Object.Pin {
-    var checkoutURL: URL? {
-        return URL(string: repositoryURL)
-    }
-    
     /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
     var identity: String {
         let url: URL
@@ -121,12 +117,6 @@ extension PackageResolved.Storage {
     }
 }
 
-extension PackageResolved.Storage.V2.Pin {
-    var checkoutURL: URL? {
-        return URL(string: location)
-    }
-}
-
 // MARK: - V3
 
 extension PackageResolved.Storage {
@@ -157,9 +147,8 @@ extension PackageResolved {
     ) throws -> [Package] {
         let checkouts = sourcePackages.checkouts
         
-        return try pins.compactMap { pin -> Package? in
-            guard let checkoutURL = pin.checkoutURL else { return nil }
-            let license = try checkouts.license(checkoutURL: checkoutURL)
+        return try pins.map { pin -> Package in
+            let license = try checkouts.license(location: pin.repositoryURL)
             
             return Package(
                 identity: pin.identity,
@@ -167,7 +156,7 @@ extension PackageResolved {
                 version: pin.state.version,
                 branch: pin.state.branch,
                 revision: pin.state.revision,
-                repositoryURL: checkoutURL,
+                location: pin.repositoryURL,
                 license: license
             )
         }
@@ -180,10 +169,9 @@ extension PackageResolved {
         let checkouts = sourcePackages.checkouts
         let workspaceState = try sourcePackages.workspaceState
         
-        return try pins.compactMap { pin -> Package? in
-            guard let checkoutURL = pin.checkoutURL else { return nil }
+        return try pins.map { pin -> Package in
             let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
-            let license = try checkouts.license(checkoutURL: checkoutURL)
+            let license = try checkouts.license(location: pin.location)
             
             return Package(
                 identity: pin.identity,
@@ -191,7 +179,7 @@ extension PackageResolved {
                 version: pin.state.version,
                 branch: pin.state.branch,
                 revision: pin.state.revision,
-                repositoryURL: checkoutURL,
+                location: pin.location,
                 license: license
             )
         }

@@ -12,7 +12,8 @@ struct Checkouts: Directory {
 }
 
 extension Checkouts {
-    func license(checkoutURL: URL) throws -> String? {
+    func license(location: String) throws -> String? {
+        guard let checkoutURL = URL(string: location) else { return nil }
         let checkoutName = checkoutURL.packageIdentity
         let checkoutPath = url.appendingPathComponent(checkoutName)
         let packageFiles = try FileManager.default.contentsOfDirectory(
