@@ -82,6 +82,9 @@ By default this will use the JSON output with `--requires-license` but you can c
             "ignorePackages" : [
                 "swift-package-list",
                 "swift-argument-parser",
+            ],
+            "customPackagesFilePaths" : [
+                "custom-packages.json",
             ]
         }
     }
