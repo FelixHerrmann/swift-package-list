@@ -39,7 +39,7 @@ final class PropertyListPackageProviderTests: XCTestCase {
             "https://github.com/apple/swift-collections",
             "https://github.com/apple/swift-numerics",
         ]
-        XCTAssertEqual(packages.map(\.repositoryURL.absoluteString), expectedRepositoryURLs)
+        XCTAssertEqual(packages.map(\.location), expectedRepositoryURLs)
         
         let expectedLicenseLengths = [11_751, 11_751, 11_751, 11_751]
         XCTAssertEqual(packages.map(\.license?.count), expectedLicenseLengths)
