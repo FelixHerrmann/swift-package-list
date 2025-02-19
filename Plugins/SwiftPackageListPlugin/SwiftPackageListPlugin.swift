@@ -24,6 +24,10 @@ struct SwiftPackageListPlugin: Plugin {
             return ["--ignore-package", identity]
         } ?? []
         
+        let customPackagesFilePathArguments: [String] = targetConfiguration?.customPackagesFilePaths?.flatMap { filePath in
+            return ["--custom-packages-file-path", filePath]
+        } ?? []
+        
         let outputFiles: [Path]
         if let fileName = outputType.fileName {
             outputFiles = [outputPath.appending(fileName)]
@@ -41,7 +45,7 @@ struct SwiftPackageListPlugin: Plugin {
                     "--output-type", outputType.rawValue,
                     "--output-path", outputPath,
                     requiresLicense ? "--requires-license" : "",
-                ] + ignorePackageArguments,
+                ] + ignorePackageArguments + customPackagesFilePathArguments,
                 outputFiles: outputFiles
             )
         ]
