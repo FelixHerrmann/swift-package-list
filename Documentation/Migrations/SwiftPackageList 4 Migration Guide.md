@@ -50,7 +50,7 @@ swift-package-list Test.xcodeproj --output-type stdout
 The behavior of the `name` field has changed, it will now use the name defined in the
 Package.swift manifest instead of constructing it from the repository URL. This means that
 the name is no longer guaranteed to be unique and should not be used for identification
-purposes; to offer and alternative there is a new `identity` field, exposed from SPM:
+purposes; to offer an alternative there is a new `identity` field, exposed from SPM:
 
 ```json
 // SwiftPackageList 3
