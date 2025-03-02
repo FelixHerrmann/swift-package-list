@@ -10,6 +10,9 @@ import Foundation
 /// A package object in the package-list file.
 public struct Package: Sendable, Hashable, Codable {
     
+    /// The kind of package.
+    public let kind: Kind
+    
     /// The package identity based on it's source location.
     public let identity: String
     
@@ -42,6 +45,7 @@ public struct Package: Sendable, Hashable, Codable {
     public let license: String?
     
     public init(
+        kind: Kind,
         identity: String,
         name: String,
         version: String?,
@@ -50,6 +54,7 @@ public struct Package: Sendable, Hashable, Codable {
         location: String,
         license: String?
     ) {
+        self.kind = kind
         self.identity = identity
         self.name = name
         self.version = version
@@ -88,12 +93,38 @@ extension Package {
         license: String?
     ) {
         self.init(
+            kind: Kind(rawValue: ""),
             identity: identity,
             name: name,
             version: version,
             branch: branch,
             revision: revision,
             location: repositoryURL.absoluteString,
+            license: license
+        )
+    }
+}
+
+extension Package {
+    /// Create a package without ``kind``.
+    @available(*, deprecated, message: "There is a new kind property introduced; use the initializer with the kind parameter instead.") // swiftlint:disable:this line_length
+    public init(
+        identity: String,
+        name: String,
+        version: String?,
+        branch: String?,
+        revision: String?,
+        location: String,
+        license: String?
+    ) {
+        self.init(
+            kind: Kind(rawValue: ""),
+            identity: identity,
+            name: name,
+            version: version,
+            branch: branch,
+            revision: revision,
+            location: location,
             license: license
         )
     }

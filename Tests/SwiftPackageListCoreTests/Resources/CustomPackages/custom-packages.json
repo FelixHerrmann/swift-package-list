@@ -2,6 +2,7 @@
     {
         "branch": "branch-test",
         "identity" : "identity-test",
+        "kind" : "remoteSourceControl",
         "license" : "license-test",
         "location" : "location-tes",
         "name" : "name-test",

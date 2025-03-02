@@ -44,7 +44,7 @@ final class PackageResolvedTests: XCTestCase {
         case .v2(let packageResolved_V2):
             XCTAssertEqual(packageResolved_V2.version, 2)
             XCTAssertEqual(packageResolved_V2.pins[0].identity, "swift-package-list")
-            XCTAssertEqual(packageResolved_V2.pins[0].kind, "remoteSourceControl")
+            XCTAssertEqual(packageResolved_V2.pins[0].kind, .remoteSourceControl)
             XCTAssertEqual(packageResolved_V2.pins[0].location, "https://github.com/FelixHerrmann/swift-package-list")
             XCTAssertNil(packageResolved_V2.pins[0].state.branch)
             XCTAssertEqual(packageResolved_V2.pins[0].state.revision, "3a1b45c9e994aebaf47e8c4bd631bd79075f4abb")
@@ -83,7 +83,7 @@ final class PackageResolvedTests: XCTestCase {
         }
         XCTAssertEqual(packageResolved.version, 2)
         XCTAssertEqual(packageResolved.pins[0].identity, "package.in.registry.like.artifactory")
-        XCTAssertEqual(packageResolved.pins[0].kind, "registry")
+        XCTAssertEqual(packageResolved.pins[0].kind, .registry)
         XCTAssertEqual(packageResolved.pins[0].location, "")
         XCTAssertNil(packageResolved.pins[0].state.branch)
         XCTAssertNil(packageResolved.pins[0].state.revision)

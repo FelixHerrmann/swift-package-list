@@ -17,6 +17,7 @@ final class SettingsBundleGeneratorTests: XCTestCase {
         try super.setUpWithError()
         
         let package = Package(
+            kind: .remoteSourceControl,
             identity: "test",
             name: "test",
             version: "1.0.0",
