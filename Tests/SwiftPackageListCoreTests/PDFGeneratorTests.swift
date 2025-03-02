@@ -27,6 +27,7 @@ final class PDFGeneratorTests: XCTestCase {
         let projectType = try XCTUnwrap(ProjectType(fileURL: url))
         let project = try projectType.project(fileURL: url)
         let package = Package(
+            kind: .remoteSourceControl,
             identity: "test",
             name: "test",
             version: "1.0.0",

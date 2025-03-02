@@ -17,6 +17,7 @@ final class PropertyListGeneratorTests: XCTestCase {
         try super.setUpWithError()
         
         let package = Package(
+            kind: .remoteSourceControl,
             identity: "test",
             name: "test",
             version: "1.0.0",
@@ -46,6 +47,8 @@ final class PropertyListGeneratorTests: XCTestCase {
         	<dict>
         		<key>identity</key>
         		<string>test</string>
+        		<key>kind</key>
+        		<string>remoteSourceControl</string>
         		<key>license</key>
         		<string>MIT</string>
         		<key>location</key>

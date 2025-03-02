@@ -83,6 +83,15 @@ extension PackageResolved.Storage {
 }
 
 extension PackageResolved.Storage.V1.Object.Pin {
+    /// Source: https://github.com/apple/swift-package-manager/blob/70862aa31255de0b9240826bfddaa1bb92cefb05/Sources/PackageGraph/ResolvedPackagesStore.swift#L528-L532
+    var kind: Package.Kind {
+        if repositoryURL.starts(with: "/") {
+            return .localSourceControl
+        } else {
+            return .remoteSourceControl
+        }
+    }
+    
     /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
     var identity: String {
         let url: URL
@@ -107,7 +116,7 @@ extension PackageResolved.Storage {
             }
             
             let identity: String
-            let kind: String
+            let kind: Package.Kind
             let location: String
             let state: State
         }
@@ -151,6 +160,7 @@ extension PackageResolved {
             let license = try checkouts.license(location: pin.repositoryURL)
             
             return Package(
+                kind: pin.kind,
                 identity: pin.identity,
                 name: pin.package,
                 version: pin.state.version,
@@ -174,6 +184,7 @@ extension PackageResolved {
             let license = try checkouts.license(location: pin.location)
             
             return Package(
+                kind: pin.kind,
                 identity: pin.identity,
                 name: name,
                 version: pin.state.version,

@@ -200,6 +200,7 @@ To provide custom packages or other items with licenses, you can use the `--cust
     {
         "branch" : null,
         "identity" : "custom-package-example",
+        "kind" : "custom",
         "license" : null,
         "location" : "",
         "name" : "CustomPackageExample",

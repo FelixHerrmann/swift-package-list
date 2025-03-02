@@ -17,6 +17,7 @@ final class JSONGeneratorTests: XCTestCase {
         try super.setUpWithError()
         
         let package = Package(
+            kind: .remoteSourceControl,
             identity: "test",
             name: "test",
             version: "1.0.0",
@@ -42,6 +43,7 @@ final class JSONGeneratorTests: XCTestCase {
         [
           {
             "identity" : "test",
+            "kind" : "remoteSourceControl",
             "license" : "MIT",
             "location" : "https:\\/\\/github.com\\/test\\/test",
             "name" : "test",

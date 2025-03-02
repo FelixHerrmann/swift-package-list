@@ -21,6 +21,7 @@ final class CustomPackagesTests: XCTestCase {
         
         XCTAssertEqual(package.branch, "branch-test")
         XCTAssertEqual(package.identity, "identity-test")
+        XCTAssertEqual(package.kind, .remoteSourceControl)
         XCTAssertEqual(package.license, "license-test")
         XCTAssertEqual(package.location, "location-tes")
         XCTAssertEqual(package.name, "name-test")
