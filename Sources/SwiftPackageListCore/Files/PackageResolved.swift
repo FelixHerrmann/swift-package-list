@@ -94,13 +94,11 @@ extension PackageResolved.Storage.V1.Object.Pin {
     
     /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
     var identity: String {
-        let url: URL
-        if let remoteURL = URL(string: repositoryURL) {
-            url = remoteURL
-        } else {
-            url = URL(fileURLWithPath: repositoryURL)
-        }
-        return url.packageIdentity.lowercased()
+        let url = URL(string: repositoryURL) ?? URL(fileURLWithPath: repositoryURL)
+        return url
+            .deletingGitExtension()
+            .lastPathComponent
+            .lowercased()
     }
 }
 
