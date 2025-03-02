@@ -86,19 +86,35 @@ final class PackageResolvedTests: XCTestCase {
         }
     }
     
-    func testVersion1IdentityConstruction() {
+    func testVersion1Kind() {
         let remotePin = PackageResolved.Storage.V1.Object.Pin(
             package: "",
             repositoryURL: "https://github.com/test/TestRemote.git",
             state: PackageResolved.Storage.V1.Object.Pin.State(branch: nil, revision: "", version: nil)
         )
+        XCTAssertEqual(remotePin.kind, .remoteSourceControl)
+        
         let localPin = PackageResolved.Storage.V1.Object.Pin(
             package: "",
             repositoryURL: "/Users/test/Desktop/TestLocal/",
             state: PackageResolved.Storage.V1.Object.Pin.State(branch: nil, revision: "", version: nil)
         )
-        
+        XCTAssertEqual(localPin.kind, .localSourceControl)
+    }
+    
+    func testVersion1Identity() {
+        let remotePin = PackageResolved.Storage.V1.Object.Pin(
+            package: "",
+            repositoryURL: "https://github.com/test/TestRemote.git",
+            state: PackageResolved.Storage.V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
         XCTAssertEqual(remotePin.identity, "testremote")
+        
+        let localPin = PackageResolved.Storage.V1.Object.Pin(
+            package: "",
+            repositoryURL: "/Users/test/Desktop/TestLocal/",
+            state: PackageResolved.Storage.V1.Object.Pin.State(branch: nil, revision: "", version: nil)
+        )
         XCTAssertEqual(localPin.identity, "testlocal")
     }
 }
