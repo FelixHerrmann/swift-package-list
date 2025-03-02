@@ -9,23 +9,31 @@ import XCTest
 @testable import SwiftPackageListCore
 
 final class URLExtensionTests: XCTestCase {
-    func testPackageIdentity() throws {
-        let plain = try XCTUnwrap(URL(string: "https://github.com/test/test"))
-        XCTAssertEqual(plain.packageIdentity, "test")
-        
-        let plainExtension = try XCTUnwrap(URL(string: "https://github.com/test/test.git"))
-        XCTAssertEqual(plainExtension.packageIdentity, "test")
-        
-        let prefix = try XCTUnwrap(URL(string: "https://github.com/test/swift-test"))
-        XCTAssertEqual(prefix.packageIdentity, "swift-test")
-        
-        let prefixExtension = try XCTUnwrap(URL(string: "https://github.com/test/swift-test.git"))
-        XCTAssertEqual(prefixExtension.packageIdentity, "swift-test")
-        
-        let `extension` = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift"))
-        XCTAssertEqual(`extension`.packageIdentity, "Test.swift")
-        
-        let extensionExtension = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift.git"))
-        XCTAssertEqual(extensionExtension.packageIdentity, "Test.swift")
+    func testDeletingGitExtensionNoExtension() throws {
+        let url = try XCTUnwrap(URL(string: "https://github.com/test/test"))
+            .deletingGitExtension()
+            .absoluteString
+        XCTAssertEqual(url, "https://github.com/test/test")
+    }
+    
+    func testDeletingGitExtensionGitExtension() throws {
+        let url = try XCTUnwrap(URL(string: "https://github.com/test/test.git"))
+            .deletingGitExtension()
+            .absoluteString
+        XCTAssertEqual(url, "https://github.com/test/test")
+    }
+    
+    func testDeletingGitExtensionOtherExtension() throws {
+        let url = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift"))
+            .deletingGitExtension()
+            .absoluteString
+        XCTAssertEqual(url, "https://github.com/test/Test.swift")
+    }
+    
+    func testDeletingGitExtensionMixedExtensions() throws {
+        let url = try XCTUnwrap(URL(string: "https://github.com/test/Test.swift.git"))
+            .deletingGitExtension()
+            .absoluteString
+        XCTAssertEqual(url, "https://github.com/test/Test.swift")
     }
 }

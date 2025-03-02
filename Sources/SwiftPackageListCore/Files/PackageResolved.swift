@@ -94,13 +94,11 @@ extension PackageResolved.Storage.V1.Object.Pin {
     
     /// Source: https://github.com/apple/swift-package-manager/blob/d457fa46b396248e46361776faacb9e0020b92d1/Sources/PackageModel/PackageIdentity.swift#L304
     var identity: String {
-        let url: URL
-        if let remoteURL = URL(string: repositoryURL) {
-            url = remoteURL
-        } else {
-            url = URL(fileURLWithPath: repositoryURL)
-        }
-        return url.packageIdentity.lowercased()
+        let url = URL(string: repositoryURL) ?? URL(fileURLWithPath: repositoryURL)
+        return url
+            .deletingGitExtension()
+            .lastPathComponent
+            .lowercased()
     }
 }
 
@@ -157,7 +155,8 @@ extension PackageResolved {
         let checkouts = sourcePackages.checkouts
         
         return try pins.map { pin -> Package in
-            let license = try checkouts.license(location: pin.repositoryURL)
+            let packageSource = checkouts.packageSource(location: pin.repositoryURL)
+            let license = try packageSource?.license?.content
             
             return Package(
                 kind: pin.kind,
@@ -177,11 +176,25 @@ extension PackageResolved {
         sourcePackages: SourcePackages
     ) throws -> [Package] {
         let checkouts = sourcePackages.checkouts
+        let registryDownloads = sourcePackages.registryDownloads
         let workspaceState = try sourcePackages.workspaceState
         
         return try pins.map { pin -> Package in
             let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
-            let license = try checkouts.license(location: pin.location)
+            
+            let packageSource: PackageSource?
+            switch pin.kind {
+            case .localSourceControl:
+                let url = URL(fileURLWithPath: pin.location)
+                packageSource = PackageSource(url: url)
+            case .remoteSourceControl:
+                packageSource = checkouts.packageSource(location: pin.location)
+            case .registry:
+                packageSource = registryDownloads.packageSource(identity: pin.identity, version: pin.state.version)
+            default:
+                packageSource = nil
+            }
+            let license = try packageSource?.license?.content
             
             return Package(
                 kind: pin.kind,
