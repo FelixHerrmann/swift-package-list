@@ -12,6 +12,23 @@ struct License: File {
 }
 
 extension License {
+    static let allowedFileNames = [
+        "license",
+        "licence",
+        "copying",
+    ]
+    
+    init?(uncheckedURL url: URL) {
+        let fileName = url
+            .deletingPathExtension()
+            .lastPathComponent
+            .lowercased()
+        guard Self.allowedFileNames.contains(fileName) else { return nil }
+        self.init(url: url)
+    }
+}
+
+extension License {
     var content: String {
         get throws {
             return try String(contentsOf: url, encoding: .utf8)
