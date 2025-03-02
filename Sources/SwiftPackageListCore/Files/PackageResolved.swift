@@ -155,7 +155,8 @@ extension PackageResolved {
         let checkouts = sourcePackages.checkouts
         
         return try pins.map { pin -> Package in
-            let license = try checkouts.license(location: pin.repositoryURL)
+            let packageSource = checkouts.packageSource(location: pin.repositoryURL)
+            let license = try packageSource?.license?.content
             
             return Package(
                 kind: pin.kind,
@@ -179,7 +180,9 @@ extension PackageResolved {
         
         return try pins.map { pin -> Package in
             let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
-            let license = try checkouts.license(location: pin.location)
+            
+            let packageSource = checkouts.packageSource(location: pin.location)
+            let license = try packageSource?.license?.content
             
             return Package(
                 kind: pin.kind,
