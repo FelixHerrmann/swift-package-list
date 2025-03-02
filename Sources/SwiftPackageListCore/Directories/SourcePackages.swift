@@ -18,6 +18,13 @@ extension SourcePackages {
         return Checkouts(url: checkoutsURL)
     }
     
+    var registryDownloads: RegistryDownloads {
+        let registryDownloadsURL = url
+            .appendingPathComponent("registry")
+            .appendingPathComponent("downloads")
+        return RegistryDownloads(url: registryDownloadsURL)
+    }
+    
     var workspaceState: WorkspaceState {
         get throws {
             let fileURL = url.appendingPathComponent("workspace-state.json")

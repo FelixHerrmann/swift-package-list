@@ -176,12 +176,24 @@ extension PackageResolved {
         sourcePackages: SourcePackages
     ) throws -> [Package] {
         let checkouts = sourcePackages.checkouts
+        let registryDownloads = sourcePackages.registryDownloads
         let workspaceState = try sourcePackages.workspaceState
         
         return try pins.map { pin -> Package in
             let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
             
-            let packageSource = checkouts.packageSource(location: pin.location)
+            let packageSource: PackageSource?
+            switch pin.kind {
+            case .localSourceControl:
+                let url = URL(fileURLWithPath: pin.location)
+                packageSource = PackageSource(url: url)
+            case .remoteSourceControl:
+                packageSource = checkouts.packageSource(location: pin.location)
+            case .registry:
+                packageSource = registryDownloads.packageSource(identity: pin.identity, version: pin.state.version)
+            default:
+                packageSource = nil
+            }
             let license = try packageSource?.license?.content
             
             return Package(
