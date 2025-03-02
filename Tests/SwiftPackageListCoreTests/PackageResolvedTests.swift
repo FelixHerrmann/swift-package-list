@@ -50,6 +50,28 @@ final class PackageResolvedTests: XCTestCase {
         XCTAssertEqual(storage.pins[2].kind, .registry)
     }
     
+    func testVersion3() throws {
+        let url = Bundle.module.url(
+            forResource: "Package_v3",
+            withExtension: "resolved",
+            subdirectory: "Resources/PackageResolved"
+        )
+        let unwrappedURL = try XCTUnwrap(url)
+        let packageResolved = try PackageResolved(url: unwrappedURL)
+        
+        guard case .v3(let storage) = packageResolved.storage else {
+            XCTFail("\(unwrappedURL.path) was not recognized as v3")
+            return
+        }
+        
+        XCTAssertEqual(storage.version, 3)
+        XCTAssertEqual(storage.originHash, "0000000000000000000000000000000000000000000000000000000000000000")
+        XCTAssertEqual(storage.pins.count, 3)
+        XCTAssertEqual(storage.pins[0].kind, .localSourceControl)
+        XCTAssertEqual(storage.pins[1].kind, .remoteSourceControl)
+        XCTAssertEqual(storage.pins[2].kind, .registry)
+    }
+    
     func testUnsupportedVersion() throws {
         let url = Bundle.module.url(
             forResource: "Package_v999",
