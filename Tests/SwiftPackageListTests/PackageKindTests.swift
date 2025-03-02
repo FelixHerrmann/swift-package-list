@@ -1,6 +1,6 @@
 //
 //  PackageKindTests.swift
-//  SwiftPackageList
+//  SwiftPackageListTests
 //
 //  Created by Felix Herrmann on 02.03.25.
 //

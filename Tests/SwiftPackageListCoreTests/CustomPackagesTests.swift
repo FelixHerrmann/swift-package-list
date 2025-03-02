@@ -1,6 +1,6 @@
 //
 //  CustomPackagesTests.swift
-//  SwiftPackageList
+//  SwiftPackageListCoreTests
 //
 //  Created by Felix Herrmann on 17.02.25.
 //

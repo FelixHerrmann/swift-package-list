@@ -1,6 +1,6 @@
 //
 //  CustomPackages.swift
-//  SwiftPackageList
+//  SwiftPackageListCore
 //
 //  Created by Felix Herrmann on 17.02.25.
 //
