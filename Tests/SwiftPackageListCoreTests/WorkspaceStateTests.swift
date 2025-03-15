@@ -18,16 +18,15 @@ final class WorkspaceStateTests: XCTestCase {
         let unwrappedURL = try XCTUnwrap(url)
         let workspaceState = try WorkspaceState(url: unwrappedURL)
         
-        switch workspaceState.storage {
-        case .v6(let workspaceState_V6):
-            XCTAssertEqual(workspaceState_V6.version, 6)
-            XCTAssertEqual(workspaceState_V6.object.artifacts[0].packageRef.identity, "intercom-ios-sp")
-            XCTAssertEqual(workspaceState_V6.object.artifacts[0].packageRef.name, "Intercom")
-            XCTAssertEqual(workspaceState_V6.object.dependencies[0].packageRef.identity, "collectionconcurrencykit")
-            XCTAssertEqual(workspaceState_V6.object.dependencies[0].packageRef.name, "CollectionConcurrencyKit")
-        default:
+        guard case .v6(let workspaceState_V6) = workspaceState.storage else {
             XCTFail("\(unwrappedURL.path) was not recognized as v6")
+            return
         }
+        XCTAssertEqual(workspaceState_V6.version, 6)
+        XCTAssertEqual(workspaceState_V6.object.artifacts[0].packageRef.identity, "intercom-ios-sp")
+        XCTAssertEqual(workspaceState_V6.object.artifacts[0].packageRef.name, "Intercom")
+        XCTAssertEqual(workspaceState_V6.object.dependencies[0].packageRef.identity, "collectionconcurrencykit")
+        XCTAssertEqual(workspaceState_V6.object.dependencies[0].packageRef.name, "CollectionConcurrencyKit")
     }
     
     func testVersion7() throws {
