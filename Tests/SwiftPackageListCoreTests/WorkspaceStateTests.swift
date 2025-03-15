@@ -30,6 +30,25 @@ final class WorkspaceStateTests: XCTestCase {
         }
     }
     
+    func testVersion7() throws {
+        let url = Bundle.module.url(
+            forResource: "workspace-state_v7",
+            withExtension: "json",
+            subdirectory: "Resources/WorkspaceState"
+        )
+        let unwrappedURL = try XCTUnwrap(url)
+        let workspaceState = try WorkspaceState(url: unwrappedURL)
+        
+        guard case .v7(let workspaceState_V7) = workspaceState.storage else {
+            XCTFail("\(unwrappedURL.path) was not recognized as v7")
+            return
+        }
+        XCTAssertEqual(workspaceState_V7.version, 7)
+        XCTAssertTrue(workspaceState_V7.object.artifacts.isEmpty)
+        XCTAssertEqual(workspaceState_V7.object.dependencies[0].packageRef.identity, "swift-syntax")
+        XCTAssertEqual(workspaceState_V7.object.dependencies[0].packageRef.name, "swift-syntax")
+    }
+    
     func testUnsupportedVersion() throws {
         let url = Bundle.module.url(
             forResource: "workspace-state_v999",

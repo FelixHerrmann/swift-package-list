@@ -1,0 +1,53 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift-syntax",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/swiftlang/swift-syntax.git",
+          "name" : "swift-syntax"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "0687f71944021d616d34d922343dcef086855920",
+            "version" : "600.0.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "swift-syntax"
+      }
+    ],
+    "prebuilts" : [
+      {
+        "cModules" : [
+          "_SwiftSyntaxCShims"
+        ],
+        "identity" : "swift-syntax",
+        "libraryName" : "MacroSupport",
+        "path" : "/Users/test/test-workspace-state-v7/.build/prebuilts/swift-syntax/600.0.1/6.1-MacroSupport-macos_aarch64",
+        "products" : [
+          "SwiftBasicFormat",
+          "SwiftCompilerPlugin",
+          "SwiftDiagnostics",
+          "SwiftIDEUtils",
+          "SwiftOperators",
+          "SwiftParser",
+          "SwiftParserDiagnostics",
+          "SwiftRefactor",
+          "SwiftSyntax",
+          "SwiftSyntaxMacros",
+          "SwiftSyntaxMacroExpansion",
+          "SwiftSyntaxMacrosTestSupport",
+          "SwiftSyntaxMacrosGenericTestSupport"
+        ],
+        "version" : "600.0.1"
+      }
+    ]
+  },
+  "version" : 7
+}
