@@ -27,6 +27,7 @@ extension WorkspaceState {
         case v4(V4)
         case v5(V5)
         case v6(V6)
+        case v7(V7)
     }
 }
 
@@ -50,6 +51,9 @@ extension WorkspaceState.Storage: VersionedFileStorage {
         case 6:
             let v6 = try decoder.decode(V6.self, from: data)
             self = .v6(v6)
+        case 7:
+            let v7 = try decoder.decode(V7.self, from: data)
+            self = .v7(v7)
         default:
             throw RuntimeError("Version \(version.version) of workspace-state.json is not supported")
         }
@@ -137,6 +141,33 @@ extension WorkspaceState.Storage {
     }
 }
 
+// MARK: - V7
+
+extension WorkspaceState.Storage {
+    struct V7: Decodable {
+        struct Object: Decodable {
+            struct Artifact: Decodable {
+                let packageRef: PackageRef
+            }
+            
+            struct Dependency: Decodable {
+                let packageRef: PackageRef
+            }
+            
+            struct PackageRef: Decodable {
+                let identity: String
+                let name: String
+            }
+            
+            let artifacts: [Artifact]
+            let dependencies: [Dependency]
+        }
+        
+        let object: Object
+        let version: Int
+    }
+}
+
 // MARK: - Package Name
 
 extension WorkspaceState {
@@ -164,6 +195,14 @@ extension WorkspaceState {
             }
             
             for dependency in v6.object.dependencies where dependency.packageRef.identity == identity {
+                return dependency.packageRef.name
+            }
+        case .v7(let v7):
+            for artifact in v7.object.artifacts where artifact.packageRef.identity == identity {
+                return artifact.packageRef.name
+            }
+            
+            for dependency in v7.object.dependencies where dependency.packageRef.identity == identity {
                 return dependency.packageRef.name
             }
         }
