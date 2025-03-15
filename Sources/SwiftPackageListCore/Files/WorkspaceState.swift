@@ -174,37 +174,60 @@ extension WorkspaceState {
     func packageName(for identity: String) -> String? {
         switch self.storage {
         case .v4(let v4):
-            for artifact in v4.object.artifacts where artifact.packageRef.identity == identity {
-                return artifact.packageRef.name
-            }
-            
-            for dependency in v4.object.dependencies where dependency.packageRef.identity == identity {
-                return dependency.packageRef.name
-            }
+            return v4.packageName(for: identity)
         case .v5(let v5):
-            for artifact in v5.object.artifacts where artifact.packageRef.identity == identity {
-                return artifact.packageRef.name
-            }
-            
-            for dependency in v5.object.dependencies where dependency.packageRef.identity == identity {
-                return dependency.packageRef.name
-            }
+            return v5.packageName(for: identity)
         case .v6(let v6):
-            for artifact in v6.object.artifacts where artifact.packageRef.identity == identity {
-                return artifact.packageRef.name
-            }
-            
-            for dependency in v6.object.dependencies where dependency.packageRef.identity == identity {
-                return dependency.packageRef.name
-            }
+            return v6.packageName(for: identity)
         case .v7(let v7):
-            for artifact in v7.object.artifacts where artifact.packageRef.identity == identity {
-                return artifact.packageRef.name
-            }
-            
-            for dependency in v7.object.dependencies where dependency.packageRef.identity == identity {
-                return dependency.packageRef.name
-            }
+            return v7.packageName(for: identity)
+        }
+    }
+}
+
+extension WorkspaceState.Storage.V4 {
+    func packageName(for identity: String) -> String? {
+        for artifact in object.artifacts where artifact.packageRef.identity == identity {
+            return artifact.packageRef.name
+        }
+        for dependency in object.dependencies where dependency.packageRef.identity == identity {
+            return dependency.packageRef.name
+        }
+        return nil
+    }
+}
+
+extension WorkspaceState.Storage.V5 {
+    func packageName(for identity: String) -> String? {
+        for artifact in object.artifacts where artifact.packageRef.identity == identity {
+            return artifact.packageRef.name
+        }
+        for dependency in object.dependencies where dependency.packageRef.identity == identity {
+            return dependency.packageRef.name
+        }
+        return nil
+    }
+}
+
+extension WorkspaceState.Storage.V6 {
+    func packageName(for identity: String) -> String? {
+        for artifact in object.artifacts where artifact.packageRef.identity == identity {
+            return artifact.packageRef.name
+        }
+        for dependency in object.dependencies where dependency.packageRef.identity == identity {
+            return dependency.packageRef.name
+        }
+        return nil
+    }
+}
+
+extension WorkspaceState.Storage.V7 {
+    func packageName(for identity: String) -> String? {
+        for artifact in object.artifacts where artifact.packageRef.identity == identity {
+            return artifact.packageRef.name
+        }
+        for dependency in object.dependencies where dependency.packageRef.identity == identity {
+            return dependency.packageRef.name
         }
         return nil
     }
