@@ -23,7 +23,7 @@ extension SwiftPackageListPlugin.Error: CustomDebugStringConvertible {
         case .configurationInvalid(path: let path, underlyingError: let error):
             return "The configuration at \(path.string) has an invalid format: \(error)"
         case .sourcePackagesNotFound(pluginWorkDirectory: let directory):
-            return "SourcePackages directory not found in \(directory.string)"
+            return "SourcePackages directory not found from \(directory.string)"
         }
     }
 }

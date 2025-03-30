@@ -53,12 +53,18 @@ struct SwiftPackageListPlugin: Plugin {
     
     private func sourcePackagesDirectory(pluginWorkDirectory: Path) throws -> Path {
         var path = pluginWorkDirectory
-        while path.lastComponent != "SourcePackages" {
+        var projectDirectory: String?
+        while path.lastComponent != "DerivedData" {
             guard path.string != "/" else {
                 throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
             }
+            projectDirectory = path.lastComponent
             path = path.removingLastComponent()
         }
-        return path
+        
+        guard let projectDirectory else {
+            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
+        }
+        return path.appending([projectDirectory, "SourcePackages"])
     }
 }
