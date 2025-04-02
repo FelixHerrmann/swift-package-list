@@ -68,10 +68,10 @@ struct SwiftPackageListPlugin: Plugin {
         }
         let possibleSourcePackagesPaths = [
             path.appending([projectDirectory, "SourcePackages"]),
-            path.appending("SourcePackages")
+            path.appending("SourcePackages"),
         ]
-        let sourcePackagesPath = possibleSourcePackagesPaths.first {
-            FileManager.default.fileExists(atPath: $0.string)
+        let sourcePackagesPath = possibleSourcePackagesPaths.first { path in
+            return FileManager.default.fileExists(atPath: path.string)
         }
         guard let sourcePackagesPath else {
             throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
