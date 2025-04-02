@@ -5,6 +5,7 @@
 //  Created by Felix Herrmann on 03.02.24.
 //
 
+import Foundation
 import PackagePlugin
 
 @main
@@ -65,6 +66,16 @@ struct SwiftPackageListPlugin: Plugin {
         guard let projectDirectory else {
             throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
         }
-        return path.appending([projectDirectory, "SourcePackages"])
+        let possibleSourcePackagesPaths = [
+            path.appending([projectDirectory, "SourcePackages"]),
+            path.appending("SourcePackages"),
+        ]
+        let sourcePackagesPath = possibleSourcePackagesPaths.first { path in
+            return FileManager.default.fileExists(atPath: path.string)
+        }
+        guard let sourcePackagesPath else {
+            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
+        }
+        return sourcePackagesPath
     }
 }
