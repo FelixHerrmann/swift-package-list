@@ -16,7 +16,10 @@ struct SwiftPackageListPlugin: Plugin {
         projectPath: Path,
         pluginWorkDirectory: Path
     ) throws -> [Command] {
-        let sourcePackagesPath = try sourcePackagesDirectory(pluginWorkDirectory: pluginWorkDirectory)
+        let sourcePackagesPath = try sourcePackagesDirectory(
+            pluginWorkDirectory: pluginWorkDirectory,
+            customSourcePackagesDirectory: targetConfiguration?.customSourcePackagesPath
+        )
         let outputType = targetConfiguration?.outputType ?? .json
         let outputPath = pluginWorkDirectory
         let requiresLicense = targetConfiguration?.requiresLicense ?? true
@@ -52,7 +55,10 @@ struct SwiftPackageListPlugin: Plugin {
         ]
     }
     
-    private func sourcePackagesDirectory(pluginWorkDirectory: Path) throws -> Path {
+    private func sourcePackagesDirectory(
+        pluginWorkDirectory: Path,
+        customSourcePackagesDirectory: Path?
+    ) throws -> Path {
         var path = pluginWorkDirectory
         var projectDirectory: String?
         while path.lastComponent != "DerivedData" {
@@ -66,10 +72,13 @@ struct SwiftPackageListPlugin: Plugin {
         guard let projectDirectory else {
             throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
         }
-        let possibleSourcePackagesPaths = [
+        var possibleSourcePackagesPaths = [
             path.appending([projectDirectory, "SourcePackages"]),
             path.appending("SourcePackages"),
         ]
+        if let customSourcePackagesDirectory {
+            possibleSourcePackagesPaths.append(customSourcePackagesDirectory)
+        }
         let sourcePackagesPath = possibleSourcePackagesPaths.first { path in
             return FileManager.default.fileExists(atPath: path.string)
         }

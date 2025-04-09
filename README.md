@@ -85,7 +85,8 @@ By default this will use the JSON output with `--requires-license` but you can c
             ],
             "customPackagesFilePaths" : [
                 "custom-packages.json",
-            ]
+            ],
+            "customSourcePackagesPath" : "./SourcePackages"
         }
     }
 }
