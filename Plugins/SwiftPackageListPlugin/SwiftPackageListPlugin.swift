@@ -54,28 +54,13 @@ struct SwiftPackageListPlugin: Plugin {
     
     private func sourcePackagesDirectory(pluginWorkDirectory: Path) throws -> Path {
         var path = pluginWorkDirectory
-        var projectDirectory: String?
-        while path.lastComponent != "DerivedData" {
-            guard path.string != "/" else {
-                throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
+        while path.string != "/" {
+            let potentialLocation = path.appending(subpath: "SourcePackages")
+            if FileManager.default.fileExists(atPath: potentialLocation.string) {
+                return potentialLocation
             }
-            projectDirectory = path.lastComponent
             path = path.removingLastComponent()
         }
-        
-        guard let projectDirectory else {
-            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
-        }
-        let possibleSourcePackagesPaths = [
-            path.appending([projectDirectory, "SourcePackages"]),
-            path.appending("SourcePackages"),
-        ]
-        let sourcePackagesPath = possibleSourcePackagesPaths.first { path in
-            return FileManager.default.fileExists(atPath: path.string)
-        }
-        guard let sourcePackagesPath else {
-            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
-        }
-        return sourcePackagesPath
+        throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
     }
 }
