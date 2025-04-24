@@ -83,6 +83,7 @@ By default this will use the JSON output with `--requires-license` but you can c
                 "swift-package-list",
                 "swift-argument-parser",
             ],
+            "customSourcePackagesPath" : ".derivedData/SourcePackages",
             "customPackagesFilePaths" : [
                 "custom-packages.json",
             ]
