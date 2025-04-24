@@ -16,7 +16,6 @@ struct SwiftPackageListPlugin: Plugin {
         projectPath: Path,
         pluginWorkDirectory: Path
     ) throws -> [Command] {
-        let sourcePackagesPath = try sourcePackagesDirectory(pluginWorkDirectory: pluginWorkDirectory)
         let outputType = targetConfiguration?.outputType ?? .json
         let outputPath = pluginWorkDirectory
         let requiresLicense = targetConfiguration?.requiresLicense ?? true
@@ -42,7 +41,6 @@ struct SwiftPackageListPlugin: Plugin {
                 executable: executable,
                 arguments: [
                     projectPath,
-                    "--custom-source-packages-path", sourcePackagesPath,
                     "--output-type", outputType.rawValue,
                     "--output-path", outputPath,
                     requiresLicense ? "--requires-license" : "",
@@ -50,32 +48,5 @@ struct SwiftPackageListPlugin: Plugin {
                 outputFiles: outputFiles
             )
         ]
-    }
-    
-    private func sourcePackagesDirectory(pluginWorkDirectory: Path) throws -> Path {
-        var path = pluginWorkDirectory
-        var projectDirectory: String?
-        while path.lastComponent != "DerivedData" {
-            guard path.string != "/" else {
-                throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
-            }
-            projectDirectory = path.lastComponent
-            path = path.removingLastComponent()
-        }
-        
-        guard let projectDirectory else {
-            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
-        }
-        let possibleSourcePackagesPaths = [
-            path.appending([projectDirectory, "SourcePackages"]),
-            path.appending("SourcePackages"),
-        ]
-        let sourcePackagesPath = possibleSourcePackagesPaths.first { path in
-            return FileManager.default.fileExists(atPath: path.string)
-        }
-        guard let sourcePackagesPath else {
-            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
-        }
-        return sourcePackagesPath
     }
 }
