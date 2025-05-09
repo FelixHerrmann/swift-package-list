@@ -64,30 +64,33 @@ The easiest way to add this tool to your project is using the provided build-too
 For Xcode projects simply add it under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies; for Swift packages configure it in the `Package.swift` manifest, as described [here](https://github.com/apple/swift-package-manager/blob/main/Documentation/Plugins.md#using-a-package-plugin).
 
 By default this will use the JSON output with `--requires-license` but you can create a `swift-package-list-config.json` in your project's root to configure that behavior, both project and target specific (target configs have precedence over the project one). Everything in the configuration is optional and has the following format:
-```json
+```json5
+// SwiftPackageList configuration file
+// Check out https://github.com/FelixHerrmann/swift-package-list#build-tool-plugin for all possible configuration options.
+
 {
-    "projectPath" : "Project.xcworkspace",
-    "project" : {
-        "outputType" : "plist",
-        "requiresLicense" : false
+    projectPath: "Project.xcworkspace",
+    project: {
+        outputType: "plist",
+        requiresLicense: false,
     },
-    "targets" : {
-        "Target 1" : {
-            "outputType" : "settings-bundle",
-            "requiresLicense" : true
+    targets: {
+        "Target 1": {
+            outputType: "settings-bundle",
+            requiresLicense: true,
         },
-        "Target 2" : {
-            "outputType" : "json",
-            "requiresLicense" : true,
-            "ignorePackages" : [
+        "Target 2": {
+            outputType: "json",
+            requiresLicense: true,
+            ignorePackages: [
                 "swift-package-list",
                 "swift-argument-parser",
             ],
-            "customPackagesFilePaths" : [
+            customPackagesFilePaths: [
                 "custom-packages.json",
-            ]
-        }
-    }
+            ],
+        },
+    },
 }
 ```
 
