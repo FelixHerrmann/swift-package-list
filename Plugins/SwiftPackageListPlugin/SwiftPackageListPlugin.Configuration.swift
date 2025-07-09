@@ -70,6 +70,7 @@ extension SwiftPackageListPlugin.Configuration {
         }
         
         let decoder = JSONDecoder()
+        decoder.allowsJSON5 = true
         do {
             self = try decoder.decode(SwiftPackageListPlugin.Configuration.self, from: data)
         } catch {
