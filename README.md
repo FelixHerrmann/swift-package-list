@@ -40,7 +40,9 @@ Currently supported are:
 - `*.xcworkspace` for Xcode workspaces
 - `Package.swift` for Swift packages
 - `Project.swift` for Tuist projects
-- `Dependencies.swift` for Tuist projects with [external dependencies](https://docs.old.tuist.io/guides/third-party-dependencies)
+- Tuist with [external dependencies](https://docs.tuist.dev/en/guides/features/projects/dependencies#external-dependencies)
+    - Tuist 4.x: `swift-package-list Package.swift --custom-source-packages-path .build` (in the `Tuist` folder)
+    - Tuist 3.x: `swift-package-list Dependencies.swift` 
 
 In addition to that you can specify the following options:
 
