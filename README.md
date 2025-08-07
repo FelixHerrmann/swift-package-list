@@ -28,6 +28,12 @@ brew install swift-package-list
 mint install FelixHerrmann/swift-package-list
 ```
 
+#### Using [Mise](https://mise.jdx.dev/dev-tools/backends/spm.html)
+
+```shell
+mise use spm:tuist/tuist
+```
+
 #### Installing from source:
 
 Clone or download this repository and run `make install`, `make update` or `make uninstall`.
