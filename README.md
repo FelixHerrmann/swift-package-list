@@ -31,7 +31,7 @@ mint install FelixHerrmann/swift-package-list
 #### Using [Mise](https://mise.jdx.dev/dev-tools/backends/spm.html)
 
 ```shell
-mise use spm:tuist/tuist
+mise use spm:FelixHerrmann/swift-package-list
 ```
 
 #### Installing from source:
