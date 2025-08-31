@@ -162,6 +162,17 @@ There are 2 easy ways to fix this issue:
 - add `export PATH="$PATH:$HOME/.mint/bin/"` as the first line to your build script
 - execute `ln -s $HOME/.mint/bin/swift-package-list /usr/local/bin/swift-package-list` in your Terminal
 
+### Tuist
+
+This tool supports the following [Tuist external dependency](https://docs.tuist.dev/en/guides/features/projects/dependencies#external-dependencies) setups:
+
+| Setup                                                                                                                          | Command                                                                             |
+|--------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| [XcodeProj-based](https://docs.tuist.dev/en/guides/features/projects/dependencies#tuists-xcodeprojbased-integration) at root   | `swift-package-list Package.swift --custom-source-packages-path .build`             |
+| [XcodeProj-based](https://docs.tuist.dev/en/guides/features/projects/dependencies#tuists-xcodeprojbased-integration) at /Tuist | `swift-package-list Tuist/Package.swift --custom-source-packages-path Tuist/.build` |
+| [Xcode's default](https://docs.tuist.dev/en/guides/features/projects/dependencies#xcodes-default-integration)                  | `swift-package-list Project.swift`                                                  |
+| Tuist 3 with external dependencies (deprecated)                                                                                | `swift-package-list Dependencies.swift`                                             |
+
 ### Settings Bundle
 
 You can also generate a `Settings.bundle` file to show the acknowledgements in the Settings app. This works slightly different
