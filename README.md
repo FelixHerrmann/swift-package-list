@@ -46,7 +46,7 @@ Currently supported are:
 - `*.xcworkspace` for Xcode workspaces
 - `Package.swift` for Swift packages
 - `Project.swift` for Tuist projects
-- `Dependencies.swift` for Tuist projects with [external dependencies](https://docs.old.tuist.io/guides/third-party-dependencies)
+- `Dependencies.swift` for Tuist 3 projects with external dependencies (deprecated)
 
 In addition to that you can specify the following options:
 
