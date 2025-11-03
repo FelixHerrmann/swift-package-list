@@ -67,7 +67,7 @@ In addition to that you can specify the following options:
 
 The easiest way to add this tool to your project is using the provided build-tool plugin, available for both Xcode projects and Swift packages.
 
-For Xcode projects simply add it under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies; for Swift packages configure it in the `Package.swift` manifest, as described [here](https://github.com/apple/swift-package-manager/blob/main/Documentation/Plugins.md#using-a-package-plugin).
+For Xcode projects simply add it under the `Run Build Tool Plug-ins` section in the Target's Build Phases tab after you have added this package to the project's Package Dependencies; for Swift packages configure it in the `Package.swift` manifest, as described [here](https://docs.swift.org/swiftpm/documentation/packagemanagerdocs/enablebuildplugin).
 
 By default this will use the JSON output with `--requires-license` but you can create a `swift-package-list-config.json` in your project's root to configure that behavior, both project and target specific (target configs have precedence over the project one). Everything in the configuration is optional and has the following format:
 ```json5
