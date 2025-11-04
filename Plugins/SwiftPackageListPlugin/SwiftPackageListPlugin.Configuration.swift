@@ -22,6 +22,7 @@ extension SwiftPackageListPlugin.Configuration {
         let requiresLicense: Bool? // swiftlint:disable:this discouraged_optional_boolean
         let ignorePackages: [String]? // swiftlint:disable:this discouraged_optional_collection
         let customPackagesFilePaths: [String]? // swiftlint:disable:this discouraged_optional_collection
+        let customSourcePackagesPath: Path?
     }
 }
 
