@@ -37,4 +37,13 @@ struct XcodeProject: NativeProject {
             return try PackageResolved(url: url)
         }
     }
+    
+    var configuration: Configuration? {
+        let url = fileURL
+            .appendingPathComponent("project.xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("configuration")
+        return Configuration(url: url)
+    }
 }
