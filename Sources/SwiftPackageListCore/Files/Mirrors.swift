@@ -7,6 +7,8 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name type_name
+
 struct Mirrors: VersionedFile {
     let url: URL
     let storage: Storage
@@ -65,7 +67,10 @@ extension Mirrors {
     func mirror(for location: String) -> String? {
         switch storage {
         case .v1(let v1):
-            return v1.object.first(where: { $0.original == location })?.mirror
+            let object = v1.object.first { $0.original == location }
+            return object?.mirror
         }
     }
 }
+
+// swiftlint:enable identifier_name type_name
