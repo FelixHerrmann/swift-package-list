@@ -41,6 +41,6 @@ extension NativeProject {
             sourcePackages = SourcePackages(url: sourcePackagesDirectory)
         }
         
-        return try packageResolved.packages(in: sourcePackages)
+        return try packageResolved.packages(in: sourcePackages, configuration: configuration)
     }
 }
