@@ -27,4 +27,11 @@ struct SwiftPackage: NativeProject {
             return try PackageResolved(url: url)
         }
     }
+    
+    var configuration: Configuration? {
+        let url = workspaceURL
+            .appendingPathComponent(".swiftpm")
+            .appendingPathComponent("configuration")
+        return Configuration(url: url)
+    }
 }

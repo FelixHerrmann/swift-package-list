@@ -1,0 +1,13 @@
+{
+    "object" : [
+        {
+            "mirror" : "https://github.com/example/swift-package-list",
+            "original" : "https://github.com/FelixHerrmann/swift-package-list"
+        },
+        {
+            "mirror" : "/Users/example/test",
+            "original" : "https://github.com/FelixHerrmann/test"
+        }
+    ],
+    "version" : 1
+}

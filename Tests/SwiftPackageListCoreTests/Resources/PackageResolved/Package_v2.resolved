@@ -3,7 +3,7 @@
         {
             "identity" : "swift-package-list",
             "kind" : "localSourceControl",
-            "location" : "Users/example/swift-package-list",
+            "location" : "/Users/example/swift-package-list",
             "state" : {
                 "revision" : "3a1b45c9e994aebaf47e8c4bd631bd79075f4abb",
                 "version" : "1.0.1"

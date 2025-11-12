@@ -137,14 +137,14 @@ extension PackageResolved.Storage {
 // MARK: - Packages
 
 extension PackageResolved {
-    func packages(in sourcePackages: SourcePackages) throws -> [Package] {
+    func packages(in sourcePackages: SourcePackages, configuration: Configuration?) throws -> [Package] {
         switch self.storage {
         case .v1(let packageResolved):
             return try packages(pins: packageResolved.object.pins, sourcePackages: sourcePackages)
         case .v2(let packageResolved):
-            return try packages(pins: packageResolved.pins, sourcePackages: sourcePackages)
+            return try packages(pins: packageResolved.pins, sourcePackages: sourcePackages, configuration: configuration)
         case .v3(let packageResolved):
-            return try packages(pins: packageResolved.pins, sourcePackages: sourcePackages)
+            return try packages(pins: packageResolved.pins, sourcePackages: sourcePackages, configuration: configuration)
         }
     }
     
@@ -173,22 +173,25 @@ extension PackageResolved {
     
     private func packages(
         pins: [PackageResolved.Storage.V2.Pin],
-        sourcePackages: SourcePackages
+        sourcePackages: SourcePackages,
+        configuration: Configuration?
     ) throws -> [Package] {
         let checkouts = sourcePackages.checkouts
         let registryDownloads = sourcePackages.registryDownloads
         let workspaceState = try sourcePackages.workspaceState
+        let mirrors = try configuration?.mirrors
         
         return try pins.map { pin -> Package in
             let name = workspaceState.packageName(for: pin.identity) ?? pin.identity
+            let location = mirrors?.mirror(for: pin.location) ?? pin.location
             
             let packageSource: PackageSource?
             switch pin.kind {
             case .localSourceControl:
-                let url = URL(fileURLWithPath: pin.location)
+                let url = URL(fileURLWithPath: location)
                 packageSource = PackageSource(url: url)
             case .remoteSourceControl:
-                packageSource = checkouts.packageSource(location: pin.location)
+                packageSource = checkouts.packageSource(location: location)
             case .registry:
                 packageSource = registryDownloads.packageSource(identity: pin.identity, version: pin.state.version)
             default:

@@ -27,6 +27,13 @@ final class ProjectTests: XCTestCase {
             .appendingPathComponent("Package.resolved")
         XCTAssertEqual(try xcodeProject.packageResolved.url, expectedPackageResolvedFileURL)
         
+        let expectedConfigurationDirectoryURL = unwrappedURL
+            .appendingPathComponent("project.xcworkspace")
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("configuration")
+        XCTAssertEqual(xcodeProject.configuration?.url, expectedConfigurationDirectoryURL)
+        
         XCTAssertEqual(xcodeProject.name, "Project")
         XCTAssertEqual(xcodeProject.organizationName, "SwiftPackageList")
     }
@@ -52,6 +59,12 @@ final class ProjectTests: XCTestCase {
             .appendingPathComponent("Package.resolved")
         XCTAssertEqual(try xcodeWorkspace.packageResolved.url, expectedPackageResolvedFileURL)
         
+        let expectedConfigurationDirectoryURL = unwrappedURL
+            .appendingPathComponent("xcshareddata")
+            .appendingPathComponent("swiftpm")
+            .appendingPathComponent("configuration")
+        XCTAssertEqual(xcodeWorkspace.configuration?.url, expectedConfigurationDirectoryURL)
+        
         XCTAssertEqual(xcodeWorkspace.name, "Workspace")
         XCTAssertEqual(xcodeWorkspace.organizationName, "SwiftPackageList")
     }
@@ -70,6 +83,12 @@ final class ProjectTests: XCTestCase {
             .deletingLastPathComponent()
             .appendingPathComponent("Package.resolved")
         XCTAssertEqual(try swiftPackage.packageResolved.url, expectedPackageResolvedFileURL)
+        
+        let expectedConfigurationDirectoryURL = unwrappedURL
+            .deletingLastPathComponent()
+            .appendingPathComponent(".swiftpm")
+            .appendingPathComponent("configuration")
+        XCTAssertEqual(swiftPackage.configuration?.url, expectedConfigurationDirectoryURL)
         
         XCTAssertEqual(swiftPackage.name, "SwiftPackage")
         XCTAssertNil(swiftPackage.organizationName)

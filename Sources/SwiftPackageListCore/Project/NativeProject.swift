@@ -11,9 +11,14 @@ import SwiftPackageList
 protocol NativeProject: Project {
     var workspaceURL: URL { get }
     var packageResolved: PackageResolved { get throws }
+    var configuration: Configuration? { get }
 }
 
 extension NativeProject {
+    var configuration: Configuration? {
+        return nil
+    }
+    
     func packages() throws -> [Package] {
         let packageResolved = try packageResolved
         
@@ -36,6 +41,6 @@ extension NativeProject {
             sourcePackages = SourcePackages(url: sourcePackagesDirectory)
         }
         
-        return try packageResolved.packages(in: sourcePackages)
+        return try packageResolved.packages(in: sourcePackages, configuration: configuration)
     }
 }
