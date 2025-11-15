@@ -19,6 +19,7 @@ extension SwiftPackageListPlugin {
 extension SwiftPackageListPlugin.Configuration {
     struct TargetConfiguration: Decodable {
         let outputType: OutputType?
+        let packageOrder: PackageOrder?
         let requiresLicense: Bool? // swiftlint:disable:this discouraged_optional_boolean
         let ignorePackages: [String]? // swiftlint:disable:this discouraged_optional_collection
         let customPackagesFilePaths: [String]? // swiftlint:disable:this discouraged_optional_collection
@@ -32,6 +33,14 @@ extension SwiftPackageListPlugin.Configuration {
         case plist
         case settingsBundle = "settings-bundle"
         case pdf
+    }
+    
+    enum PackageOrder: String, Decodable {
+        case source
+        case nameAscending = "name-ascending"
+        case nameDescending = "name-descending"
+        case identityAscending = "identity-ascending"
+        case identityDescending = "identity-descending"
     }
 }
 
