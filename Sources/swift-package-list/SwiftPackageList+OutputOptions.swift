@@ -24,6 +24,9 @@ extension SwiftPackageList {
         @Option(help: "A custom filename to be used instead of the default ones.")
         var customFileName: String?
         
+        @Option(help: "The order in which the packages will be listed.")
+        var packageOrder: PackageOrder = .source
+        
         @Flag(help: "Will skip the packages without a license-file.")
         var requiresLicense = false
         
@@ -39,6 +42,16 @@ extension SwiftPackageList {
 }
 
 extension SwiftPackageList.OutputOptions {
+    enum PackageOrder: String, CaseIterable, ExpressibleByArgument {
+        case source
+        case nameAscending = "name-ascending"
+        case nameDescending = "name-descending"
+        case identityAscending = "identity-ascending"
+        case identityDescending = "identity-descending"
+    }
+}
+
+extension SwiftPackageList.OutputOptions {
     var outputGeneratorOptions: OutputGeneratorOptions {
         let outputURL = outputPath.map { URL(fileURLWithPath: $0) }
         return OutputGeneratorOptions(outputURL: outputURL, customFileName: customFileName)
@@ -49,5 +62,20 @@ extension SwiftPackageList.OutputOptions {
     func filter(package: Package) -> Bool {
         if requiresLicense && !package.hasLicense { return false }
         return !ignoredPackageIdentities.contains(package.identity)
+    }
+    
+    func sort(lhs: Package, rhs: Package) -> Bool {
+        switch packageOrder {
+        case .source:
+            return false
+        case .nameAscending:
+            return lhs.name.lowercased() < rhs.name.lowercased()
+        case .nameDescending:
+            return lhs.name.lowercased() > rhs.name.lowercased()
+        case .identityAscending:
+            return lhs.identity.lowercased() < rhs.identity.lowercased()
+        case .identityDescending:
+            return lhs.identity.lowercased() > rhs.identity.lowercased()
+        }
     }
 }

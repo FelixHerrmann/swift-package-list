@@ -19,6 +19,7 @@ struct SwiftPackageListPlugin: Plugin {
         let sourcePackagesPath = try sourcePackagesDirectory(pluginWorkDirectory: pluginWorkDirectory)
         let outputType = targetConfiguration?.outputType ?? .json
         let outputPath = pluginWorkDirectory
+        let packageOrder = targetConfiguration?.packageOrder ?? .source
         let requiresLicense = targetConfiguration?.requiresLicense ?? true
         
         let ignorePackageArguments: [String] = targetConfiguration?.ignorePackages?.flatMap { identity in
@@ -45,6 +46,7 @@ struct SwiftPackageListPlugin: Plugin {
                     "--custom-source-packages-path", sourcePackagesPath,
                     "--output-type", outputType.rawValue,
                     "--output-path", outputPath,
+                    "--package-order", packageOrder.rawValue,
                     requiresLicense ? "--requires-license" : "",
                 ] + ignorePackageArguments + customPackagesFilePathArguments,
                 outputFiles: outputFiles
