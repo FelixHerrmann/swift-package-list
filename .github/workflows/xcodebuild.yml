@@ -37,7 +37,7 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build Scheme
         run: |
           xcodebuild \
@@ -52,7 +52,7 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install Tuist
         run: brew install tuist
       - name: Run tests
