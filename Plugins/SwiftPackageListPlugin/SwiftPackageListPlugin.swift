@@ -16,7 +16,10 @@ struct SwiftPackageListPlugin: Plugin {
         projectPath: Path,
         pluginWorkDirectory: Path
     ) throws -> [Command] {
-        let sourcePackagesPath = try sourcePackagesDirectory(pluginWorkDirectory: pluginWorkDirectory)
+        let sourcePackagesPath = try sourcePackagesDirectory(
+            pluginWorkDirectory: pluginWorkDirectory,
+            customSourcePackagesDirectory: targetConfiguration?.customSourcePackagesPath
+        )
         let outputType = targetConfiguration?.outputType ?? .json
         let outputPath = pluginWorkDirectory
         let packageOrder = targetConfiguration?.packageOrder ?? .source
@@ -54,7 +57,10 @@ struct SwiftPackageListPlugin: Plugin {
         ]
     }
     
-    private func sourcePackagesDirectory(pluginWorkDirectory: Path) throws -> Path {
+    private func sourcePackagesDirectory(
+        pluginWorkDirectory: Path,
+        customSourcePackagesDirectory: Path?
+    ) throws -> Path {
         var path = pluginWorkDirectory
         while path.string != "/" {
             let potentialLocation = path.appending(subpath: "SourcePackages")
@@ -63,6 +69,23 @@ struct SwiftPackageListPlugin: Plugin {
             }
             path = path.removingLastComponent()
         }
-        throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
+
+        guard let projectDirectory else {
+            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
+        }
+        var possibleSourcePackagesPaths = [
+            path.appending([projectDirectory, "SourcePackages"]),
+            path.appending("SourcePackages"),
+        ]
+        if let customSourcePackagesDirectory {
+            possibleSourcePackagesPaths.append(customSourcePackagesDirectory)
+        }
+        let sourcePackagesPath = possibleSourcePackagesPaths.first { path in
+            return FileManager.default.fileExists(atPath: path.string)
+        }
+        guard let sourcePackagesPath else {
+            throw SwiftPackageListPlugin.Error.sourcePackagesNotFound(pluginWorkDirectory: pluginWorkDirectory)
+        }
+        return sourcePackagesPath
     }
 }
