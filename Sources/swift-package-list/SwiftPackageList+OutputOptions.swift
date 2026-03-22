@@ -38,6 +38,16 @@ extension SwiftPackageList {
             )
         )
         var ignoredPackageIdentities: [String] = []
+        
+        @Option(
+            name: .customLong("include-package"),
+            help: ArgumentHelp(
+                "Will include a package with the specified identity. Use when there are fewer to include than to ignore. " +
+                "(This option may be repeated multiple times)",
+                valueName: "package-identity"
+            )
+        )
+        var includedPackageIdentities: [String] = []
     }
 }
 
@@ -61,6 +71,9 @@ extension SwiftPackageList.OutputOptions {
 extension SwiftPackageList.OutputOptions {
     func filter(package: Package) -> Bool {
         if requiresLicense && !package.hasLicense { return false }
+        if !includedPackageIdentities.isEmpty {
+            return includedPackageIdentities.contains(package.identity) && !ignoredPackageIdentities.contains(package.identity)
+        }
         return !ignoredPackageIdentities.contains(package.identity)
     }
     

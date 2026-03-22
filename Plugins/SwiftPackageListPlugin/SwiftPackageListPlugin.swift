@@ -26,6 +26,10 @@ struct SwiftPackageListPlugin: Plugin {
             return ["--ignore-package", identity]
         } ?? []
         
+        let includePackageArguments: [String] = targetConfiguration?.includePackages?.flatMap { identity in
+            return ["--include-package", identity]
+        } ?? []
+        
         let customPackagesFilePathArguments: [String] = targetConfiguration?.customPackagesFilePaths?.flatMap { filePath in
             return ["--custom-packages-file-path", filePath]
         } ?? []
