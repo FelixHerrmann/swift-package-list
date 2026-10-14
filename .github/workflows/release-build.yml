@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   release-build:
     name: Release Build
@@ -22,6 +25,12 @@ jobs:
           --product swift-package-list \
           --arch arm64 \
           --arch x86_64
+      - name: Upload executable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-package-list-release
+          path: .build/apple/Products/Release/swift-package-list
+          if-no-files-found: error
       - name: Archive executable
         run: |
           tar -c -v -z \
@@ -63,3 +72,127 @@ jobs:
           commit-message: Bump swift-package-list to ${{ env.TAG }}
           labels: release, automated pr
           delete-branch: true
+  
+  release-artifactbundle:
+    name: Release Artifact Bundle
+    runs-on: macos-latest
+    needs: release-build
+    env:
+      TAG: ${{ github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download executable artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: swift-package-list-release
+          path: release-build-output
+
+      - name: Create artifactbundle
+        run: |
+          mkdir -p SwiftPackageListBinary.artifactbundle/swift-package-list-macos/bin
+          cp release-build-output/swift-package-list \
+            SwiftPackageListBinary.artifactbundle/swift-package-list-macos/bin/swift-package-list
+          chmod +x SwiftPackageListBinary.artifactbundle/swift-package-list-macos/bin/swift-package-list
+
+          cat > SwiftPackageListBinary.artifactbundle/info.json << EOF
+          {
+            "schemaVersion": "1.0",
+            "artifacts": {
+              "swift-package-list": {
+                "type": "executable",
+                "version": "${TAG}",
+                "variants": [
+                  {
+                    "path": "swift-package-list-macos/bin/swift-package-list",
+                    "supportedTriples": ["arm64-apple-macosx", "x86_64-apple-macosx"]
+                  }
+                ]
+              }
+            }
+          }
+          EOF
+
+          zip -r SwiftPackageListBinary.artifactbundle.zip SwiftPackageListBinary.artifactbundle
+
+      - name: Upload artifactbundle to release
+        run: |
+          gh release upload ${{ env.TAG }} SwiftPackageListBinary.artifactbundle.zip
+
+      - name: Compute checksum
+        id: checksum
+        run: |
+          CHECKSUM=$(swift package compute-checksum SwiftPackageListBinary.artifactbundle.zip)
+          echo "value=$CHECKSUM" >> $GITHUB_OUTPUT
+
+      - name: Update Package.swift
+        run: |
+          URL="https://github.com/${{ github.repository }}/releases/download/${TAG}/SwiftPackageListBinary.artifactbundle.zip"
+          CHECKSUM="${{ steps.checksum.outputs.value }}"
+          export URL CHECKSUM
+
+          python3 - <<'PYEOF'
+          import os
+          import re
+
+          with open("Package.swift", "r") as f:
+              content = f.read()
+
+          url = os.environ["URL"]
+          checksum = os.environ["CHECKSUM"]
+          new_target = (
+              "        .binaryTarget(\n"
+              '            name: "SwiftPackageListBinary",\n'
+              f'            url: "{url}",\n'
+              f'            checksum: "{checksum}"\n'
+              "        ),"
+          )
+
+          product = '        .library(name: "SwiftPackageListBinary", targets: ["SwiftPackageListBinary"]),'
+
+          updated = content
+
+          if '.library(name: "SwiftPackageListBinary", targets: ["SwiftPackageListBinary"])' not in updated:
+              updated = updated.replace(
+                  '        .executable(name: "swift-package-list", targets: ["swift-package-list"]),',
+                  '        .executable(name: "swift-package-list", targets: ["swift-package-list"]),\n'
+                  f'{product}',
+                  1
+              )
+
+          updated_target = re.sub(
+              r'        \.binaryTarget\(\n'
+              r'\s+name: "SwiftPackageListBinary",\n'
+              r'\s+url: "[^"]+",\n'
+              r'\s+checksum: "[^"]+"\n'
+              r'\s+\),',
+              new_target,
+              updated,
+              count=1
+          )
+
+          if updated_target == updated:
+              updated_target = updated.replace(
+                  '        .plugin(\n            name: "SwiftPackageListPlugin",',
+                  f'{new_target}\n        .plugin(\n            name: "SwiftPackageListPlugin",',
+                  1
+              )
+
+          if product not in updated_target or new_target not in updated_target:
+              raise RuntimeError("Could not add SwiftPackageListBinary to Package.swift")
+
+          with open("Package.swift", "w") as f:
+              f.write(updated_target)
+          PYEOF
+
+      - name: Commit and push Package.swift
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Package.swift
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: update SwiftPackageListBinary to ${TAG} [skip ci]"
+          git push origin HEAD:master
